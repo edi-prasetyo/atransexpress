@@ -1,0 +1,69 @@
+ul.events{
+ margin:10px auto;
+ padding: 10px;
+}
+.events li {
+  display: flex;
+  color: #999;
+}
+
+.events time {
+  position: relative;
+  padding: 0 10px 0 0;
+}
+
+.events time::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  transform: translateX(50%);
+  border-radius: 50%;
+  background: rgb(255, 255, 255);
+  border: 1px #ccc solid;
+  width: 0.8em;
+  height: 0.8em;
+}
+.events .is-done::after {
+  /*content: "?";*/
+  font-size: 10px;
+  color: #fff;
+  text-align: center;
+  border: 5px solid green;
+  background-color: green;
+  
+  
+}
+
+.events span {
+  padding: 0 1.5em 1.5em 1.5em;
+  position: relative;
+}
+
+.events span::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  height: 100%;
+  border-left: 1px #ccc solid;
+}
+
+.events strong {
+  display: block;
+  font-weight: bolder;
+}
+
+.events {
+  margin: 1em;
+  width: 100%;
+}
+.events,
+.events *::before,
+.events *::after {
+  box-sizing: border-box;
+  font-family: arial;
+}
+
+
