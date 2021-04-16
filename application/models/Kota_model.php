@@ -9,8 +9,7 @@ class Kota_model extends CI_Model
         parent::__construct();
         $this->load->database();
     }
-    //listing Pendaftaran
-    public function get_kota()
+    public function get_allkota()
     {
         $this->db->select('*');
         $this->db->from('kota');
@@ -18,11 +17,22 @@ class Kota_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-    public function get_allkota()
+
+    public function get_kota($limit, $start)
     {
         $this->db->select('*');
         $this->db->from('kota');
+        $this->db->limit($limit, $start);
         $this->db->order_by('id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function total_row()
+    {
+        $this->db->select('*');
+        $this->db->from('kota');
+        $this->db->order_by('kota_name', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }

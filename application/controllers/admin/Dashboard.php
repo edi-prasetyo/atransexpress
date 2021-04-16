@@ -13,10 +13,15 @@ class Dashboard extends CI_Controller
   public function index()
   {
     $count_transaksi              = $this->transaksi_model->get_alltransaksi();
-    $count_agen                   = $this->user_model->get_agen();
-    $count_counter                = $this->user_model->get_counter();
+    $count_agen                   = $this->user_model->get_all_mainagen();
+    $count_counter                = $this->user_model->get_allcounter();
     $count_kota                   = $this->kota_model->get_allkota();
-    $list_user                    = $this->user_model->listUser();
+    $list_user                    = $this->user_model->get_all();
+
+    // Chart
+    $alltransaksi         = $this->transaksi_model->get_chart_transaksi();
+    $count_alltransaksi   = $this->transaksi_model->count_chart_transaksi();
+
     $data = [
       'title'                     => 'Dashboard',
       'list_user'                 => $list_user,
@@ -24,6 +29,8 @@ class Dashboard extends CI_Controller
       'count_agen'                => $count_agen,
       'count_counter'             => $count_counter,
       'count_kota'                => $count_kota,
+      'alltransaksi'              => $alltransaksi,
+      'count_alltransaksi'        => $count_alltransaksi,
       'content'                   => 'admin/dashboard/dashboard'
     ];
     $this->load->view('admin/layout/wrapp', $data, FALSE);

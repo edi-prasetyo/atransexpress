@@ -67,8 +67,8 @@ class Profile extends CI_Controller
                     // $config['new_image']        = './assets/img/artikel/thumbs/' . $upload_data['uploads']['file_name'];
                     $config['create_thumb']         = TRUE;
                     $config['maintain_ratio']       = TRUE;
-                    $config['width']                = 50;
-                    $config['height']               = 50;
+                    $config['width']                = 70;
+                    $config['height']               = 70;
                     $config['thumb_marker']         = '';
                     $this->load->library('image_lib', $config);
                     $this->image_lib->resize();
@@ -85,7 +85,7 @@ class Profile extends CI_Controller
                         'user_address'                          => $this->input->post('user_address'),
                         'user_phone'                          => $this->input->post('user_phone'),
                         'user_image'                   => $upload_data['uploads']['file_name'],
-                        'date_updated'                  => time()
+                        'date_updated'                  => date('Y-m-d H:i:s')
                     ];
                     $this->user_model->update($data);
                     $this->session->set_flashdata('message', 'Data telah di Update');
@@ -101,7 +101,7 @@ class Profile extends CI_Controller
                         'name'                          => $this->input->post('name'),
                         'user_address'                          => $this->input->post('user_address'),
                         'user_phone'                          => $this->input->post('user_phone'),
-                        'date_updated'                      => time()
+                        'date_updated'                      => date('Y-m-d H:i:s')
                     ];
                 $this->user_model->update($data);
                 $this->session->set_flashdata('message', '<div class="alert alert-success">Data telah di Update</div>');

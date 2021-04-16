@@ -21,7 +21,13 @@ $meta = $this->meta_model->get_meta();
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="<?php echo base_url('assets/img/avatars/' . $user->user_image); ?>" class="img-circle elevation-2" alt="User Image">
+        <?php if ($user->user_image == NULL) : ?>
+          <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/default.jpg') ?>" alt="User profile picture">
+        <?php else : ?>
+          <img src="<?php echo base_url('assets/img/avatars/' . $user->user_image); ?>" class="img-circle elevation-2" alt="User Image">
+
+
+        <?php endif; ?>
       </div>
       <div class="info">
         <a href="#" class="d-block"><?php echo $user->name; ?></a>
@@ -62,7 +68,7 @@ $meta = $this->meta_model->get_meta();
         </li>
 
         <li class="nav-item">
-          <a href="<?php echo base_url(); ?>kurir/transaksi" class="nav-link">
+          <a href="<?php echo base_url(); ?>kurir/transaksi/riwayat" class="nav-link">
             <i class="nav-icon fas fa-history"></i>
             <p>
               Riwayat

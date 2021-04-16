@@ -13,10 +13,8 @@ $meta           = $this->meta_model->get_meta();
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active"><a class="nav-link" href="<?php echo base_url() ?>"><i class="ti ti-home"></i> Home <span class="sr-only">(current)</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo base_url('page/cara_order'); ?>"> Tarif </a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo base_url('auth/register'); ?>"> Cek Resi </a></li>
-
-
+                <li class="nav-item"><a class="nav-link" href="<?php echo base_url('tarif'); ?>"> Tarif </a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo base_url('lacak'); ?>"> Cek Resi </a></li>
             </ul>
             <ul class="navbar-nav">
 
@@ -38,8 +36,8 @@ $meta           = $this->meta_model->get_meta();
                         </div>
                     </li>
                 <?php } else { ?>
-                    <li class="nav-item"><a class="nav-link" href="<?php echo base_url('auth/register') ?>"><i class="ti ti-user"></i> Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?php echo base_url('auth') ?>"><i class="ti ti-lock"></i> Login</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="<?php echo base_url('auth/register') ?>"><i class="ti ti-user"></i> Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo base_url('auth') ?>"><i class="ti ti-lock"></i> Login</a></li> -->
                 <?php } ?>
 
 

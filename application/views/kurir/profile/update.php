@@ -19,7 +19,13 @@ $user = $this->user_model->user_detail($user_id);
                     Ganti Foto</label>
                 <div class="col-md-8">
                     <div class="col-md-6">
-                        <img class="img-fluid mb-3" src="<?php echo base_url('assets/img/avatars/' . $profile->user_image); ?>">
+                        <?php if($profile->user_image == NULL):?>
+                        <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/default.jpg') ?>" alt="User profile picture">
+                        <?php else:?>
+                            <img class="img-fluid mb-3" src="<?php echo base_url('assets/img/avatars/' . $profile->user_image); ?>">
+                            
+                    
+                <?php endif;?>
                     </div>
                     <input type="file" class="form-control" name="user_image">
                 </div>

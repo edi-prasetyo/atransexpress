@@ -29,6 +29,8 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/admin/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Dropify -->
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/admin/plugins/dropify/dist/css/dropify.css">
   <!-- Cusrtom Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/admin/css/style.css">
 </head>

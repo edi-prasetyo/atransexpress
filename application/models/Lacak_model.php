@@ -44,9 +44,12 @@ class Lacak_model extends CI_Model
     }
     public function get_detail_lacak($id)
     {
-        $this->db->select('lacak.*, provinsi.provinsi_name');
+        $this->db->select('lacak.*, provinsi.provinsi_name, user.name, user.user_phone');
         $this->db->from('lacak');
+        // Join
         $this->db->join('provinsi', 'provinsi.id = lacak.provinsi_id', 'LEFT');
+        $this->db->join('user', 'user.id = lacak.user_id', 'LEFT');
+        // End Join
         $this->db->order_by('id', 'DESC');
         $this->db->where('transaksi_id', $id);
         $query = $this->db->get();
@@ -64,6 +67,7 @@ class Lacak_model extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+
     //Update Data
     public function update($data)
     {
@@ -75,5 +79,32 @@ class Lacak_model extends CI_Model
     {
         $this->db->where('id', $data['id']);
         $this->db->delete('lacak', $data);
+    }
+
+    // Front End
+    //Cek Resi
+    public function cek_resi($nomor_resi)
+    {
+        $this->db->select('lacak.*,  provinsi.provinsi_name');
+        $this->db->from('lacak');
+        // Join
+        $this->db->join('provinsi', 'provinsi.id = lacak.provinsi_id', 'LEFT');
+        //End Join
+        $this->db->where('nomor_resi', $nomor_resi);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function lacak_resi($data)
+    {
+        $this->db->select('*,  provinsi.provinsi_name');
+        $this->db->from('lacak');
+        // Join
+        // $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
+        $this->db->join('provinsi', 'provinsi.id = lacak.provinsi_id', 'LEFT');
+        //End Join
+        $this->db->where('transaksi_id', $data['id']);
+        // $this->db->where('kode_transaksi',$kode_transaksi);
+        $query = $this->db->get();
+        return $query->result();
     }
 }

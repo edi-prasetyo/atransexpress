@@ -17,13 +17,14 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-                <table class="table text-nowrap">
+
+            <div class="table-responsive">
+                <table class="table">
                     <thead>
                         <tr>
 
                             <th>Alamat</th>
-                            <th>Action</th>
+                            <th width="15%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,7 +40,9 @@
 
 
                                 <td>
-                                    <a href="<?php echo base_url('kurir/transaksi/finish/' . $transaksi->id); ?>" class="btn btn-success btn-sm">
+                                    <?php include "detail.php"; ?>
+
+                                    <a href="<?php echo base_url('kurir/transaksi/finish/' . $transaksi->id); ?>" class="btn btn-success btn-sm btn-block">
                                         <i class="fas fa-parachute-box"></i> Selesai
                                     </a>
 
@@ -50,6 +53,7 @@
                     </tbody>
                 </table>
             </div>
+
             <!-- /.card-body -->
             <div class="card-footer bg-white border-top">
                 <ul class="pagination m-0">

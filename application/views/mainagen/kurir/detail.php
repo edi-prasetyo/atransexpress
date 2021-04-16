@@ -22,7 +22,7 @@
                         <b>Email</b> <span class="float-right"><?php echo $kurir->email; ?></span>
                     </li>
                     <li class="list-group-item">
-                        <b>Kurir ID</b> <span class="float-right"><?php echo $kurir->counter_code; ?></span>
+                        <b>Kurir ID</b> <span class="float-right"><?php echo $kurir->user_code; ?></span>
                     </li>
                     <li class="list-group-item">
                         <b>Alamat</b> <span class="float-right"><?php echo $kurir->user_address; ?></span>

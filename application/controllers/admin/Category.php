@@ -21,7 +21,7 @@ class Category extends CI_Controller
       array(
         'required'                        => '%s Harus Diisi',
         'is_unque'                        => '%s <strong>' . $this->input->post('category_name') .
-        '</strong>Nama Kategori Sudah Ada. Buat Nama yang lain!'
+          '</strong>Nama Kategori Sudah Ada. Buat Nama yang lain!'
       )
     );
     if ($this->form_validation->run() === FALSE) {
@@ -36,7 +36,7 @@ class Category extends CI_Controller
       $data  = [
         'category_slug'                   => $category_slug,
         'category_name'                   => $this->input->post('category_name'),
-        'date_created'                    => time()
+        'date_created'                    => date('Y-m-d H:i:s')
       ];
       $this->category_model->create($data);
       $this->session->set_flashdata('message', 'Data telah ditambahkan');
@@ -67,7 +67,7 @@ class Category extends CI_Controller
       $data  = [
         'id'                            => $id,
         'category_name'                 => $this->input->post('category_name'),
-        'date_updated'                  => time()
+        'date_updated'                  => date('Y-m-d H:i:s')
       ];
       $this->category_model->update($data);
       $this->session->set_flashdata('message', 'Data telah di Update');

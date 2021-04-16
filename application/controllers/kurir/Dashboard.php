@@ -12,12 +12,16 @@ class Dashboard extends CI_Controller
   //main page - Berita
   public function index()
   {
-    $meta             = $this->meta_model->get_meta();
+    $user_id = $this->session->userdata('id');
+    $alltransaksi_kurir         = $this->transaksi_model->get_allriwayat_kurir($user_id);
+    $count_alltransaksi_kurir   = $this->transaksi_model->count_allriwayat_kurir($user_id);
     // End Listing Berita dengan paginasi
     $data = array(
       'title'         => 'Dashboard',
       'deskripsi'     => 'Halaman Dashboard',
       'keywords'      => '',
+      'alltransaksi_kurir'  => $alltransaksi_kurir,
+      'count_alltransaksi_kurir'  => $count_alltransaksi_kurir,
       'content'       => 'kurir/dashboard/dashboard'
     );
     $this->load->view('kurir/layout/wrapp', $data, FALSE);

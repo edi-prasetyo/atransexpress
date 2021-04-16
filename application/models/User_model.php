@@ -9,8 +9,8 @@ class User_model extends CI_Model
     parent::__construct();
     $this->load->database();
   }
-  //listing Pendaftaran
-  public function listUser()
+  // Model for Admin
+  public function get_all()
   {
     $this->db->select('*');
     $this->db->from('user');
@@ -30,7 +30,8 @@ class User_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-  public function get_agen()
+
+  public function get_all_mainagen()
   {
     $this->db->select('user.*, user_role.role, kota.kota_name');
     $this->db->from('user');
@@ -43,6 +44,119 @@ class User_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
+
+  // Main Agen
+  public function get_mainagen($limit, $start)
+  {
+    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    // End Join
+    $this->db->where('role_id', 4);
+    $this->db->limit($limit, $start);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  public function total_row_mainagen()
+  {
+    $this->db->select('*');
+    $this->db->from('user');
+    $this->db->where('role_id', 4);
+    $this->db->order_by('id', 'ASC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  // Kurir Pusat
+  public function get_kurirpusat($limit, $start)
+  {
+    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    // End Join
+    $this->db->where('role_id', 6);
+    $this->db->limit($limit, $start);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  public function total_row_kurirpusat()
+  {
+    $this->db->select('*');
+    $this->db->from('user');
+    $this->db->where('role_id', 6);
+    $this->db->order_by('id', 'ASC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  // Kurir
+  public function get_allkurir($limit, $start)
+  {
+    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    // End Join
+    $this->db->where('role_id', 7);
+    $this->db->limit($limit, $start);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  public function total_row_allkurir()
+  {
+    $this->db->select('*');
+    $this->db->from('user');
+    $this->db->where('role_id', 7);
+    $this->db->order_by('id', 'ASC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  // Counter
+  public function get_allcounter()
+  {
+    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    // End Join
+    $this->db->where('role_id', 5);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  public function get_counter($limit, $start)
+  {
+    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    // End Join
+    $this->db->where('role_id', 5);
+    $this->db->limit($limit, $start);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  public function total_row_counter()
+  {
+    $this->db->select('*');
+    $this->db->from('user');
+    $this->db->where('role_id', 5);
+    $this->db->order_by('id', 'ASC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+
+
   public function get_agen_kota($kota_id)
   {
     $this->db->select('user.*, user_role.role, kota.kota_name');
@@ -57,18 +171,7 @@ class User_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-  public function get_counter()
-  {
-    $this->db->select('user.*, user_role.role');
-    $this->db->from('user');
-    // join
-    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
-    // End Join
-    $this->db->where('role_id', 5);
-    $this->db->order_by('id', 'DESC');
-    $query = $this->db->get();
-    return $query->result();
-  }
+
 
   public function get_kurir($user_id, $kota_id)
   {
@@ -91,7 +194,7 @@ class User_model extends CI_Model
     // join
     $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
     // End Join
-    $this->db->where(['id_agen' => $user_id, 'role_id' => 7]);
+    $this->db->where(['user_create' => $user_id, 'role_id' => 7]);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();

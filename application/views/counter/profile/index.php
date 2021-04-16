@@ -16,7 +16,13 @@
                 ?>
 
                 <div class="text-center">
-                    <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/' . $profile->user_image) ?>" alt="User profile picture">
+                    <?php if ($profile->user_image == NULL) : ?>
+                        <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/default.jpg') ?>" alt="User profile picture">
+                    <?php else : ?>
+                        <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/' . $profile->user_image) ?>" alt="User profile picture">
+
+
+                    <?php endif; ?>
                 </div>
 
                 <h3 class="profile-username text-center"><?php
@@ -33,7 +39,7 @@
                         <b>Email</b> <span class="float-right"><?php echo $profile->email; ?></span>
                     </li>
                     <li class="list-group-item">
-                        <b>Counter ID</b> <span class="float-right"><?php echo $profile->counter_code; ?></span>
+                        <b>Counter ID</b> <span class="float-right"><?php echo $profile->user_code; ?></span>
                     </li>
                     <li class="list-group-item">
                         <b>Alamat</b> <span class="float-right"><?php echo $profile->user_address; ?></span>

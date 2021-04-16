@@ -7,83 +7,52 @@ class Kota extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('pagination');
         $this->load->model('kota_model');
     }
     //Index Kota
     public function index()
     {
-        $kota = $this->kota_model->get_kota();
-        //Validasi
-        $this->form_validation->set_rules(
-            'kota_name',
-            'Nama Kategori',
-            'required|is_unique[kota.kota_name]',
-            array(
-                'required'                        => '%s Harus Diisi',
-                'is_unque'                        => '%s <strong>' . $this->input->post('kota_name') .
-                    '</strong>Nama Kategori Sudah Ada. Buat Nama yang lain!'
-            )
-        );
-        if ($this->form_validation->run() === FALSE) {
-            $data = [
-                'title'                           => 'Kota Artikel',
-                'kota'                        => $kota,
-                'content'                         => 'admin/kota/index_kota'
-            ];
-            $this->load->view('admin/layout/wrapp', $data, FALSE);
-        } else {
-            $kota_slug  = url_title($this->input->post('kota_name'), 'dash', TRUE);
-            $data  = [
-                'kota_slug'                   => $kota_slug,
-                'kota_name'                   => $this->input->post('kota_name'),
-                'date_created'                    => time()
-            ];
-            $this->kota_model->create($data);
-            $this->session->set_flashdata('message', 'Data telah ditambahkan');
-            redirect(base_url('admin/kota'), 'refresh');
-        }
-    }
-    //Update
-    public function update($id)
-    {
-        $kota = $this->kota_model->detail_kota($id);
-        //Validasi
-        $this->form_validation->set_rules(
-            'kota_name',
-            'Nama Kategori',
-            'required',
-            array('required'                  => '%s Harus Diisi')
-        );
-        if ($this->form_validation->run() === FALSE) {
-            //End Validasi
-            $data = [
-                'title'                         => 'Edit kategori Berita',
-                'kota'                      => $kota,
-                'content'                       => 'admin/kota/update_kota'
-            ];
-            $this->load->view('admin/layout/wrapp', $data, FALSE);
-            //Masuk Database
-        } else {
-            $data  = [
-                'id'                            => $id,
-                'kota_name'                 => $this->input->post('kota_name'),
-                'date_updated'                  => time()
-            ];
-            $this->kota_model->update($data);
-            $this->session->set_flashdata('message', 'Data telah di Update');
-            redirect(base_url('admin/kota'), 'refresh');
-        }
-        //End Masuk Database
-    }
-    //delete Kota
-    public function delete($id)
-    {
-        //Proteksi delete
-        is_login();
-        $kota = $this->kota_model->detail_kota($id);
-        $data = ['id'   => $kota->id];
-        $this->kota_model->delete($data);
-        $this->session->set_flashdata('message', 'Data telah di Hapus');
-        redirect(base_url('admin/kota'), 'refresh');
+        
+
+        $config['base_url']         = base_url('admin/kota/index/');
+        $config['total_rows']       = count($this->kota_model->total_row());
+        $config['per_page']         = 10;
+        $config['uri_segment']      = 4;
+
+        //Membuat Style pagination untuk BootStrap v4
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+        //Limit dan Start
+        $limit                      = $config['per_page'];
+        $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
+        //End Limit Start
+        $this->pagination->initialize($config);
+        $kota = $this->kota_model->get_kota($limit, $start);
+
+
+        $data = [
+            'title'                             => 'Kota Artikel',
+            'kota'                              => $kota,
+            'pagination'                        => $this->pagination->create_links(),
+            'content'                           => 'admin/kota/index_kota'
+        ];
+        $this->load->view('admin/layout/wrapp', $data, FALSE);
     }
 }

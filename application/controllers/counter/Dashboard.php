@@ -8,17 +8,22 @@ class Dashboard extends CI_Controller
   {
     parent::__construct();
     $this->load->model('meta_model');
+    $this->load->model('transaksi_model');
   }
   //main page - Berita
   public function index()
   {
-    $meta             = $this->meta_model->get_meta();
+    $user_id = $this->session->userdata('id');
+    $alltransaksi_counter         = $this->transaksi_model->get_allriwayat_counter($user_id);
+    $count_alltransaksi_counter   = $this->transaksi_model->count_allriwayat_counter($user_id);
     // End Listing Berita dengan paginasi
     $data = array(
-      'title'         => 'Dashboard',
-      'deskripsi'     => 'Halaman Dashboard',
-      'keywords'      => '',
-      'content'       => 'counter/dashboard/dashboard'
+      'title'                 => 'Dashboard',
+      'deskripsi'             => 'Halaman Dashboard',
+      'keywords'              => '',
+      'alltransaksi_counter'  => $alltransaksi_counter,
+      'count_alltransaksi_counter'  => $count_alltransaksi_counter,
+      'content'               => 'counter/dashboard/dashboard'
     );
     $this->load->view('counter/layout/wrapp', $data, FALSE);
   }

@@ -14,34 +14,18 @@
             <div class="modal-body">
                 <?php
                 //Form Open
-                echo form_open(base_url('admin/provinsi/kota/' . $id));
+                echo form_open(base_url('admin/provinsi/kota/' . $provinsi_id));
                 ?>
 
                 <div class="form-group">
-                    <label>Nama Paket</label>
-                    <input type="text" class="form-control" name="paket_name" placeholder="Nama Paket" required="required">
+                    <label>Nama Kota</label>
+                    <input type="text" class="form-control" name="kota_name" placeholder="Nama Kota" required="required">
+                    <?php echo form_error('kota_name', '<small class="text-danger">', '</small>'); ?>
                 </div>
-
-                <div class="form-group">
-                    <label>Harga</label>
-                    <input type="text" class="form-control" name="paket_price" placeholder="Harga" required="required">
-                </div>
-
-                <div class="form-group">
-                    <label>Syarat & Ketentuan</label>
-                    <select name="ketentuan_id" class="form-control form-control-chosen">
-                        <option value="">Pilih Ketentuan</option>
-                        <?php foreach ($ketentuan as $ketentuan) { ?>
-                            <option value="<?php echo $ketentuan->id ?>">
-                                <?php echo $ketentuan->ketentuan_name ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                </div>
-
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" name="submit" value="Simpan Data">
                 </div>
+
 
 
                 <?php

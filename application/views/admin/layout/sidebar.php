@@ -19,7 +19,14 @@ $meta = $this->meta_model->get_meta();
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="<?php echo base_url('assets/img/avatars/' . $user->user_image); ?>" class="img-circle elevation-2" alt="User Image">
+        <?php if ($user->user_image == NULL) : ?>
+          <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/default.jpg') ?>" alt="User profile picture">
+
+        <?php else : ?>
+          <img src="<?php echo base_url('assets/img/avatars/' . $user->user_image); ?>" class="img-circle elevation-2" alt="User Image">
+
+
+        <?php endif; ?>
       </div>
       <div class="info">
         <a href="#" class="d-block"><?php echo $user->name; ?></a>
@@ -80,9 +87,9 @@ $meta = $this->meta_model->get_meta();
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-user"></i>
+            <i class="nav-icon fas fa-user-friends"></i>
             <p>
-              User
+              Data Pengguna
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -94,15 +101,29 @@ $meta = $this->meta_model->get_meta();
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?php echo base_url(); ?>admin/user/agen" class="nav-link">
+              <a href="<?php echo base_url(); ?>admin/mainagen" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Main Agen</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?php echo base_url(); ?>admin/user/counter" class="nav-link">
+              <a href="<?php echo base_url(); ?>admin/counter" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Counter Agen</p>
+                <p>Counter</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="<?php echo base_url(); ?>admin/kurirpusat" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Kurir Pusat</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="<?php echo base_url(); ?>admin/kurir" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Kurir</p>
               </a>
             </li>
             <!-- <li class="nav-item">
@@ -117,6 +138,37 @@ $meta = $this->meta_model->get_meta();
                 <p>Product Type</p>
               </a>
             </li> -->
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-cog"></i>
+            <p>
+              Setings
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?php echo base_url('admin/profile'); ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Profile</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('admin/profile/update'); ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Update</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('admin/profile/password'); ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Ubah Password</p>
+              </a>
+            </li>
+
           </ul>
         </li>
 

@@ -56,6 +56,94 @@
 <!-- File Input -->
 <script src="<?php echo base_url(); ?>assets/template/admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
+
+
+<!-- OPTIONAL SCRIPTS -->
+<script src="<?php echo base_url(); ?>assets/template/admin/plugins/chart.js/Chart.min.js"></script>
+
+
+
+<?php
+$user_id = $this->session->userdata('id');
+$alltransaksi_kurir         = $this->transaksi_model->get_allriwayat_kurir($user_id);
+
+
+foreach ($alltransaksi_kurir as $data) {
+  $tanggal[] = date('F', strtotime($data->date_created));
+  $order[] = (float) $data->total;
+}
+?>
+
+
+<script>
+  /* global Chart:false */
+
+  $(function() {
+    'use strict'
+
+    var ticksStyle = {
+      fontColor: '#495057',
+      fontStyle: 'bold'
+    }
+
+    var mode = 'index'
+    var intersect = true
+
+
+    var $salesChart = $('#sales-chart')
+    // eslint-disable-next-line no-unused-vars
+    var salesChart = new Chart($salesChart, {
+      type: 'bar',
+      data: {
+        labels: <?php echo json_encode($tanggal); ?>,
+        datasets: [{
+            backgroundColor: '#007bff',
+            borderColor: '#007bff',
+            data: <?php echo json_encode($order); ?>
+          },
+
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: mode,
+          intersect: intersect
+        },
+        hover: {
+          mode: mode,
+          intersect: intersect
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+
+            ticks: {
+              beginAtZero: true,
+              callback: function(value) {
+                if (value % 1 === 0) {
+                  return value;
+                }
+              }
+            }
+          }],
+          xAxes: [{
+            display: true,
+            gridLines: {
+              display: false
+            },
+            ticks: ticksStyle
+          }]
+        }
+      }
+    })
+
+
+  })
+</script>
+
 <script>
   $(function() {
     //Initialize Select2 Elements

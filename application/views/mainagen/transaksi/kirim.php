@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
+                <h3 class="card-title"><?php echo $title; ?></h3>
 
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
@@ -24,32 +24,30 @@
 
                             <th>Resi</th>
                             <th>tujuan</th>
-
-                            <th>Action</th>
+                            <th width="10%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><?php echo $transaksi->nomor_resi; ?></td>
-                                <td><?php echo $transaksi->kota_name; ?></td>
+                                <td>
+                                    <b><?php echo $transaksi->nomor_resi; ?></b><br>
+                                    Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?>
+                                </td>
+                                <td>
+                                    <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi->kota_from; ?> <br>
+                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?>
+                                </td>
                                 <td>
 
                                     <?php if ($transaksi->stage == 2) : ?>
                                         <a href="<?php echo base_url('mainagen/transaksi/kurir/' . $transaksi->id); ?>" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-motorcycle"></i> Kirim Ke Kurir
+                                            <i class="fa fa-motorcycle"></i> Pilih Kurir
                                         </a>
                                     <?php else : ?>
-                                        <a href="<?php echo base_url('mainagen/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm">
-                                            <ion-icon name="eye-outline"></ion-icon> Lacak
-                                        </a>
+                                        <span class="text-danger">Belum di Ambil<br>Kurir</span>
 
                                     <?php endif; ?>
-
-
-
-
-
 
                                 </td>
                             </tr>

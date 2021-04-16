@@ -88,6 +88,7 @@ class Kurir extends CI_Controller
                 $email = $this->input->post('email', true);
                 $data = [
                     'user_create'   => $this->session->userdata('id'),
+                    'id_agen'   => $this->session->userdata('id'),
                     'user_title'    => $this->input->post('user_title'),
                     'provinsi_id'   => $this->input->post('provinsi_id'),
                     'kota_id'       => $this->input->post('kota_id'),
@@ -100,7 +101,7 @@ class Kurir extends CI_Controller
                     'role_id'       => 7,
                     'is_active'     => 0,
                     'is_locked'     => 0,
-                    'date_created'  => time()
+                    'date_created'  => date('Y-m-d H:i:s')
                 ];
                 $this->db->insert('user', $data);
                 $this->session->set_flashdata('message', '<div class="alert alert-success">Selamat Anda berhasil mendaftar, silahkan Aktivasi akun</div> ');
@@ -141,14 +142,14 @@ class Kurir extends CI_Controller
 
         $kurir =  $this->user_model->detail($id);
         $kurir_id = $kurir->id;
-        $counter_code = str_pad($kurir_id, 6, '0', STR_PAD_LEFT);
+        $user_code = str_pad($kurir_id, 6, '0', STR_PAD_LEFT);
 
         if ($kurir->user_create == $user) {
 
             is_login();
             $data = [
                 'id'                    => $id,
-                'counter_code'          => $counter_code,
+                'user_code'          => $user_code,
                 'is_active'             => 1,
                 'is_locked'             => 1,
             ];

@@ -42,7 +42,7 @@
             foreach ($transaksi as $transaksi) { ?>
                 <tr>
                     <td><?php echo $no; ?></td>
-                    <td><?php echo date('d/m/Y', $transaksi->date_created); ?> <?php echo date('H:i:s', $transaksi->date_created); ?></td>
+                    <td><?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
                     <td><?php echo $transaksi->name; ?></td>
                     <td><?php echo $transaksi->nomor_resi; ?></td>
                     <td>

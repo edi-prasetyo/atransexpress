@@ -35,7 +35,7 @@
             foreach ($my_counter as $my_counter) { ?>
                 <tr>
                     <td><?php echo $no; ?></td>
-                    <td><?php echo $my_counter->counter_code; ?></td>
+                    <td><?php echo $my_counter->user_code; ?></td>
                     <td><?php echo $my_counter->name; ?></td>
                     <td><?php echo $my_counter->role; ?></td>
                     <td>

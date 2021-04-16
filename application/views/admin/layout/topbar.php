@@ -12,23 +12,8 @@ $meta = $this->meta_model->get_meta();
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      
-      
+      </li>     
     </ul>
-
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
@@ -45,25 +30,14 @@ $meta = $this->meta_model->get_meta();
           <a class="dropdown-item" href="<?php echo base_url('myaccount'); ?>">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
-                </a>
-                <a class="dropdown-item" href="<?php echo base_url('myaccount/ubah_password'); ?>">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Ganti Password
-                </a>
-                <a class="dropdown-item" href="<?php echo base_url('myaccount/ubah_password'); ?>">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Ganti Password
-                </a>
-
+                </a>             
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?php echo base_url('auth/logout'); ?>">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>
         </div>
-      </li>
-      
-      
+      </li>     
     </ul>
   </nav>
   <!-- /.navbar -->

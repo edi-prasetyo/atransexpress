@@ -29,31 +29,29 @@
                     <thead>
                         <tr>
 
-                            <th width="50%">Paket</th>
-                            <th width="50%">Action</th>
+                            <th>Paket</th>
+                            <th>Destinasi</th>
+                            <th width="25%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
                                 <td><b><?php echo $transaksi['nomor_resi']; ?></b><br>
-                                    <?php echo $transaksi['kota_from']; ?><br><?php echo $transaksi['kota_name']; ?></td>
+                                    Rp. <?php echo number_format($transaksi['harga'], 0, ",", "."); ?>
+
+                                </td>
+                                <td>
+                                    <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi['kota_from']; ?> <br>
+                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi['kota_name']; ?>
+                                </td>
 
                                 <td>
 
-                                    <?php if ($transaksi['stage'] == 3) : ?>
-                                        <a class="btn btn-danger btn-sm" href="<?php echo base_url('kurirpusat/transaksi/ambil/' . $transaksi['id']); ?>">Ambil Paket</a>
 
-                                    <?php elseif ($transaksi['stage'] == 3) : ?>
+                                    <a class="btn btn-danger btn-sm btn-block" href="<?php echo base_url('kurirpusat/transaksi/ambil/' . $transaksi['id']); ?>">Ambil Paket</a>
 
-                                    <?php else : ?>
-                                    <?php endif; ?>
-                                    <a href="<?php echo base_url('kurirpusat/transaksi/lacak/' . $transaksi['id']); ?>" class="btn btn-info btn-sm">
-                                        <ion-icon name="eye-outline"></ion-icon> Lacak
-                                    </a>
-                                    <?php if ($transaksi['status'] == null) : ?>
-                                    <?php else : ?>
-                                    <?php endif; ?>
+
                                 </td>
                             </tr>
                         <?php endforeach; ?>

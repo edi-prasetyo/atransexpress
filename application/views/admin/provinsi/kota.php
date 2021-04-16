@@ -6,6 +6,7 @@
                 <div class="form-group">
                     <label>Nama Kota</label>
                     <input type="text" class="form-control" name="kota_name" placeholder="Nama Kota" required="required">
+                    <?php echo form_error('kota_name', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" name="submit" value="Simpan Data">
@@ -19,6 +20,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
+          
                 <h3 class="card-title">Data Kota <?php echo $provinsi->provinsi_name; ?></h3>
             </div>
             <!-- /.card-header -->
@@ -27,7 +29,9 @@
                 //Notifikasi
                 if ($this->session->flashdata('message')) {
                     echo $this->session->flashdata('message');
+                    unset($_SESSION['message']);
                 }
+                echo validation_errors('<div class="alert alert-warning">', '</div>');
 
                 ?>
             </div>

@@ -68,7 +68,7 @@ class Provinsi extends CI_Controller
         } else {
             $data  = [
                 'provinsi_name'                   => $this->input->post('provinsi_name'),
-                'date_created'                    => time()
+                'date_created'                    => date('Y-m-d H:i:s')
             ];
             $this->provinsi_model->create($data);
             $this->session->set_flashdata('message', 'Data telah ditambahkan');
@@ -100,7 +100,7 @@ class Provinsi extends CI_Controller
             $data  = [
                 'id'                            => $id,
                 'provinsi_name'                 => $this->input->post('provinsi_name'),
-                'date_updated'                  => time()
+                'date_updated'                  => date('Y-m-d H:i:s')
             ];
             $this->provinsi_model->update($data);
             $this->session->set_flashdata('message', 'Data telah di Update');
@@ -137,17 +137,19 @@ class Provinsi extends CI_Controller
         $provinsi       = $this->provinsi_model->detail($provinsi_id);
         $kota           = $this->provinsi_model->list_kota($provinsi_id);
 
-
-
-
         //Validasi
         $valid = $this->form_validation;
 
         $valid->set_rules(
             'kota_name',
             'Nama Kota',
-            'required',
-            array('required'      => '%s harus diisi')
+            'required|is_unique[kota.kota_name]',
+
+            array(
+                'required'      => '%s harus diisi',
+                'is_unique'                        => '%s <strong>' . $this->input->post('kota_name') .
+                    '</strong> Sudah Tersedia!'
+            )
         );
 
 
@@ -157,6 +159,7 @@ class Provinsi extends CI_Controller
                 'title'             => 'Tambah Kota',
                 'provinsi'          => $provinsi,
                 'kota'              => $kota,
+                'provinsi_id'       => $provinsi_id,
                 'content'           => 'admin/provinsi/kota'
             );
             $this->load->view('admin/layout/wrapp', $data, FALSE);
@@ -167,7 +170,7 @@ class Provinsi extends CI_Controller
             $data  = array(
                 'provinsi_id'           => $provinsi_id,
                 'kota_name'             => $this->input->post('kota_name'),
-                'date_created'          => time()
+                'date_created'          => date('Y-m-d H:i:s')
             );
             $this->kota_model->create($data);
             $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable fade show"><button class="close" data-dismiss="alert" aria-label="Close">×</button> Data telah ditambahkan</div>');
@@ -179,6 +182,7 @@ class Provinsi extends CI_Controller
             'title'             => 'Tambah Kota',
             'provinsi'          => $provinsi,
             'kota'              => $kota,
+            'provinsi_id'       => $provinsi_id,
             'content'           => 'admin/provinsi/kota'
         );
         $this->load->view('admin/layout/wrapp', $data, FALSE);
@@ -207,7 +211,7 @@ class Provinsi extends CI_Controller
             $data  = [
                 'id'                            => $id,
                 'kota_name'                     => $this->input->post('kota_name'),
-                'date_updated'                  => time()
+                'date_updated'                  => date('Y-m-d H:i:s')
             ];
             $this->kota_model->update($data);
             $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable fade show"><button class="close" data-dismiss="alert" aria-label="Close">×</button> Data telah di Update</div>');

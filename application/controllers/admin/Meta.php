@@ -56,7 +56,7 @@ class Meta extends CI_Controller
         'instagram'               => $this->input->post('instagram'),
         'youtube'                 => $this->input->post('youtube'),
         'twitter'                 => $this->input->post('twitter'),
-        'date_updated'            => time()
+        'date_updated'            => date('Y-m-d H:i:s')
       ];
       $this->meta_model->update($data);
       $this->session->set_flashdata('message', 'Data telah di ubah');
@@ -75,10 +75,10 @@ class Meta extends CI_Controller
     );
     if ($this->form_validation->run()) {
       $config['upload_path']        = './assets/img/logo/';
-      $config['allowed_types']      = 'gif|jpg|png|jpeg';
-      $config['max_size']           = 5000; //Dalam Kilobyte
-      $config['max_width']          = 5000; //Lebar (pixel)
-      $config['max_height']         = 5000; //tinggi (pixel)
+      $config['allowed_types']      = 'gif|jpg|png|jpeg|svg';
+      $config['max_size']           = 500000000; //Dalam Kilobyte
+      $config['max_width']          = 500000000; //Lebar (pixel)
+      $config['max_height']         = 500000000; //tinggi (pixel)
       $this->load->library('upload', $config);
       if (!$this->upload->do_upload('logo')) {
         //End Validasi
@@ -101,8 +101,8 @@ class Meta extends CI_Controller
         $config['new_image']        = './assets/img/logo/thumbs/' . $upload_data['uploads']['file_name'];
         $config['create_thumb']     = TRUE;
         $config['maintain_ratio']   = TRUE;
-        $config['width']            = 200;
-        $config['height']           = 200;
+        $config['width']            = 500;
+        $config['height']           = 500;
         $config['thumb_marker']     = '';
         $this->load->library('image_lib', $config);
         $this->image_lib->resize();
@@ -142,10 +142,10 @@ class Meta extends CI_Controller
     if ($this->form_validation->run()) {
 
       $config['upload_path']         = './assets/img/logo/';
-      $config['allowed_types']       = 'gif|jpg|png|jpeg';
-      $config['max_size']            = 5000; //Dalam Kilobyte
-      $config['max_width']           = 5000; //Lebar (pixel)
-      $config['max_height']          = 5000; //tinggi (pixel)
+      $config['allowed_types']       = 'gif|jpg|png|jpeg|svg';
+      $config['max_size']            = 500000000; //Dalam Kilobyte
+      $config['max_width']           = 500000000; //Lebar (pixel)
+      $config['max_height']          = 500000000; //tinggi (pixel)
       $this->load->library('upload', $config);
       if (!$this->upload->do_upload('favicon')) {
         //End Validasi

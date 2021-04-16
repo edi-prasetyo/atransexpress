@@ -2,7 +2,7 @@
     <div class="card-header">
         <h3 class="card-title"><?php echo $title; ?></h3>
         <div class="card-tools">
-            <a href="<?php echo base_url(); ?>mainagen/kurir/create" class="btn btn-info right"><i class="fa fa-plus"></i> Buat Main Agen</a>
+            <a href="<?php echo base_url(); ?>mainagen/kurir/create" class="btn btn-info right"><i class="fa fa-plus"></i> Tambah Kurir</a>
         </div>
     </div>
 
@@ -10,6 +10,7 @@
     //Notifikasi
     if ($this->session->flashdata('message')) {
         echo $this->session->flashdata('message');
+        unset($_SESSION['message']);
     }
     echo validation_errors('<div class="alert alert-warning">', '</div>');
 
@@ -32,7 +33,7 @@
             foreach ($my_kurir as $my_kurir) { ?>
                 <tr>
                     <td><?php echo $no; ?></td>
-                    <td><?php echo $my_kurir->counter_code; ?></td>
+                    <td><?php echo $my_kurir->user_code; ?></td>
                     <td><?php echo $my_kurir->name; ?></td>
                     <td><?php echo $my_kurir->role; ?></td>
                     <td>

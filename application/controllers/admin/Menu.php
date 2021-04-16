@@ -48,7 +48,7 @@ class Menu extends CI_Controller
         'nama_menu_ind'           => $this->input->post('nama_menu_ind'),
         'url'                     => $this->input->post('url'),
         'urutan'                  => $this->input->post('urutan'),
-        'date_created'            => time()
+        'date_created'            => date('Y-m-d H:i:s')
       ];
       $this->menu_model->create($data);
       $this->session->set_flashdata('message', 'Data telah ditambahkan');
@@ -79,7 +79,7 @@ class Menu extends CI_Controller
         'nama_menu_ind'           => $this->input->post('nama_menu_ind'),
         'url'                     => $this->input->post('url'),
         'urutan'                  => $this->input->post('urutan'),
-        'date_updated'            => time()
+        'date_updated'            => date('Y-m-d H:i:s')
       ];
       $this->menu_model->update($data);
       $this->session->set_flashdata('message', 'Data telah di ubah');

@@ -16,7 +16,7 @@ class transaksi extends CI_Controller
   //listing data transaksi
   public function index()
   {
-    $main_agen = $this->user_model->get_agen();
+    $main_agen = $this->user_model->get_allcounter();
 
     $config['base_url']         = base_url('admin/transaksi/index/');
     $config['total_rows']       = count($this->transaksi_model->total_row());
@@ -51,7 +51,7 @@ class transaksi extends CI_Controller
     $data = [
       'title'                 => 'Data Transaksi',
       'transaksi'             => $transaksi,
-      'main_agen'         => $main_agen,
+      'main_agen'             => $main_agen,
       'pagination'            => $this->pagination->create_links(),
       'content'               => 'admin/transaksi/index_transaksi'
     ];
@@ -164,7 +164,7 @@ class transaksi extends CI_Controller
         'provinsi_id'                    => $this->input->post('provinsi_id'),
         'kota_id'                       => $this->input->post('kota_id'),
         'kecamatan_id'                  => $this->input->post('kecamatan_id'),
-        'date_created'                    => time()
+        'date_created'                    => date('Y-m-d H:i:s')
       ];
       $this->transaksi_model->create($data);
       $this->session->set_flashdata('message', 'Data telah ditambahkan');
@@ -174,12 +174,14 @@ class transaksi extends CI_Controller
   public function detail($id)
   {
     $transaksi = $this->transaksi_model->detail($id);
+    $lacak = $this->lacak_model->get_detail_lacak($id);
     // var_dump($transaksi);
     // die;
     $data = [
       'title'                 => 'Detail Transaksi',
       'transaksi'             => $transaksi,
-      'content'               => 'admin/transaksi/view_transaksi'
+      'lacak'                 => $lacak,
+      'content'               => 'admin/transaksi/detail'
     ];
     $this->load->view('admin/layout/wrapp', $data, FALSE);
   }

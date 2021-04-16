@@ -59,13 +59,17 @@ class Products extends CI_Controller
   {
     $category_products = $this->category_products_model->get_category_products();
     $this->form_validation->set_rules(
-      'product_name','Nama produk','required',
+      'product_name',
+      'Nama produk',
+      'required',
       [
         'required'                        => 'Nama produk harus di isi',
       ]
     );
     $this->form_validation->set_rules(
-      'product_desc','Deskripsi Produk','required',
+      'product_desc',
+      'Deskripsi Produk',
+      'required',
       [
         'required'                        => 'Deskripsi Produk harus di isi',
       ]
@@ -107,7 +111,7 @@ class Products extends CI_Controller
         $product_slug  = url_title($this->input->post('product_name'), 'dash', TRUE);
         $harganormal = $this->input->post('product_price');
         $pengurangan = $this->input->post('pengurangan');
-        $priceseller =  $harganormal-$pengurangan;
+        $priceseller =  $harganormal - $pengurangan;
         $data  = [
           'user_id'                       => $this->session->userdata('id'),
           'category_product_id'           => $this->input->post('category_id'),
@@ -121,7 +125,7 @@ class Products extends CI_Controller
           'product_size'                  => $this->input->post('product_size'),
           'product_img'                   => $upload_data['uploads']['file_name'],
           'product_status'                => $this->input->post('product_status'),
-          'date_created'                  => time()
+          'date_created'                  => date('Y-m-d H:i:s')
         ];
         $this->products_model->create($data);
         $this->session->set_flashdata('message', 'Data Produk telah ditambahkan');
@@ -145,7 +149,9 @@ class Products extends CI_Controller
     //Validasi
     $valid = $this->form_validation;
     $valid->set_rules(
-      'product_name','Nama Produk','required',
+      'product_name',
+      'Nama Produk',
+      'required',
       ['required'                         => '%s harus diisi']
     );
     if ($valid->run()) {
@@ -192,7 +198,7 @@ class Products extends CI_Controller
           //End Hapus Gambar
           $harganormal                      = $this->input->post('product_price');
           $pengurangan                      = $this->input->post('pengurangan');
-          $priceseller                      =  $harganormal-$pengurangan;
+          $priceseller                      =  $harganormal - $pengurangan;
           $data  = [
             'id'                            => $id,
             'user_id'                       => $this->session->userdata('id'),
@@ -206,7 +212,7 @@ class Products extends CI_Controller
             'product_size'                  => $this->input->post('product_size'),
             'product_img'                   => $upload_data['uploads']['file_name'],
             'product_status'                => $this->input->post('product_status'),
-            'date_updated'                  => time()
+            'date_updated'                  => date('Y-m-d H:i:s')
           ];
           $this->products_model->update($data);
           $this->session->set_flashdata('message', 'Data telah di Update');
@@ -217,22 +223,22 @@ class Products extends CI_Controller
         // Hapus Gambar Lama Jika ada upload gambar baru
         $harganormal = $this->input->post('product_price');
         $pengurangan = $this->input->post('pengurangan');
-        $priceseller =  $harganormal-$pengurangan;
+        $priceseller =  $harganormal - $pengurangan;
         if ($products->product_img != "")
-        $data  = [
-          'id'                              => $id,
-          'user_id'                         => $this->session->userdata('id'),
-          'category_product_id'             => $this->input->post('category_id'),
-          'product_name'                    => $this->input->post('product_name'),
-          'product_desc'                    => $this->input->post('product_desc'),
-          'product_price'                   => $harganormal,
-          'price_reseller'                  => $priceseller,
-          'pengurangan'                     => $pengurangan,
-          'product_stock'                   => $this->input->post('product_stock'),
-          'product_size'                    => $this->input->post('product_size'),
-          'product_status'                  => $this->input->post('product_status'),
-          'date_updated'                    => time()
-        ];
+          $data  = [
+            'id'                              => $id,
+            'user_id'                         => $this->session->userdata('id'),
+            'category_product_id'             => $this->input->post('category_id'),
+            'product_name'                    => $this->input->post('product_name'),
+            'product_desc'                    => $this->input->post('product_desc'),
+            'product_price'                   => $harganormal,
+            'price_reseller'                  => $priceseller,
+            'pengurangan'                     => $pengurangan,
+            'product_stock'                   => $this->input->post('product_stock'),
+            'product_size'                    => $this->input->post('product_size'),
+            'product_status'                  => $this->input->post('product_status'),
+            'date_updated'                    => date('Y-m-d H:i:s')
+          ];
         $this->products_model->update($data);
         $this->session->set_flashdata('message', 'Data telah di Update');
         redirect(base_url('admin/products'), 'refresh');

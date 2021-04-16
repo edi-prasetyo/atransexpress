@@ -85,7 +85,7 @@ class User extends CI_Controller
         'role_id'       => 4,
         'is_active'     => 1,
         'is_locked'     => 0,
-        'date_created'  => time()
+        'date_created'  => date('Y-m-d H:i:s')
       ];
       $this->db->insert('user', $data);
       $this->session->set_flashdata('message', '<div class="alert alert-success">Selamat Anda berhasil mendaftar, silahkan Aktivasi akun</div> ');
@@ -172,7 +172,7 @@ class User extends CI_Controller
         'role_id'       => 5,
         'is_active'     => 1,
         'is_locked'     => 0,
-        'date_created'  => time()
+        'date_created'  => date('Y-m-d H:i:s')
       ];
       $this->db->insert('user', $data);
       $this->session->set_flashdata('message', '<div class="alert alert-success">Selamat Anda berhasil mendaftar, silahkan Aktivasi akun</div> ');
@@ -207,7 +207,7 @@ class User extends CI_Controller
         'name'          => htmlspecialchars($this->input->post('name', true)),
         'user_phone'    => $this->input->post('user_phone'),
         'user_address'  => $this->input->post('user_address'),
-        'date_updated'  => time()
+        'date_updated'  => date('Y-m-d H:i:s')
       ];
       $this->user_model->update($data);
       $this->session->set_flashdata('message', '<div class="alert alert-success">Selamat Anda berhasil mendaftar, silahkan Aktivasi akun</div> ');
@@ -218,11 +218,11 @@ class User extends CI_Controller
   {
     $user_detail =  $this->user_model->detail($id);
     $counter_id = $user_detail->id;
-    $counter_code = str_pad($counter_id, 6, '0', STR_PAD_LEFT);
+    $user_code = str_pad($counter_id, 6, '0', STR_PAD_LEFT);
     is_login();
     $data = [
       'id'                    => $id,
-      'counter_code'          => $counter_code,
+      'user_code'          => $user_code,
       'is_locked'             => 1,
     ];
     $this->user_model->update($data);

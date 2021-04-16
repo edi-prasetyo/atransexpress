@@ -12,6 +12,7 @@
         echo '<div class="alert alert-success alert-dismissable fade show">';
         echo '<button class="close" data-dismiss="alert" aria-label="Close">×</button>';
         echo $this->session->flashdata('message');
+        unset($_SESSION['message']);
         echo '</div>';
     }
     echo validation_errors('<div class="alert alert-warning">', '</div>');
@@ -35,7 +36,7 @@
             foreach ($my_counter as $my_counter) { ?>
                 <tr>
                     <td><?php echo $no; ?></td>
-                    <td><?php echo $my_counter->counter_code; ?></td>
+                    <td><?php echo $my_counter->user_code; ?></td>
                     <td><?php echo $my_counter->name; ?></td>
                     <td><?php echo $my_counter->role; ?></td>
                     <td>

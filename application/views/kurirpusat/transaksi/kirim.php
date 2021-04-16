@@ -29,6 +29,7 @@
                     <thead>
                         <tr>
                             <th width="50%">Paket</th>
+                            <th width="50%">Tujuan</th>
                             <th width="50%">Action</th>
                         </tr>
                     </thead>
@@ -36,16 +37,25 @@
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
                                 <td><b><?php echo $transaksi['nomor_resi']; ?></b><br>
-                                    <?php echo $transaksi['kota_from']; ?><br><?php echo $transaksi['kota_name']; ?></td>
+
+                                </td>
                                 <td>
 
-                                    <a href="<?php echo base_url('kurirpusat/transaksi/agen/' . $transaksi['id']); ?>" class="btn btn-danger btn-sm">
-                                        <ion-icon name="eye-outline"></ion-icon> Kirim Ke Agen
-                                    </a>
-                                    <a href="<?php echo base_url('kurirpusat/transaksi/lacak/' . $transaksi['id']); ?>" class="btn btn-info btn-sm">
-                                        <ion-icon name="eye-outline"></ion-icon> Lacak
-                                    </a>
-
+                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi['kota_name']; ?><br>
+                                    <?php if ($transaksi['to_agen'] == NULL) : ?>
+                                        <div class="badge badge-danger">Belum di kirim</div>
+                                    <?php else : ?>
+                                        <div class="badge badge-success">Sedang di kirim</div>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($transaksi['to_agen'] == NULL) : ?>
+                                        <a href="<?php echo base_url('kurirpusat/transaksi/agen/' . $transaksi['id']); ?>" class="btn btn-danger btn-sm btn-block">
+                                            Kirim Ke Agen
+                                        </a>
+                                    <?php else : ?>
+                                        <?php include "view.php"; ?>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -1,32 +1,63 @@
 <div class="row">
-    <div class="col-lg-6">
-        <!-- small box -->
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>150</h3>
 
-                <p>Paket Baru</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-shipping-fast"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-6">
-        <!-- small box -->
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+    <div class="col-lg-12">
 
-                <p>Total Kiriman</p>
+        <a href="<?php echo base_url('kurir/transaksi'); ?>">
+            <div class="info-box mb-3 bg-success">
+                <span class="info-box-icon"><i class="fas fa-shipping-fast"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-number">Terima Paket</span>
+
+                </div>
+                <!-- /.info-box-content -->
             </div>
-            <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
+        </a>
     </div>
 
+    <div class="col-lg-12">
+
+        <a href="<?php echo base_url('kurir/transaksi/kirim'); ?>">
+            <div class="info-box mb-3 bg-info">
+                <span class="info-box-icon"><i class="fas fa-motorcycle"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-number">Kirim Paket</span>
+
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+        </a>
+    </div>
+
+
+</div>
+
+<div class="card">
+    <div class="card-header border-0">
+        <div class="d-flex justify-content-between">
+            <h3 class="card-title">Jumlah Kiriman Per Bulan</h3>
+            <a href="<?php echo base_url('kurir/transaksi/riwayat'); ?>">Lihat Riwayat</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="d-flex">
+            <p class="d-flex flex-column">
+                <span class="text-bold text-lg"><?php echo count($count_alltransaksi_kurir); ?></span>
+                <span>Order</span>
+            </p>
+
+        </div>
+
+
+        <div class="position-relative mb-4">
+            <canvas id="sales-chart" height="200"></canvas>
+        </div>
+
+        <div class="d-flex flex-row justify-content-end">
+            <span class="mr-2">
+                <i class="fas fa-square text-primary"></i> Dalam Bulan
+            </span>
+
+
+        </div>
+    </div>
 </div>

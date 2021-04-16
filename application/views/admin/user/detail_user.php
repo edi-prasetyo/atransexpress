@@ -44,7 +44,7 @@
                         <label class="col-lg-3 col-form-label">Counter ID
                         </label>
                         <div class="col-lg-6">
-                                : <?php echo $user_detail->counter_code; ?>
+                                : <?php echo $user_detail->user_code; ?>
                         </div>
                 </div>
         </div>

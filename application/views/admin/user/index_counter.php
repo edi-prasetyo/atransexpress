@@ -33,7 +33,7 @@
             foreach ($user_counter as $user_counter) { ?>
                 <tr>
                     <td><?php echo $no; ?></td>
-                    <td><?php echo $user_counter->counter_code; ?></td>
+                    <td><?php echo $user_counter->user_code; ?></td>
                     <td><?php echo $user_counter->name; ?></td>
                     <td><?php echo $user_counter->role; ?></td>
                     <td>

@@ -54,6 +54,93 @@
 <!-- Select2 -->
 <script src="<?php echo base_url(); ?>assets/template/admin/plugins/select2/js/select2.full.min.js"></script>
 
+<!-- OPTIONAL SCRIPTS -->
+<script src="<?php echo base_url(); ?>assets/template/admin/plugins/chart.js/Chart.min.js"></script>
+
+
+
+<?php
+$user_id = $this->session->userdata('id');
+$alltransaksi_counter         = $this->transaksi_model->get_allriwayat_counter($user_id);
+
+
+foreach ($alltransaksi_counter as $data) {
+  $tanggal[] = date('F', strtotime($data->date_created));
+  $order[] = (float) $data->total;
+}
+?>
+
+<?php echo count($alltransaksi_counter); ?>
+
+<script>
+  /* global Chart:false */
+
+  $(function() {
+    'use strict'
+
+    var ticksStyle = {
+      fontColor: '#495057',
+      fontStyle: 'bold'
+    }
+
+    var mode = 'index'
+    var intersect = true
+
+
+    var $salesChart = $('#sales-chart')
+    // eslint-disable-next-line no-unused-vars
+    var salesChart = new Chart($salesChart, {
+      type: 'bar',
+      data: {
+        labels: <?php echo json_encode($tanggal); ?>,
+        datasets: [{
+            backgroundColor: '#007bff',
+            borderColor: '#007bff',
+            data: <?php echo json_encode($order); ?>
+          },
+
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: mode,
+          intersect: intersect
+        },
+        hover: {
+          mode: mode,
+          intersect: intersect
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+
+            ticks: {
+              beginAtZero: true,
+              callback: function(value) {
+                if (value % 1 === 0) {
+                  return value;
+                }
+              }
+            }
+          }],
+          xAxes: [{
+            display: true,
+            gridLines: {
+              display: false
+            },
+            ticks: ticksStyle
+          }]
+        }
+      }
+    })
+
+
+  })
+</script>
+
 <script>
   $(function() {
     //Initialize Select2 Elements
@@ -64,6 +151,28 @@
       theme: 'bootstrap4'
     })
   });
+</script>
+
+
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
 </script>
 
 

@@ -53,6 +53,98 @@
 <script src="<?php echo base_url(); ?>assets/template/admin/dist/js/pages/dashboard.js"></script>
 <!-- Select2 -->
 <script src="<?php echo base_url(); ?>assets/template/admin/plugins/select2/js/select2.full.min.js"></script>
+<!-- Dropify -->
+<script src="<?php echo base_url(); ?>assets/template/admin/plugins/dropify/dist/js/dropify.min.js"></script>
+
+
+
+<!-- OPTIONAL SCRIPTS -->
+<script src="<?php echo base_url(); ?>assets/template/admin/plugins/chart.js/Chart.min.js"></script>
+
+
+
+<?php
+
+$alltransaksi         = $this->transaksi_model->get_chart_transaksi();
+
+
+foreach ($alltransaksi as $data) {
+  $tanggal[] = tanggal_indonesia_lengkap(date('Y-m-d', strtotime($data->date_created)));
+  $order[] = (float) $data->total;
+}
+?>
+
+
+<script>
+  /* global Chart:false */
+
+  $(function() {
+    'use strict'
+
+    var ticksStyle = {
+      fontColor: '#495057',
+      fontStyle: 'bold'
+    }
+
+    var mode = 'index'
+    var intersect = true
+
+
+    var $salesChart = $('#sales-chart')
+    // eslint-disable-next-line no-unused-vars
+    var salesChart = new Chart($salesChart, {
+      type: 'bar',
+      data: {
+        labels: <?php echo json_encode($tanggal); ?>,
+        datasets: [{
+            backgroundColor: '#007bff',
+            borderColor: '#007bff',
+            data: <?php echo json_encode($order); ?>
+          },
+
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: mode,
+          intersect: intersect
+        },
+        hover: {
+          mode: mode,
+          intersect: intersect
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+
+            ticks: {
+              beginAtZero: true,
+              callback: function(value) {
+                if (value % 1 === 0) {
+                  return value;
+                }
+              }
+            }
+          }],
+          xAxes: [{
+            display: true,
+            gridLines: {
+              display: false
+            },
+            ticks: ticksStyle
+          }]
+        }
+      }
+    })
+
+
+  })
+</script>
+
+
 
 <script>
   $(function() {
@@ -63,10 +155,13 @@
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     })
+
   });
 </script>
 
-
+<script>
+  $('.dropify').dropify();
+</script>
 
 </body>
 

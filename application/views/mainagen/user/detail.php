@@ -19,7 +19,7 @@
                         <b>ID Counter</b>
                     </div>
                     <div class="col-md-6">
-                        : <?php echo $my_counter->counter_code; ?>
+                        : <?php echo $my_counter->user_code; ?>
                     </div>
 
                     <div class="col-md-6 text-right">

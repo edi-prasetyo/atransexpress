@@ -20,13 +20,13 @@ class Transaksi extends CI_Controller
     //Index
     public function index()
     {
-        $main_agen = $this->user_model->get_agen();
+        $main_agen = $this->user_model->get_all_mainagen();
         $user_id = $this->session->userdata('id');
         $transaksi  = $this->transaksi_model->get_transaksimycounter($user_id);
 
         $data = array(
-            'title'         => 'Dashboard',
-            'deskripsi'     => 'Halaman Dashboard',
+            'title'         => 'Ambil Paket',
+            'deskripsi'     => 'Halaman Ambil Paket',
             'keywords'      => '',
             'transaksi'     => $transaksi,
             'main_agen'     => $main_agen,
@@ -35,10 +35,36 @@ class Transaksi extends CI_Controller
         $this->load->view('mainagen/layout/wrapp', $data, FALSE);
     }
 
+    // Ambil Paket dari Counter
+    public function ambil($id)
+    {
+        $user_id = $this->session->userdata('id');
+        $user = $this->user_model->user_detail($user_id);
+        $transaksi = $this->transaksi_model->detail($id);
+        $nomor_resi = $transaksi->nomor_resi;
 
+        $status = 'Paket telah di ambil Oleh Main Agen ' . $user->kota_name;
+        $provinsi_id = $user->provinsi_id;
+
+        $data  = [
+            'id'                                => $id,
+            'mainagen_id'                       => $this->session->userdata('id'),
+            'status'                            => $status,
+            'stage'                             => 2,
+            'user_stage'                        => $this->session->userdata('id'),
+            'date_updated'                      => date('Y-m-d H:i:s')
+        ];
+        $this->transaksi_model->update($data);
+        //Update Status Lacak
+        $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
+        $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+        redirect(base_url('mainagen/transaksi'), 'refresh');
+    }
+
+    // Paket dari Agen Lain
     public function from_agen()
     {
-        $main_agen = $this->user_model->get_agen();
+        $main_agen = $this->user_model->get_all_mainagen();
         $user_id = $this->session->userdata('id');
         $transaksi = $this->transaksi_model->get_transaksifromagen($user_id);
         $data = array(
@@ -69,28 +95,6 @@ class Transaksi extends CI_Controller
         ];
         $this->load->view('mainagen/layout/wrapp', $data, FALSE);
     }
-    // Ambil Paket
-    public function ambil($id)
-    {
-        $user_id = $this->session->userdata('id');
-        $user = $this->user_model->user_detail($user_id);
-        $transaksi = $this->transaksi_model->detail($id);
-
-        $status = 'Paket telah di ambil Oleh Main Agen ' . $user->kota_name;
-        $provinsi_id = $user->provinsi_id;
-
-        $data  = [
-            'id'                                => $id,
-            'status'                            => $status,
-            'stage'                             => 2,
-            'date_updated'                      => time()
-        ];
-        $this->transaksi_model->update($data);
-        //Update Status Lacak
-        $this->update_lacak($id, $status, $provinsi_id, $user);
-        $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-        redirect(base_url('mainagen/transaksi'), 'refresh');
-    }
 
     // Terima Paket Dari Main Agen Lain
     public function terima($id)
@@ -98,6 +102,7 @@ class Transaksi extends CI_Controller
         $user_id = $this->session->userdata('id');
         $user = $this->user_model->user_detail($user_id);
         $transaksi = $this->transaksi_model->detail($id);
+        $nomor_resi = $transaksi->nomor_resi;
 
         $status = 'Paket telah di terima Oleh Main Agen ' . $user->kota_name;
         $provinsi_id = $user->provinsi_id;
@@ -105,12 +110,13 @@ class Transaksi extends CI_Controller
         $data  = [
             'id'                                => $id,
             'status'                            => $status,
+            'user_stage'                        => $this->session->userdata('id'),
             'stage'                             => 6,
-            'date_updated'                      => time()
+            'date_updated'                      => date('Y-m-d H:i:s')
         ];
         $this->transaksi_model->update($data);
         //Update Status Lacak
-        $this->update_lacak($id, $status, $provinsi_id, $user);
+        $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
         $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
         redirect(base_url('mainagen/transaksi/from_agen'), 'refresh');
     }
@@ -168,7 +174,7 @@ class Transaksi extends CI_Controller
                 'kurir_pusat'                             => $this->input->post('kurir_pusat'),
                 'kurir'                             => $this->input->post('kurir'),
                 'stage'                             => $this->input->post('stage'),
-                'date_updated'                      => time()
+                'date_updated'                      => date('Y-m-d H:i:s')
             ];
             $this->transaksi_model->update($data);
             //Update Status Lacak
@@ -183,6 +189,7 @@ class Transaksi extends CI_Controller
         $user_id = $this->session->userdata('id');
         $user = $this->user_model->user_detail($user_id);
         $transaksi = $this->transaksi_model->detail($id);
+        $nomor_resi = $transaksi->nomor_resi;
 
         $status = 'Paket telah di ambil Oleh Main Agen ' . $user->kota_name;
         $provinsi_id = $user->provinsi_id;
@@ -191,11 +198,11 @@ class Transaksi extends CI_Controller
             'id'                                => $id,
             'status'                            => $status,
             'stage'                             => 6,
-            'date_updated'                      => time()
+            'date_updated'                      => date('Y-m-d H:i:s')
         ];
         $this->transaksi_model->update($data);
         //Update Status Lacak
-        $this->update_lacak($id, $status, $provinsi_id, $user);
+        $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
         $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
         redirect(base_url('mainagen/transaksi'), 'refresh');
     }
@@ -232,8 +239,9 @@ class Transaksi extends CI_Controller
             $data  = [
                 'id'                                => $id,
                 'kurir'                             => $this->input->post('kurir'),
+                'kurir_id'                             => $this->input->post('kurir'),
                 'stage'                             => 7,
-                'date_updated'                      => time()
+                'date_updated'                      => date('Y-m-d H:i:s')
             ];
             $this->transaksi_model->update($data);
             //Update Status Lacak
@@ -244,14 +252,15 @@ class Transaksi extends CI_Controller
     }
 
 
-    public function update_lacak($id, $status, $provinsi_id, $user)
+    public function update_lacak($id, $status, $provinsi_id, $user, $nomor_resi)
     {
         $data  = [
             'transaksi_id'                                  => $id,
             'user_id'                                       => $user->id,
             'provinsi_id'                                   => $provinsi_id,
+            'nomor_resi'                                    => $nomor_resi,
             'lacak_desc'                                    => $status,
-            'date_updated'                                  => time()
+            'date_updated'                                  => date('Y-m-d H:i:s')
         ];
         $this->lacak_model->create($data);
     }
@@ -260,7 +269,7 @@ class Transaksi extends CI_Controller
     {
         $user_id = $this->session->userdata('id');
 
-        $config['base_url']         = base_url('mainagen/transaksi/riwayat/');
+        $config['base_url']         = base_url('mainagen/transaksi/riwayat/index/');
         $config['total_rows']       = count($this->transaksi_model->get_row_mainagen($user_id));
         $config['per_page']         = 10;
         $config['uri_segment']      = 4;
@@ -291,11 +300,26 @@ class Transaksi extends CI_Controller
         $this->pagination->initialize($config);
         $transaksi = $this->transaksi_model->get_riwayat_mainagen($limit, $start, $user_id);
         $data = [
-            'title'                 => 'Data Transaksi',
+            'title'                 => 'Riwayat Transaksi',
             'transaksi'             => $transaksi,
             'search'     => '',
             'pagination'            => $this->pagination->create_links(),
             'content'               => 'mainagen/transaksi/riwayat'
+        ];
+        $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+    }
+    // Detail
+    public function detail($id)
+    {
+        $user_id    = $this->session->userdata('id');
+        $transaksi  = $this->transaksi_model->detail_riwayat_mainagen($id, $user_id);
+        $lacak = $this->lacak_model->get_detail_lacak($id);
+
+        $data = [
+            'title'         => 'Detail Transaksi',
+            'transaksi'     => $transaksi,
+            'lacak'         => $lacak,
+            'content'       => 'mainagen/transaksi/detail'
         ];
         $this->load->view('mainagen/layout/wrapp', $data, FALSE);
     }
