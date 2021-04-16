@@ -65,14 +65,7 @@ class Mainagen extends CI_Controller
       'required|trim',
       ['required' => 'nama harus di isi']
     );
-    $this->form_validation->set_rules(
-      'kota_id',
-      'Kota',
-      'is_unique[user.kota_id]',
-      [
-        'is_unique'    => 'Sayangnya Main agen di Kota ini Sudah Tersedia'
-      ]
-    );
+    
     $this->form_validation->set_rules(
       'email',
       'Email',

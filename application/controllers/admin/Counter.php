@@ -95,26 +95,6 @@ class Counter extends CI_Controller
         $this->form_validation->set_rules('password2', 'Ulangi Password', 'required|trim|matches[password1]');
 
 
-        $config['upload_path']          = './assets/img/berkas';
-        $config['allowed_types']        = 'gif|jpg|png';
-        $config['max_size']             = 500000;
-        $config['max_width']            = 500000;
-        $config['max_height']           = 500000;
-        $this->load->library('upload', $config);
-
-        // File 1
-        if (!empty($_FILES['file1'])) {
-            $this->upload->do_upload('file1');
-            $data1 = $this->upload->data();
-            $file1 = $data1['file_name'];
-        }
-        // File 2
-        if (!empty($_FILES['file2'])) {
-            $this->upload->do_upload('file2');
-            $data2 = $this->upload->data();
-            $file2 = $data2['file_name'];
-        }
-
         if ($this->form_validation->run() == false) {
             $data = [
                 'title'         => 'Add Counter',
@@ -123,24 +103,6 @@ class Counter extends CI_Controller
             ];
             $this->load->view('admin/layout/wrapp', $data, FALSE);
         } else {
-
-
-            $upload_files    = array('uploads'  => $file1,);
-            //Gambar Asli disimpan di folder assets/upload/image
-            //lalu gambar Asli di copy untuk versi mini size ke folder assets/upload/image/thumbs
-            $config['image_library']        = 'gd2';
-            $config['source_image']         = './assets/img/berkas/' . $upload_files['uploads']['file_name'];
-            //Gambar Versi Kecil dipindahkan
-            // $config['new_image']        = './assets/img/artikel/thumbs/' . $upload_data['uploads']['file_name'];
-            $config['create_thumb']         = TRUE;
-            $config['maintain_ratio']       = TRUE;
-            $config['width']                = 50;
-            $config['height']               = 50;
-            $config['thumb_marker']         = '';
-            $this->load->library('image_lib', $config);
-            $this->image_lib->resize();
-
-
 
             $email = $this->input->post('email', true);
             $data = [
@@ -153,8 +115,6 @@ class Counter extends CI_Controller
                 'user_phone'    => $this->input->post('user_phone'),
                 'user_address'  => $this->input->post('user_address'),
                 'password'      => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'foto_ktp'      => $upload_files['uploads']['file_name'],
-                'foto_lokasi'   => $file2,
                 'role_id'       => 5,
                 'is_active'     => 1,
                 'is_locked'     => 0,
@@ -201,10 +161,10 @@ class Counter extends CI_Controller
     // Detail Main Agen
     public function detail($id)
     {
-        $main_agen = $this->user_model->detail($id);
+        $counter = $this->user_model->detail($id);
         $data = [
             'title'                 => 'Detail Main Agen',
-            'main_agen'             => $main_agen,
+            'counter'             => $counter,
             'content'               => 'admin/counter/detail'
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);

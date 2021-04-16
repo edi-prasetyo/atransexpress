@@ -22,18 +22,7 @@
             <?php
             echo form_open_multipart('admin/counter/create')
             ?>
-            <div class="form-group row">
-                <label class="col-md-4 text-md-right">Foto KTP</label>
-                <div class="col-md-8">
-                    <input type="file" name="file1">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-4 text-md-right">Foto Lokasi</label>
-                <div class="col-md-8">
-                    <input type="file" name="file2">
-                </div>
-            </div>
+
 
             <!-- Provinsi -->
             <div class="form-group row">
