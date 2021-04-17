@@ -53,29 +53,36 @@ class Auth extends CI_Controller
 			//User Ada
 			//Jika User Aktif
 			if ($user['is_active'] == 1) {
-				//Cek Password
-				if (password_verify($password, $user['password'])) {
-					//Password Berhasil
-					$data  = [
-						'email'		=> $user['email'],
-						'role_id'	=> $user['role_id'],
-						'id'		=> $user['id'],
-					];
-					$this->session->set_userdata($data);
-					if ($user['role_id'] == 1 || $user['role_id'] == 2 || $user['role_id'] == 3) {
-						redirect('admin/dashboard');
-					} elseif ($user['role_id'] == 4) {
-						redirect('mainagen/dashboard');
-					} elseif ($user['role_id'] == 5) {
-						redirect('counter/dashboard');
-					} elseif ($user['role_id'] == 6) {
-						redirect('kurirpusat/dashboard');
-					} elseif ($user['role_id'] == 7) {
-						redirect('kurir/dashboard');
+				// Cek Locked
+				if ($user['is_locked'] == 1) {
+					//Cek Password
+					if (password_verify($password, $user['password'])) {
+						//Password Berhasil
+						$data  = [
+							'email'		=> $user['email'],
+							'role_id'	=> $user['role_id'],
+							'id'		=> $user['id'],
+						];
+						$this->session->set_userdata($data);
+						if ($user['role_id'] == 1 || $user['role_id'] == 2 || $user['role_id'] == 3) {
+							redirect('admin/dashboard');
+						} elseif ($user['role_id'] == 4) {
+							redirect('mainagen/dashboard');
+						} elseif ($user['role_id'] == 5) {
+							redirect('counter/dashboard');
+						} elseif ($user['role_id'] == 6) {
+							redirect('kurirpusat/dashboard');
+						} elseif ($user['role_id'] == 7) {
+							redirect('kurir/dashboard');
+						}
+					} else {
+						//Password Salah
+						$this->session->set_flashdata('message', '<div class="alert alert-danger">Password Salah</div> ');
+						redirect('auth');
 					}
 				} else {
-					//Password Salah
-					$this->session->set_flashdata('message', '<div class="alert alert-danger">Password Salah</div> ');
+					//User Locked
+					$this->session->set_flashdata('message', '<div class="alert alert-danger">Akun Anda masih Di Kunci Silahkan Hubungi Admin</div> ');
 					redirect('auth');
 				}
 			} else {

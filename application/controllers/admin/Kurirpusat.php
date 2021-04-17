@@ -14,7 +14,7 @@ class Kurirpusat extends CI_Controller
     public function index()
     {
 
-        $config['base_url']         = base_url('admin/mainagen/index/');
+        $config['base_url']         = base_url('admin/kurirpusat/index/');
         $config['total_rows']       = count($this->user_model->total_row_kurirpusat());
         $config['per_page']         = 10;
         $config['uri_segment']      = 4;
@@ -43,13 +43,13 @@ class Kurirpusat extends CI_Controller
         $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $main_agen = $this->user_model->get_kurirpusat($limit, $start);
-        // var_dump($main_agen);
+        $kurirpusat = $this->user_model->get_kurirpusat($limit, $start);
+        // var_dump($kurirpusat);
         // die;
 
         $data = [
             'title'                 => 'Data Kurir Pusat',
-            'main_agen'             => $main_agen,
+            'kurirpusat'             => $kurirpusat,
             'pagination'            => $this->pagination->create_links(),
             'content'               => 'admin/kurirpusat/index'
         ];
@@ -65,14 +65,7 @@ class Kurirpusat extends CI_Controller
             'required|trim',
             ['required' => 'nama harus di isi']
         );
-        $this->form_validation->set_rules(
-            'kota_id',
-            'Kota',
-            'is_unique[user.kota_id]',
-            [
-                'is_unique'    => 'Sayangnya Main agen di Kota ini Sudah Tersedia'
-            ]
-        );
+
         $this->form_validation->set_rules(
             'email',
             'Email',
@@ -98,7 +91,7 @@ class Kurirpusat extends CI_Controller
             $data = [
                 'title'         => 'Add Kurir Pusat',
                 'provinsi'      => $provinsi,
-                'content'       => 'admin/mainagen/create'
+                'content'       => 'admin/kurirpusat/create'
             ];
             $this->load->view('admin/layout/wrapp', $data, FALSE);
         } else {
@@ -114,14 +107,15 @@ class Kurirpusat extends CI_Controller
                 'user_phone'    => $this->input->post('user_phone'),
                 'user_address'  => $this->input->post('user_address'),
                 'password'      => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'role_id'       => 4,
+                'id_agen'       => 1,
+                'role_id'       => 6,
                 'is_active'     => 1,
                 'is_locked'     => 0,
                 'date_created'  => date('Y-m-d H:i:s')
             ];
             $this->db->insert('user', $data);
             $this->session->set_flashdata('message', 'Selamat Anda berhasil mendaftar, silahkan Aktivasi akun');
-            redirect('admin/mainagen');
+            redirect('admin/kurirpusat');
         }
     }
     // Update
@@ -140,7 +134,7 @@ class Kurirpusat extends CI_Controller
                 'title'         => 'Update Kurir Pusat',
                 'provinsi'      => $provinsi,
                 'user'          => $user,
-                'content'       => 'admin/mainagen/update'
+                'content'       => 'admin/kurirpusat/update'
             ];
             $this->load->view('admin/layout/wrapp', $data, FALSE);
         } else {
@@ -154,17 +148,17 @@ class Kurirpusat extends CI_Controller
             ];
             $this->user_model->update($data);
             $this->session->set_flashdata('message', 'Data Berhasil di Update');
-            redirect('admin/mainagen');
+            redirect('admin/kurirpusat');
         }
     }
     // Detail Main Agen
     public function detail($id)
     {
-        $main_agen = $this->user_model->detail($id);
+        $kurirpusat = $this->user_model->detail($id);
         $data = [
             'title'                 => 'Detail Kurir Pusat',
-            'main_agen'             => $main_agen,
-            'content'               => 'admin/mainagen/detail'
+            'kurirpusat'             => $kurirpusat,
+            'content'               => 'admin/kurirpusat/detail'
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
     }
@@ -191,7 +185,7 @@ class Kurirpusat extends CI_Controller
         is_login();
         $data = [
             'id'                    => $id,
-            'is_active'             => 0,
+            'is_locked'             => 0,
         ];
         $this->user_model->update($data);
         $this->session->set_flashdata('message', 'User Telah di banned');

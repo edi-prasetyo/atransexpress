@@ -20,21 +20,22 @@
             <!-- Nested Row within Card Body -->
 
             <?php
-            echo form_open('admin/mainagen/create')
+            echo form_open('admin/mainagen/create',  array('class' => 'needs-validation', 'novalidate' => 'novalidate'))
             ?>
 
             <!-- Provinsi -->
             <div class="form-group row">
                 <label class="col-md-4 text-md-right">Provinsi</label>
                 <div class="col-md-8">
-                    <select class="form-control custom-select" id='sel_provinsi' name="provinsi_id">
-                        <option>-- Pilih Provinsi --</option>
+                    <select class="form-control custom-select" id='sel_provinsi' name="provinsi_id" required>
+                        <option value="">-- Pilih Provinsi --</option>
                         <?php
                         foreach ($provinsi as $provinsi) {
                             echo "<option value='" . $provinsi['id'] . "'>" . $provinsi['provinsi_name'] . "</option>";
                         }
                         ?>
                     </select>
+                    <div class="invalid-feedback">Silahkan Pilih Provinsi.</div>
                 </div>
             </div>
 
@@ -42,51 +43,53 @@
             <div class="form-group row">
                 <label class="col-md-4 text-md-right">Kota</label>
                 <div class="col-md-8">
-                    <select class="form-control custom-select" id='sel_kota' name="kota_id">
-                        <option>-- Pilih Kota --</option>
+                    <select class="form-control custom-select" id='sel_kota' name="kota_id" required>
+                        <option value="">-- Pilih Kota --</option>
                     </select>
+                    <div class="invalid-feedback">Silahkan Pilih Kota.</div>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Title</label>
                 <div class="col-md-8">
-                    <select class="form-control custom-select" name="user_title" value="">
+                    <select class="form-control custom-select" name="user_title" value="" required>
+                        <option value=''>-- Pilih Title --</option>
                         <option value='Bapak'>Bapak</option>
                         <option value='Ibu'>Ibu</option>
                         <option value='Saudara'>Saudara</option>
                         <option value='Saudari'>Saudari</option>
-
                     </select>
+                    <div class="invalid-feedback">Silahkan Pilih Title.</div>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Nama Lengkap</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="name" placeholder="Nama Lengkap" value="<?php echo set_value('name'); ?>">
-                    <?php echo form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
+                    <input type="text" class="form-control" name="name" placeholder="Nama Lengkap" value="<?php echo set_value('name'); ?>" required>
+                    <div class="invalid-feedback">Silahkan Masukan Nama Lengkap.</div>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Allamat Lengkap</label>
                 <div class="col-md-8">
-                    <textarea class="form-control" name="user_address" placeholder="Alamat Lengkap" value="<?php echo set_value('user_address'); ?>"></textarea>
-                    <?php echo form_error('user_address', '<small class="text-danger pl-3">', '</small>'); ?>
+                    <textarea class="form-control" name="user_address" placeholder="Alamat Lengkap" value="<?php echo set_value('user_address'); ?>" required></textarea>
+                    <div class="invalid-feedback">Silahkan Masukan Alamat Lengkap.</div>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Nomor Hp</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="user_phone" placeholder="Nomor Handphone" value="<?php echo set_value('user_phone'); ?>">
-                    <?php echo form_error('user_phone', '<small class="text-danger pl-3">', '</small>'); ?>
+                    <input type="number" class="form-control" name="user_phone" placeholder="Nomor Handphone" value="<?php echo set_value('user_phone'); ?>" required>
+                    <div class="invalid-feedback">Silahkan Masukan Nomor Handphone.</div>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Email</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="email" placeholder="Email Address" value="<?php echo set_value('email'); ?>" style="text-transform: lowercase">
-                    <?php echo form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
+                    <input type="text" class="form-control" name="email" placeholder="Email Address" value="<?php echo set_value('email'); ?>" style="text-transform: lowercase" required>
+                    <div class="invalid-feedback">Silahkan Masukan Alamat Email.</div>
                 </div>
             </div>
             <div class="form-group row">

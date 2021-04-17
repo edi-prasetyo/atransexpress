@@ -65,7 +65,7 @@ class Mainagen extends CI_Controller
       'required|trim',
       ['required' => 'nama harus di isi']
     );
-    
+
     $this->form_validation->set_rules(
       'email',
       'Email',
@@ -107,6 +107,7 @@ class Mainagen extends CI_Controller
         'user_phone'    => $this->input->post('user_phone'),
         'user_address'  => $this->input->post('user_address'),
         'password'      => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
+        'id_agen'       => 1,
         'role_id'       => 4,
         'is_active'     => 1,
         'is_locked'     => 0,
@@ -184,7 +185,7 @@ class Mainagen extends CI_Controller
     is_login();
     $data = [
       'id'                    => $id,
-      'is_active'             => 0,
+      'is_locked'             => 0,
     ];
     $this->user_model->update($data);
     $this->session->set_flashdata('message', 'User Telah di banned');

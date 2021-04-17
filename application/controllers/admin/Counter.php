@@ -59,20 +59,14 @@ class Counter extends CI_Controller
     public function create()
     {
         $provinsi       = $this->main_model->getProvinsi();
+        $main_agen      = $this->user_model->get_all_mainagen();
         $this->form_validation->set_rules(
             'name',
             'Nama',
             'required|trim',
             ['required' => 'nama harus di isi']
         );
-        $this->form_validation->set_rules(
-            'kota_id',
-            'Kota',
-            'is_unique[user.kota_id]',
-            [
-                'is_unique'    => 'Sayangnya Main agen di Kota ini Sudah Tersedia'
-            ]
-        );
+
         $this->form_validation->set_rules(
             'email',
             'Email',
@@ -94,11 +88,11 @@ class Counter extends CI_Controller
         );
         $this->form_validation->set_rules('password2', 'Ulangi Password', 'required|trim|matches[password1]');
 
-
         if ($this->form_validation->run() == false) {
             $data = [
                 'title'         => 'Add Counter',
                 'provinsi'      => $provinsi,
+                'main_agen'     => $main_agen,
                 'content'       => 'admin/counter/create'
             ];
             $this->load->view('admin/layout/wrapp', $data, FALSE);
@@ -115,6 +109,7 @@ class Counter extends CI_Controller
                 'user_phone'    => $this->input->post('user_phone'),
                 'user_address'  => $this->input->post('user_address'),
                 'password'      => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
+                'id_agen'       => $this->input->post('id_agen'),
                 'role_id'       => 5,
                 'is_active'     => 1,
                 'is_locked'     => 0,
@@ -130,6 +125,8 @@ class Counter extends CI_Controller
     {
         $user = $this->user_model->detail($id);
         $provinsi       = $this->main_model->getProvinsi();
+        $main_agen      = $this->user_model->get_all_mainagen();
+
         $this->form_validation->set_rules(
             'name',
             'Nama',
@@ -141,6 +138,7 @@ class Counter extends CI_Controller
                 'title'         => 'Update Counter',
                 'provinsi'      => $provinsi,
                 'user'          => $user,
+                'main_agen'     => $main_agen,
                 'content'       => 'admin/counter/update'
             ];
             $this->load->view('admin/layout/wrapp', $data, FALSE);
@@ -149,6 +147,7 @@ class Counter extends CI_Controller
             $data = [
                 'id'            => $id,
                 'name'          => htmlspecialchars($this->input->post('name', true)),
+                'id_agen'       => $this->input->post('id_agen'),
                 'user_phone'    => $this->input->post('user_phone'),
                 'user_address'  => $this->input->post('user_address'),
                 'date_updated'  => date('Y-m-d H:i:s')
@@ -164,7 +163,7 @@ class Counter extends CI_Controller
         $counter = $this->user_model->detail($id);
         $data = [
             'title'                 => 'Detail Main Agen',
-            'counter'             => $counter,
+            'counter'               => $counter,
             'content'               => 'admin/counter/detail'
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
@@ -192,7 +191,7 @@ class Counter extends CI_Controller
         is_login();
         $data = [
             'id'                    => $id,
-            'is_active'             => 0,
+            'is_locked'             => 0,
         ];
         $this->user_model->update($data);
         $this->session->set_flashdata('message', 'User Telah di banned');

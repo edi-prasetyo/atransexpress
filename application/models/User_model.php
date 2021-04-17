@@ -48,11 +48,12 @@ class User_model extends CI_Model
   // Main Agen
   public function get_mainagen($limit, $start)
   {
-    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->select('user.*, user_role.role, kota.kota_name, provinsi_name');
     $this->db->from('user');
     // join
     $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
     // End Join
     $this->db->where('role_id', 4);
     $this->db->limit($limit, $start);
@@ -133,11 +134,12 @@ class User_model extends CI_Model
   }
   public function get_counter($limit, $start)
   {
-    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->select('user.*, user_role.role, kota.kota_name, provinsi_name');
     $this->db->from('user');
     // join
     $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
     // End Join
     $this->db->where('role_id', 5);
     $this->db->limit($limit, $start);

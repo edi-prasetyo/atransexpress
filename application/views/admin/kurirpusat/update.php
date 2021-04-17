@@ -1,7 +1,7 @@
 <div class="col-md-6 mx-auto">
     <div class="card">
         <div class="card-header">
-            Ubah Data Main Agen
+            <?php echo $title; ?>
         </div>
         <div class="card-body">
             <!-- Nested Row within Card Body -->

@@ -7,7 +7,7 @@
             <!-- Nested Row within Card Body -->
 
             <?php
-            echo form_open('admin/mainagen/update/' . $user->id)
+            echo form_open('admin/counter/update/' . $user->id)
             ?>
 
             <!-- Provinsi -->
@@ -23,6 +23,21 @@
                 <label class="col-md-4 text-md-right">Kota</label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" name="kota_name" value="<?php echo $user->kota_name; ?>" readonly>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-right">Ubah main Agen</label>
+                <div class="col-md-8">
+                    <select class="form-control custom-select" name="id_agen" value="" required>
+
+                        <?php foreach ($main_agen as $main_agen) : ?>
+                            <option value="<?php echo $main_agen->id; ?>" <?php if ($user->id_agen == $main_agen->id) {
+                                                                                echo "selected";
+                                                                            }; ?>><?php echo $main_agen->kota_name; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="invalid-feedback">Silahkan Pilih Main Agen.</div>
                 </div>
             </div>
 

@@ -94,71 +94,72 @@ $user = $this->user_model->user_detail($user_id);
             </div>
         </div>
     </div>
+</div>
 
 
 
 
 
-    <!-- Script -->
-    <script src="<?php echo base_url(); ?>assets/template/admin/plugins/jquery/jquery.min.js"></script>
+<!-- Script -->
+<script src="<?php echo base_url(); ?>assets/template/admin/plugins/jquery/jquery.min.js"></script>
 
-    <script type='text/javascript'>
-        // baseURL variable
-        var baseURL = "<?php echo base_url(); ?>";
+<script type='text/javascript'>
+    // baseURL variable
+    var baseURL = "<?php echo base_url(); ?>";
 
-        $(document).ready(function() {
+    $(document).ready(function() {
 
-            // Provinsi change
-            $('#sel_provinsi').change(function() {
-                var provinsi = $(this).val();
+        // Provinsi change
+        $('#sel_provinsi').change(function() {
+            var provinsi = $(this).val();
 
-                // AJAX request
-                $.ajax({
-                    url: '<?= base_url() ?>admin/wilayah/getKota',
-                    method: 'post',
-                    data: {
-                        <?= $this->security->get_csrf_token_name(); ?>: "<?= $this->security->get_csrf_hash(); ?>",
-                        provinsi: provinsi
-                    },
-                    dataType: 'json',
-                    success: function(response) {
+            // AJAX request
+            $.ajax({
+                url: '<?= base_url() ?>admin/wilayah/getKota',
+                method: 'post',
+                data: {
+                    <?= $this->security->get_csrf_token_name(); ?>: "<?= $this->security->get_csrf_hash(); ?>",
+                    provinsi: provinsi
+                },
+                dataType: 'json',
+                success: function(response) {
 
-                        // Remove options 
-                        $('#sel_kecamatan').find('option').not(':first').remove();
-                        $('#sel_kota').find('option').not(':first').remove();
+                    // Remove options 
+                    $('#sel_kecamatan').find('option').not(':first').remove();
+                    $('#sel_kota').find('option').not(':first').remove();
 
-                        // Add options
-                        $.each(response, function(index, data) {
-                            $('#sel_kota').append('<option value="' + data['id'] + '">' + data['kota_name'] + '</option>');
-                        });
-                    }
-                });
+                    // Add options
+                    $.each(response, function(index, data) {
+                        $('#sel_kota').append('<option value="' + data['id'] + '">' + data['kota_name'] + '</option>');
+                    });
+                }
             });
-
-            // // Kota change
-            // $('#sel_kota').change(function() {
-            //     var kota = $(this).val();
-
-            //     // AJAX request
-            //     $.ajax({
-            //         url: '<?= base_url() ?>admin/wilayah/getKecamatan',
-            //         method: 'post',
-            //         data: {
-            //             kota: kota
-            //         },
-            //         dataType: 'json',
-            //         success: function(response) {
-
-            //             // Remove options
-            //             $('#sel_kecamatan').find('option').not(':first').remove();
-
-            //             // Add options
-            //             $.each(response, function(index, data) {
-            //                 $('#sel_kecamatan').append('<option value="' + data['id'] + '">' + data['kecamatan_name'] + '</option>');
-            //             });
-            //         }
-            //     });
-            // });
-
         });
-    </script>
+
+        // // Kota change
+        // $('#sel_kota').change(function() {
+        //     var kota = $(this).val();
+
+        //     // AJAX request
+        //     $.ajax({
+        //         url: '<?= base_url() ?>admin/wilayah/getKecamatan',
+        //         method: 'post',
+        //         data: {
+        //             kota: kota
+        //         },
+        //         dataType: 'json',
+        //         success: function(response) {
+
+        //             // Remove options
+        //             $('#sel_kecamatan').find('option').not(':first').remove();
+
+        //             // Add options
+        //             $.each(response, function(index, data) {
+        //                 $('#sel_kecamatan').append('<option value="' + data['id'] + '">' + data['kecamatan_name'] + '</option>');
+        //             });
+        //         }
+        //     });
+        // });
+
+    });
+</script>

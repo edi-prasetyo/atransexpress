@@ -143,9 +143,9 @@ $meta = $this->meta_model->get_meta();
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-cog"></i>
+            <i class="nav-icon fas fa-user-ninja"></i>
             <p>
-              Setings
+              Akun
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -166,6 +166,37 @@ $meta = $this->meta_model->get_meta();
               <a href="<?php echo base_url('admin/profile/password'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ubah Password</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-cog"></i>
+            <p>
+              Settings
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?php echo base_url('admin/meta'); ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Profile Situs</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('admin/meta/logo'); ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Logo Situs</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url('admin/meta/favicon'); ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Favicon</p>
               </a>
             </li>
 

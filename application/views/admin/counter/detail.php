@@ -29,11 +29,14 @@
                         <b>Main Agen ID</b> <span class="float-right"><?php echo $counter->user_code; ?></span>
                     </li>
                     <li class="list-group-item">
+                        <b>Kota</b> <span class="float-right"><?php echo $counter->kota_name; ?> - <?php echo $counter->provinsi_name; ?></span>
+                    </li>
+                    <li class="list-group-item">
                         <b>Alamat</b> <span class="float-right"><?php echo $counter->user_address; ?></span>
                     </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
+                <a href="<?php echo base_url('admin/counter/update/' . $counter->id); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
             </div>
             <!-- /.card-body -->
         </div>

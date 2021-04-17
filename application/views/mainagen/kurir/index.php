@@ -25,7 +25,7 @@
                     <th>Nama</th>
                     <th>Role</th>
                     <th>Status</th>
-
+                    <th>Locked</th>
                     <th width="30%"></th>
                 </tr>
             </thead>
@@ -44,6 +44,13 @@
                         <?php endif; ?>
                     </td>
                     <td>
+                        <?php if ($my_kurir->is_locked == 1) : ?>
+                            <span class="badge badge-success">No</span>
+                        <?php else : ?>
+                            <span class="badge badge-danger">Yes</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
                         <?php if ($my_kurir->is_active == 0) : ?>
                             <a class="btn btn-success btn-sm" href="<?php echo base_url('mainagen/kurir/activated/' . $my_kurir->id); ?>"><i class="fas fa-user-times"></i> Activated</a>
                         <?php else : ?>
@@ -51,6 +58,7 @@
 
                         <?php endif; ?>
                         <a href="<?php echo base_url('mainagen/kurir/detail/' . $my_kurir->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Lihat</a>
+                        <a href="<?php echo base_url('mainagen/kurir/update/' . $my_kurir->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Edit</a>
                     </td>
                 </tr>
 

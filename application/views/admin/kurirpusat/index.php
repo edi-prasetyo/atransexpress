@@ -29,37 +29,44 @@
                     <th>Nama</th>
                     <th>Role</th>
                     <th>Status</th>
-
-                    <th width="30%">Action</th>
+                    <th>Locked</th>
+                    <th width="20%">Action</th>
                 </tr>
             </thead>
             <?php $no = 1;
-            foreach ($main_agen as $main_agen) { ?>
+            foreach ($kurirpusat as $kurirpusat) { ?>
                 <tr>
                     <td><?php echo $no; ?></td>
-                    <td><?php echo $main_agen->user_code; ?></td>
-                    <td><?php echo $main_agen->name; ?></td>
-                    <td><?php echo $main_agen->role; ?></td>
+                    <td><?php echo $kurirpusat->user_code; ?></td>
+                    <td><?php echo $kurirpusat->name; ?></td>
+                    <td><?php echo $kurirpusat->role; ?></td>
                     <td>
-                        <?php if ($main_agen->is_active == 1) : ?>
+                        <?php if ($kurirpusat->is_active == 1) : ?>
                             <span class="badge badge-success">Aktif</span>
                         <?php else : ?>
                             <span class="badge badge-danger">Nonactive</span>
                         <?php endif; ?>
                     </td>
                     <td>
-                        <?php if ($main_agen->is_locked == 0) : ?>
-                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/kurirpusat/activated/' . $main_agen->id); ?>"><i class="fas fa-kurirpusat-times"></i> Setujui</a>
-                        <?php endif; ?>
-
-                        <?php if ($main_agen->is_active == 0) : ?>
-                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/kurirpusat/activated/' . $main_agen->id); ?>"><i class="fas fa-kurirpusat-times"></i> Activated</a>
+                        <?php if ($kurirpusat->is_locked == 1) : ?>
+                            <span class="badge badge-success">No</span>
                         <?php else : ?>
-                            <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/kurirpusat/banned/' . $main_agen->id); ?>"><i class="fas fa-kurirpusat-times"></i> Banned</a>
+                            <span class="badge badge-danger">Yes</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($kurirpusat->is_locked == 0) : ?>
+                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/kurirpusat/activated/' . $kurirpusat->id); ?>"><i class="fas fa-kurirpusat-times"></i> Setujui</a>
+                        <?php endif; ?>
+
+                        <?php if ($kurirpusat->is_active == 0) : ?>
+                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/kurirpusat/activated/' . $kurirpusat->id); ?>"><i class="fas fa-kurirpusat-times"></i> Activated</a>
+                        <?php else : ?>
+                            <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/kurirpusat/banned/' . $kurirpusat->id); ?>"><i class="fas fa-kurirpusat-times"></i> Banned</a>
 
                         <?php endif; ?>
-                        <a href="<?php echo base_url('admin/kurirpusat/detail/' . $main_agen->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Lihat</a>
-                        <a href="<?php echo base_url('admin/kurirpusat/update/' . $main_agen->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Update</a>
+                        <a href="<?php echo base_url('admin/kurirpusat/detail/' . $kurirpusat->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Lihat</a>
+                        <a href="<?php echo base_url('admin/kurirpusat/update/' . $kurirpusat->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Update</a>
                     </td>
                 </tr>
 

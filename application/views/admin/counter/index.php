@@ -25,12 +25,13 @@
             <thead class="thead-light">
                 <tr>
                     <th>No</th>
-                    <th>ID Counter</th>
+                    <th>ID</th>
                     <th>Nama</th>
                     <th>Role</th>
+                    <th>Kota</th>
                     <th>Status</th>
-
-                    <th width="30%">Action</th>
+                    <th>Locked</th>
+                    <th width="20%">Action</th>
                 </tr>
             </thead>
             <?php $no = 1;
@@ -40,11 +41,19 @@
                     <td><?php echo $counter->user_code; ?></td>
                     <td><?php echo $counter->name; ?></td>
                     <td><?php echo $counter->role; ?></td>
+                    <td><?php echo $counter->kota_name; ?> - <?php echo $counter->provinsi_name; ?></td>
                     <td>
                         <?php if ($counter->is_active == 1) : ?>
                             <span class="badge badge-success">Aktif</span>
                         <?php else : ?>
                             <span class="badge badge-danger">Nonactive</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($counter->is_locked == 1) : ?>
+                            <span class="badge badge-success">No</span>
+                        <?php else : ?>
+                            <span class="badge badge-danger">Yes</span>
                         <?php endif; ?>
                     </td>
                     <td>
@@ -58,8 +67,8 @@
                             <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/counter/banned/' . $counter->id); ?>"><i class="fas fa-counter-times"></i> Banned</a>
 
                         <?php endif; ?>
-                        <a href="<?php echo base_url('admin/counter/detail/' . $counter->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Lihat</a>
-                        <a href="<?php echo base_url('admin/counter/update/' . $counter->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Update</a>
+                        <a href="<?php echo base_url('admin/counter/detail/' . $counter->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Lihat</a>
+                        <a href="<?php echo base_url('admin/counter/update/' . $counter->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Update</a>
                     </td>
                 </tr>
 

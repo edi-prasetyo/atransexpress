@@ -25,12 +25,13 @@
             <thead class="thead-light">
                 <tr>
                     <th>No</th>
-                    <th>ID Agen</th>
+                    <th>ID</th>
                     <th>Nama</th>
+                    <th>Kota</th>
                     <th>Role</th>
                     <th>Status</th>
-
-                    <th width="30%">Action</th>
+                    <th>Locked</th>
+                    <th width="20%">Action</th>
                 </tr>
             </thead>
             <?php $no = 1;
@@ -39,12 +40,20 @@
                     <td><?php echo $no; ?></td>
                     <td><?php echo $main_agen->user_code; ?></td>
                     <td><?php echo $main_agen->name; ?></td>
+                    <td><?php echo $main_agen->kota_name; ?> - <?php echo $main_agen->provinsi_name; ?></td>
                     <td><?php echo $main_agen->role; ?></td>
                     <td>
                         <?php if ($main_agen->is_active == 1) : ?>
                             <span class="badge badge-success">Aktif</span>
                         <?php else : ?>
                             <span class="badge badge-danger">Nonactive</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ($main_agen->is_locked == 1) : ?>
+                            <span class="badge badge-success">No</span>
+                        <?php else : ?>
+                            <span class="badge badge-danger">Yes</span>
                         <?php endif; ?>
                     </td>
                     <td>
@@ -58,8 +67,8 @@
                             <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/mainagen/banned/' . $main_agen->id); ?>"><i class="fas fa-mainagen-times"></i> Banned</a>
 
                         <?php endif; ?>
-                        <a href="<?php echo base_url('admin/mainagen/detail/' . $main_agen->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Lihat</a>
-                        <a href="<?php echo base_url('admin/mainagen/update/' . $main_agen->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Update</a>
+                        <a href="<?php echo base_url('admin/mainagen/detail/' . $main_agen->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Lihat</a>
+                        <a href="<?php echo base_url('admin/mainagen/update/' . $main_agen->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Update</a>
                     </td>
                 </tr>
 
