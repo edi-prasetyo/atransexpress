@@ -67,7 +67,7 @@ $alltransaksi_mainagen         = $this->transaksi_model->get_allriwayat_mainagen
 
 
 foreach ($alltransaksi_mainagen as $data) {
-  $tanggal[] = date('F', strtotime($data->date_created));
+  $tanggal[] = tanggal_indonesia_lengkap(date('Y-m-d', strtotime($data->date_created)));
   $order[] = (float) $data->total;
 }
 ?>

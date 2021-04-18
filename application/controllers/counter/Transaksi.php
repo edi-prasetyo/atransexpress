@@ -261,19 +261,26 @@ class Transaksi extends CI_Controller
     // Halaman Pelacakan
     public function lacak($id)
     {
+        $user_id = $this->session->userdata('id');
         $transaksi = $this->transaksi_model->detail($id);
         $lacak = $this->lacak_model->get_detail_lacak($id);
         // var_dump($transaksi);
         // die;
-        $data = [
-            'title'         => 'Pelacakan',
-            'deskripsi'     => 'Halaman Pelacakan',
-            'keywords'      => '',
-            'transaksi'     => $transaksi,
-            'lacak'         => $lacak,
-            'content'       => 'counter/transaksi/lacak'
-        ];
-        $this->load->view('counter/layout/wrapp', $data, FALSE);
+
+        if ($transaksi->user_id == $user_id) {
+
+            $data = [
+                'title'         => 'Pelacakan',
+                'deskripsi'     => 'Halaman Pelacakan',
+                'keywords'      => '',
+                'transaksi'     => $transaksi,
+                'lacak'         => $lacak,
+                'content'       => 'counter/transaksi/lacak'
+            ];
+            $this->load->view('counter/layout/wrapp', $data, FALSE);
+        } else {
+            redirect(base_url('counter/404'));
+        }
     }
 
     // Riwayat Transaksi

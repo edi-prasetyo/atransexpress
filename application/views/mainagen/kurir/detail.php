@@ -29,7 +29,7 @@
                     </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
+                <a href="<?php echo base_url('mainagen/kurir/update/' . $kurir->id); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
             </div>
             <!-- /.card-body -->
         </div>

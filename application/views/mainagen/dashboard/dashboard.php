@@ -58,7 +58,7 @@ $user = $this->user_model->user_detail($user_id);
 <div class="card">
     <div class="card-header border-0">
         <div class="d-flex justify-content-between">
-            <h3 class="card-title">Jumlah Order Per Bulan</h3>
+            <h3 class="card-title">Jumlah Order Per Hari</h3>
             <a href="<?php echo base_url('counter/transaksi/riwayat'); ?>">Lihat Riwayat</a>
         </div>
     </div>
@@ -78,7 +78,7 @@ $user = $this->user_model->user_detail($user_id);
 
         <div class="d-flex flex-row justify-content-end">
             <span class="mr-2">
-                <i class="fas fa-square text-primary"></i> Dalam Bulan
+                <i class="fas fa-square text-primary"></i> Data Per Hari
             </span>
 
         </div>

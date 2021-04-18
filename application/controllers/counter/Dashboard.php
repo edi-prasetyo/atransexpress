@@ -18,12 +18,12 @@ class Dashboard extends CI_Controller
     $count_alltransaksi_counter   = $this->transaksi_model->count_allriwayat_counter($user_id);
     // End Listing Berita dengan paginasi
     $data = array(
-      'title'                 => 'Dashboard',
-      'deskripsi'             => 'Halaman Dashboard',
-      'keywords'              => '',
-      'alltransaksi_counter'  => $alltransaksi_counter,
+      'title'                       => 'Dashboard',
+      'deskripsi'                   => 'Halaman Dashboard',
+      'keywords'                    => '',
+      'alltransaksi_counter'        => $alltransaksi_counter,
       'count_alltransaksi_counter'  => $count_alltransaksi_counter,
-      'content'               => 'counter/dashboard/dashboard'
+      'content'                     => 'counter/dashboard/dashboard'
     );
     $this->load->view('counter/layout/wrapp', $data, FALSE);
   }

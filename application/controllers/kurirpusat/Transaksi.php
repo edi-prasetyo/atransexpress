@@ -163,20 +163,25 @@ class Transaksi extends CI_Controller
         // die;
         $provinsi_id = $transaksi->provinsi_id;
 
-        $data  = [
-            'id'                                => $id,
-            'kurirpusat_id'                     => $user_id,
-            'kurir_pusat'                     => $user_id,
-            'status'                            => $status,
-            'user_stage'                            => $this->session->userdata('id'),
-            'stage'                             => 4,
-            'date_updated'                      => date('Y-m-d H:i:s')
-        ];
-        $this->transaksi_model->update($data);
-        //Update Status Lacak
-        $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
-        $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-        redirect(base_url('kurirpusat/transaksi'), 'refresh');
+        if ($transaksi->kurir_pusat == $user_id && $transaksi->stage == 3) {
+
+            $data  = [
+                'id'                                => $id,
+                'kurirpusat_id'                     => $user_id,
+                'kurir_pusat'                     => $user_id,
+                'status'                            => $status,
+                'user_stage'                            => $this->session->userdata('id'),
+                'stage'                             => 4,
+                'date_updated'                      => date('Y-m-d H:i:s')
+            ];
+            $this->transaksi_model->update($data);
+            //Update Status Lacak
+            $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
+            $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+            redirect(base_url('kurirpusat/transaksi'), 'refresh');
+        } else {
+            redirect(base_url('kurirpusat/404'));
+        }
     }
 
     // Data kirimaan ke Agen Lain
@@ -273,42 +278,47 @@ class Transaksi extends CI_Controller
         $main_agen_kota = $this->user_model->get_agen_kota($kota_id);
         // var_dump($main_agen_kota);
         // die;
+        $user_id = $this->session->userdata('id');
+        if ($transaksi->kurir_pusat == $user_id && $transaksi->stage == 4) {
 
-        $this->form_validation->set_rules(
-            'to_agen',
-            'Nama Pengirim',
-            'required',
-            array(
-                'required'                        => '%s Harus Diisi'
-            )
-        );
-        if ($this->form_validation->run() === FALSE) {
-            $data = [
-                'title'                           => 'Kirim Ke Agen',
-                'main_agen_kota'                  => $main_agen_kota,
-                'transaksi'                       => $transaksi,
-                'content'                         => 'kurirpusat/transaksi/kirim_agen'
-            ];
-            $this->load->view('kurirpusat/layout/wrapp', $data, FALSE);
+            $this->form_validation->set_rules(
+                'to_agen',
+                'Nama Pengirim',
+                'required',
+                array(
+                    'required'                        => '%s Harus Diisi'
+                )
+            );
+            if ($this->form_validation->run() === FALSE) {
+                $data = [
+                    'title'                           => 'Kirim Ke Agen',
+                    'main_agen_kota'                  => $main_agen_kota,
+                    'transaksi'                       => $transaksi,
+                    'content'                         => 'kurirpusat/transaksi/kirim_agen'
+                ];
+                $this->load->view('kurirpusat/layout/wrapp', $data, FALSE);
+            } else {
+
+                $status = $this->input->post('status');
+                $provinsi_id = $this->input->post('provinsi_id');
+
+                $data  = [
+                    'id'                                => $id,
+                    'to_agen'                           => $this->input->post('to_agen'),
+                    'status'                            => $status,
+                    'provinsi_id'                       => $provinsi_id,
+                    'mainagen_to_id'                       => $this->input->post('to_agen'),
+                    'stage'                             => 5,
+                    // 'status'                            => $status,
+                    'date_updated'                      => date('Y-m-d H:i:s')
+                ];
+                $this->transaksi_model->update($data);
+                //Update Status Lacak
+                $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+                redirect(base_url('kurirpusat/transaksi/kirim'), 'refresh');
+            }
         } else {
-
-            $status = $this->input->post('status');
-            $provinsi_id = $this->input->post('provinsi_id');
-
-            $data  = [
-                'id'                                => $id,
-                'to_agen'                           => $this->input->post('to_agen'),
-                'status'                            => $status,
-                'provinsi_id'                       => $provinsi_id,
-                'mainagen_to_id'                       => $this->input->post('to_agen'),
-                'stage'                             => 5,
-                // 'status'                            => $status,
-                'date_updated'                      => date('Y-m-d H:i:s')
-            ];
-            $this->transaksi_model->update($data);
-            //Update Status Lacak
-            $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-            redirect(base_url('kurirpusat/transaksi/kirim'), 'refresh');
+            redirect(base_url('kurirpusat/404'));
         }
     }
 
@@ -331,15 +341,20 @@ class Transaksi extends CI_Controller
         $lacak = $this->lacak_model->get_detail_lacak($id);
         // var_dump($transaksi);
         // die;
-        $data = [
-            'title'         => 'Pelacakan',
-            'deskripsi'     => 'Halaman Pelacakan',
-            'keywords'      => '',
-            'transaksi'     => $transaksi,
-            'lacak'         => $lacak,
-            'content'       => 'kurirpusat/transaksi/lacak'
-        ];
-        $this->load->view('kurirpusat/layout/wrapp', $data, FALSE);
+        $user_id = $this->session->userdata('id');
+        if ($transaksi->kurir_pusat == $user_id) {
+            $data = [
+                'title'         => 'Pelacakan',
+                'deskripsi'     => 'Halaman Pelacakan',
+                'keywords'      => '',
+                'transaksi'     => $transaksi,
+                'lacak'         => $lacak,
+                'content'       => 'kurirpusat/transaksi/lacak'
+            ];
+            $this->load->view('kurirpusat/layout/wrapp', $data, FALSE);
+        } else {
+            redirect(base_url('kurirpusat/404'));
+        }
     }
 
 

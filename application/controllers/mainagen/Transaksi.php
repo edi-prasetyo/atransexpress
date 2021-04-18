@@ -46,19 +46,24 @@ class Transaksi extends CI_Controller
         $status = 'Paket telah di ambil Oleh Main Agen ' . $user->kota_name;
         $provinsi_id = $user->provinsi_id;
 
-        $data  = [
-            'id'                                => $id,
-            'mainagen_id'                       => $this->session->userdata('id'),
-            'status'                            => $status,
-            'stage'                             => 2,
-            'user_stage'                        => $this->session->userdata('id'),
-            'date_updated'                      => date('Y-m-d H:i:s')
-        ];
-        $this->transaksi_model->update($data);
-        //Update Status Lacak
-        $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
-        $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-        redirect(base_url('mainagen/transaksi'), 'refresh');
+        if ($transaksi->user_agen == $user_id && $transaksi->stage == 1) {
+
+            $data  = [
+                'id'                                => $id,
+                'mainagen_id'                       => $this->session->userdata('id'),
+                'status'                            => $status,
+                'stage'                             => 2,
+                'user_stage'                        => $this->session->userdata('id'),
+                'date_updated'                      => date('Y-m-d H:i:s')
+            ];
+            $this->transaksi_model->update($data);
+            //Update Status Lacak
+            $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
+            $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+            redirect(base_url('mainagen/transaksi'), 'refresh');
+        } else {
+            redirect(base_url('mainagen/404'));
+        }
     }
 
     // Paket dari Agen Lain
@@ -81,19 +86,27 @@ class Transaksi extends CI_Controller
 
     public function lacak($id)
     {
+
         $transaksi = $this->transaksi_model->detail($id);
         $lacak = $this->lacak_model->get_detail_lacak($id);
         // var_dump($transaksi);
         // die;
-        $data = [
-            'title'         => 'Pelacakan',
-            'deskripsi'     => 'Halaman Pelacakan',
-            'keywords'      => '',
-            'transaksi'     => $transaksi,
-            'lacak'         => $lacak,
-            'content'       => 'mainagen/transaksi/lacak'
-        ];
-        $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+
+        $user_id = $this->session->userdata('id');
+        if ($transaksi->mainagen_id == $user_id || $transaksi->mainagen_to_id == $user_id) {
+
+            $data = [
+                'title'         => 'Pelacakan',
+                'deskripsi'     => 'Halaman Pelacakan',
+                'keywords'      => '',
+                'transaksi'     => $transaksi,
+                'lacak'         => $lacak,
+                'content'       => 'mainagen/transaksi/lacak'
+            ];
+            $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+        } else {
+            redirect(base_url('mainagen/404'));
+        }
     }
 
     // Terima Paket Dari Main Agen Lain
@@ -107,18 +120,23 @@ class Transaksi extends CI_Controller
         $status = 'Paket telah di terima Oleh Main Agen ' . $user->kota_name;
         $provinsi_id = $user->provinsi_id;
 
-        $data  = [
-            'id'                                => $id,
-            'status'                            => $status,
-            'user_stage'                        => $this->session->userdata('id'),
-            'stage'                             => 6,
-            'date_updated'                      => date('Y-m-d H:i:s')
-        ];
-        $this->transaksi_model->update($data);
-        //Update Status Lacak
-        $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
-        $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-        redirect(base_url('mainagen/transaksi/from_agen'), 'refresh');
+        if ($transaksi->mainagen_to_id == $user_id && $transaksi->stage == 5) {
+
+            $data  = [
+                'id'                                => $id,
+                'status'                            => $status,
+                'user_stage'                        => $this->session->userdata('id'),
+                'stage'                             => 6,
+                'date_updated'                      => date('Y-m-d H:i:s')
+            ];
+            $this->transaksi_model->update($data);
+            //Update Status Lacak
+            $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
+            $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+            redirect(base_url('mainagen/transaksi/from_agen'), 'refresh');
+        } else {
+            redirect(base_url('mainagen/404'));
+        }
     }
 
     // Kirim Ke Kurir
@@ -148,38 +166,42 @@ class Transaksi extends CI_Controller
         $kurir = $this->user_model->get_kurir($user_id, $kota_id);
         $kurir_agen = $this->user_model->get_kurir_agen($user_id);
 
+        if ($transaksi->user_agen == $user_id && $transaksi->stage == 2) {
 
-        $this->form_validation->set_rules(
-            'stage',
-            'Stage',
-            'required',
-            array(
-                'required'                        => '%s Harus Diisi'
-            )
-        );
-        if ($this->form_validation->run() === FALSE) {
-            $data = array(
-                'title'         => 'Kirim Paket',
-                'deskripsi'     => 'Halaman Dashboard',
-                'keywords'      => '',
-                'transaksi'     => $transaksi,
-                'kurir'         => $kurir,
-                'kurir_agen'    => $kurir_agen,
-                'content'       => 'mainagen/transaksi/kurir'
+            $this->form_validation->set_rules(
+                'stage',
+                'Stage',
+                'required',
+                array(
+                    'required'                        => '%s Harus Diisi'
+                )
             );
-            $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+            if ($this->form_validation->run() === FALSE) {
+                $data = array(
+                    'title'         => 'Kirim Paket',
+                    'deskripsi'     => 'Halaman Dashboard',
+                    'keywords'      => '',
+                    'transaksi'     => $transaksi,
+                    'kurir'         => $kurir,
+                    'kurir_agen'    => $kurir_agen,
+                    'content'       => 'mainagen/transaksi/kurir'
+                );
+                $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+            } else {
+                $data  = [
+                    'id'                                => $id,
+                    'kurir_pusat'                             => $this->input->post('kurir_pusat'),
+                    'kurir'                             => $this->input->post('kurir'),
+                    'stage'                             => $this->input->post('stage'),
+                    'date_updated'                      => date('Y-m-d H:i:s')
+                ];
+                $this->transaksi_model->update($data);
+                //Update Status Lacak
+                $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+                redirect(base_url('mainagen/transaksi/kirim'), 'refresh');
+            }
         } else {
-            $data  = [
-                'id'                                => $id,
-                'kurir_pusat'                             => $this->input->post('kurir_pusat'),
-                'kurir'                             => $this->input->post('kurir'),
-                'stage'                             => $this->input->post('stage'),
-                'date_updated'                      => date('Y-m-d H:i:s')
-            ];
-            $this->transaksi_model->update($data);
-            //Update Status Lacak
-            $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-            redirect(base_url('mainagen/transaksi/kirim'), 'refresh');
+            redirect(base_url('mainagen/404'));
         }
     }
 
@@ -215,39 +237,44 @@ class Transaksi extends CI_Controller
         $kurir_agen = $this->user_model->get_kurir_agen($user_id);
         $transaksi = $this->transaksi_model->detail($id);
 
-        $this->form_validation->set_rules(
-            'kurir',
-            'Nama Kurir',
-            'required',
-            array(
-                'required'                        => '%s Harus Diisi'
-            )
-        );
-        if ($this->form_validation->run() === FALSE) {
-            $data = array(
-                'title'         => 'Kirim Paket',
-                'deskripsi'     => 'Halaman Dashboard',
-                'keywords'      => '',
-                'transaksi'     => $transaksi,
-                'kurir_agen'         => $kurir_agen,
-                'content'       => 'mainagen/transaksi/kurir_agen'
+        if ($transaksi->mainagen_to_id == $user_id && $transaksi->stage == 6) {
+
+            $this->form_validation->set_rules(
+                'kurir',
+                'Nama Kurir',
+                'required',
+                array(
+                    'required'                        => '%s Harus Diisi'
+                )
             );
-            $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+            if ($this->form_validation->run() === FALSE) {
+                $data = array(
+                    'title'         => 'Kirim Paket',
+                    'deskripsi'     => 'Halaman Dashboard',
+                    'keywords'      => '',
+                    'transaksi'     => $transaksi,
+                    'kurir_agen'         => $kurir_agen,
+                    'content'       => 'mainagen/transaksi/kurir_agen'
+                );
+                $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+            } else {
+
+
+                $data  = [
+                    'id'                                => $id,
+                    'kurir'                             => $this->input->post('kurir'),
+                    'kurir_id'                             => $this->input->post('kurir'),
+                    'stage'                             => 7,
+                    'date_updated'                      => date('Y-m-d H:i:s')
+                ];
+                $this->transaksi_model->update($data);
+                //Update Status Lacak
+                // $this->update_lacak($id, $status, $provinsi_id, $user);
+                $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+                redirect(base_url('mainagen/transaksi/from_agen'), 'refresh');
+            }
         } else {
-
-
-            $data  = [
-                'id'                                => $id,
-                'kurir'                             => $this->input->post('kurir'),
-                'kurir_id'                             => $this->input->post('kurir'),
-                'stage'                             => 7,
-                'date_updated'                      => date('Y-m-d H:i:s')
-            ];
-            $this->transaksi_model->update($data);
-            //Update Status Lacak
-            // $this->update_lacak($id, $status, $provinsi_id, $user);
-            $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-            redirect(base_url('mainagen/transaksi/from_agen'), 'refresh');
+            redirect(base_url('mainagen/404'));
         }
     }
 

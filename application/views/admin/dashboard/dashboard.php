@@ -85,7 +85,7 @@
 
     <div class="d-flex flex-row justify-content-end">
       <span class="mr-2">
-        <i class="fas fa-square text-primary"></i> Dalam Bulan
+        <i class="fas fa-square text-primary"></i> Data Per Hari
       </span>
 
 

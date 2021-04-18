@@ -6,7 +6,7 @@
         <div class="card-body">
             <!-- Nested Row within Card Body -->
             <?php
-            echo form_open_multipart('mainagen/kurir/create')
+            echo form_open_multipart('mainagen/kurir/update')
             ?>
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">

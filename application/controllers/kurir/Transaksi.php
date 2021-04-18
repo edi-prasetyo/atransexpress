@@ -46,19 +46,24 @@ class Transaksi extends CI_Controller
         $status = 'Paket sedang dikirim oleh Kurir ';
         $provinsi_id = $user->provinsi_id;
 
-        $data  = [
-            'id'                                => $id,
-            'status'                            => $status,
-            'user_stage'                        => $this->session->userdata('id'),
-            'kurir_id'                          => $this->session->userdata('id'),
-            'stage'                             => 8,
-            'date_updated'                      => date('Y-m-d H:i:s')
-        ];
-        $this->transaksi_model->update($data);
-        //Update Status Lacak
-        $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
-        $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-        redirect(base_url('kurir/transaksi'), 'refresh');
+        if ($transaksi->kurir == $user_id && $transaksi->stage == 7) {
+
+            $data  = [
+                'id'                                => $id,
+                'status'                            => $status,
+                'user_stage'                        => $this->session->userdata('id'),
+                'kurir_id'                          => $this->session->userdata('id'),
+                'stage'                             => 8,
+                'date_updated'                      => date('Y-m-d H:i:s')
+            ];
+            $this->transaksi_model->update($data);
+            //Update Status Lacak
+            $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
+            $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+            redirect(base_url('kurir/transaksi'), 'refresh');
+        } else {
+            redirect(base_url('kurir/404'));
+        }
     }
 
     //Kirim
@@ -85,78 +90,84 @@ class Transaksi extends CI_Controller
         $transaksi  = $this->transaksi_model->detail($id);
         $nomor_resi = $transaksi->nomor_resi;
 
-        $this->form_validation->set_rules(
-            'penerima',
-            'Nama Penerima',
-            'required',
-            [
-                'required'                        => 'Nama Penerima harus di isi',
-            ]
-        );
+        $user_id = $this->session->userdata('id');
+        if ($transaksi->kurir == $user_id && $transaksi->stage == 8) {
 
-        if ($this->form_validation->run()) {
-            $config['upload_path']              = './assets/img/transaksi/';
-            $config['allowed_types']            = 'gif|jpg|png|jpeg';
-            $config['max_size']                 = 500000; //Dalam Kilobyte
-            $config['max_width']                = 500000; //Lebar (pixel)
-            $config['max_height']               = 500000; //tinggi (pixel)
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('foto')) {
-                //End Validasi
-                $data = [
-                    'title'                         => 'Data Penerima',
-                    'transaksi'                     => $transaksi,
-                    'error_upload'                  => $this->upload->display_errors(),
-                    'content'                       => 'kurir/transaksi/finish'
-                ];
-                $this->load->view('kurir/layout/wrapp', $data, FALSE);
-                //Masuk Database
-            } else {
-                //Proses Manipulasi Gambar
-                $upload_data    = array('uploads'  => $this->upload->data());
+            $this->form_validation->set_rules(
+                'penerima',
+                'Nama Penerima',
+                'required',
+                [
+                    'required'                        => 'Nama Penerima harus di isi',
+                ]
+            );
 
-                $config['image_library']    = 'gd2';
-                $config['source_image']     = './assets/img/transaksi/' . $upload_data['uploads']['file_name'];
-                //Gambar Versi Kecil dipindahkan
-                // $config['new_image']        = './assets/img/transaksi/thumbs/' . $upload_data['uploads']['file_name'];
-                $config['create_thumb']     = TRUE;
-                $config['maintain_ratio']   = TRUE;
-                $config['width']            = 200;
-                $config['height']           = 200;
-                $config['thumb_marker']     = '';
+            if ($this->form_validation->run()) {
+                $config['upload_path']              = './assets/img/transaksi/';
+                $config['allowed_types']            = 'gif|jpg|png|jpeg';
+                $config['max_size']                 = 500000; //Dalam Kilobyte
+                $config['max_width']                = 500000; //Lebar (pixel)
+                $config['max_height']               = 500000; //tinggi (pixel)
+                $this->load->library('upload', $config);
+                if (!$this->upload->do_upload('foto')) {
+                    //End Validasi
+                    $data = [
+                        'title'                         => 'Data Penerima',
+                        'transaksi'                     => $transaksi,
+                        'error_upload'                  => $this->upload->display_errors(),
+                        'content'                       => 'kurir/transaksi/finish'
+                    ];
+                    $this->load->view('kurir/layout/wrapp', $data, FALSE);
+                    //Masuk Database
+                } else {
+                    //Proses Manipulasi Gambar
+                    $upload_data    = array('uploads'  => $this->upload->data());
 
-                $this->load->library('image_lib', $config);
-                $this->image_lib->resize();
+                    $config['image_library']    = 'gd2';
+                    $config['source_image']     = './assets/img/transaksi/' . $upload_data['uploads']['file_name'];
+                    //Gambar Versi Kecil dipindahkan
+                    // $config['new_image']        = './assets/img/transaksi/thumbs/' . $upload_data['uploads']['file_name'];
+                    $config['create_thumb']     = TRUE;
+                    $config['maintain_ratio']   = TRUE;
+                    $config['width']            = 200;
+                    $config['height']           = 200;
+                    $config['thumb_marker']     = '';
+
+                    $this->load->library('image_lib', $config);
+                    $this->image_lib->resize();
 
 
-                $status = 'Paket Di terima Oleh ' . $this->input->post('penerima');
-                $provinsi_id = $transaksi->provinsi_id;
+                    $status = 'Paket Di terima Oleh ' . $this->input->post('penerima');
+                    $provinsi_id = $transaksi->provinsi_id;
 
-                $user_id = $this->session->userdata('id');
-                $user = $this->user_model->user_detail($user_id);
+                    $user_id = $this->session->userdata('id');
+                    $user = $this->user_model->user_detail($user_id);
 
-                $data  = [
-                    'id'                            => $id,
-                    'kurir'                         => $user->id,
-                    'status'                        =>  $status,
-                    'penerima'                      => $status,
-                    'stage'                         => 9,
-                    'foto'                          => $upload_data['uploads']['file_name'],
-                    'date_updated'                  => date('Y-m-d H:i:s')
-                ];
-                $this->transaksi_model->update($data);
-                $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
-                $this->session->set_flashdata('message', 'Paket Telah Selesai');
-                redirect(base_url('kurir/transaksi/kirim'), 'refresh');
+                    $data  = [
+                        'id'                            => $id,
+                        'kurir'                         => $user->id,
+                        'status'                        =>  $status,
+                        'penerima'                      => $status,
+                        'stage'                         => 9,
+                        'foto'                          => $upload_data['uploads']['file_name'],
+                        'date_updated'                  => date('Y-m-d H:i:s')
+                    ];
+                    $this->transaksi_model->update($data);
+                    $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
+                    $this->session->set_flashdata('message', 'Paket Telah Selesai');
+                    redirect(base_url('kurir/transaksi/kirim'), 'refresh');
+                }
             }
+            //End Masuk Database
+            $data = [
+                'title'                             => 'Data Penerima',
+                'transaksi'                         => $transaksi,
+                'content'                           => 'kurir/transaksi/finish'
+            ];
+            $this->load->view('kurir/layout/wrapp', $data, FALSE);
+        } else {
+            redirect(base_url('kurir/404'));
         }
-        //End Masuk Database
-        $data = [
-            'title'                             => 'Data Penerima',
-            'transaksi'                         => $transaksi,
-            'content'                           => 'kurir/transaksi/finish'
-        ];
-        $this->load->view('kurir/layout/wrapp', $data, FALSE);
     }
 
     // Update Pelacakan

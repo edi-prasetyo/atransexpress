@@ -69,7 +69,7 @@ $alltransaksi_kurir         = $this->transaksi_model->get_allriwayat_kurir($user
 
 
 foreach ($alltransaksi_kurir as $data) {
-  $tanggal[] = date('F', strtotime($data->date_created));
+  $tanggal[] = tanggal_indonesia_lengkap(date('Y-m-d', strtotime($data->date_created)));
   $order[] = (float) $data->total;
 }
 ?>

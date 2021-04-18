@@ -30,7 +30,14 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><b><?php echo $transaksi->nomor_resi; ?></b></td>
+                                <td><b><?php echo $transaksi->nomor_resi; ?></b><br>
+                                    <?php if ($transaksi->stage == 9) : ?>
+                                        <div class="badge badge-success">Selesai</div>
+                                    <?php else : ?>
+                                        <div class="badge badge-danger">Proses</div>
+
+                                    <?php endif; ?>
+                                </td>
                                 <td><i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?></td>
                                 <td>
 

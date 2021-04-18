@@ -27,6 +27,7 @@
                     <th>No</th>
                     <th>ID Kurir</th>
                     <th>Nama</th>
+                    <th>Kota</th>
                     <th>Role</th>
                     <th>Status</th>
 
@@ -39,6 +40,7 @@
                     <td><?php echo $no; ?></td>
                     <td><?php echo $main_agen->user_code; ?></td>
                     <td><?php echo $main_agen->name; ?></td>
+                    <td><?php echo $main_agen->kota_name; ?></td>
                     <td><?php echo $main_agen->role; ?></td>
                     <td>
                         <?php if ($main_agen->is_active == 1) : ?>

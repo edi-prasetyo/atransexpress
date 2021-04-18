@@ -119,108 +119,111 @@ class Kurir extends CI_Controller
     // Update Kurir
     public function update($id)
     {
-        $user = $this->user_model->detail($id);
+        $user   = $this->user_model->detail($id);
+        $kurir      = $this->user_model->detail($id);
         //Validasi
 
+        if ($kurir->user_create == $user) {
+            //Validasi
+            $valid = $this->form_validation;
 
-        //Validasi
-        $valid = $this->form_validation;
+            $valid->set_rules(
+                'name',
+                'Nama',
+                'required',
+                array('required'      => '%s harus diisi')
+            );
 
-        $valid->set_rules(
-            'name',
-            'Nama',
-            'required',
-            array('required'      => '%s harus diisi')
-        );
+            if ($valid->run()) {
+                //Kalau nggak Ganti gambar
+                if (!empty($_FILES['user_image']['name'])) {
 
-        if ($valid->run()) {
-            //Kalau nggak Ganti gambar
-            if (!empty($_FILES['user_image']['name'])) {
+                    $config['upload_path']          = './assets/upload/image/';
+                    $config['allowed_types']        = 'gif|jpg|png|jpeg';
+                    $config['max_size']             = 5000; //Dalam Kilobyte
+                    $config['max_width']            = 5000; //Lebar (pixel)
+                    $config['max_height']           = 5000; //tinggi (pixel)
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('user_image')) {
 
-                $config['upload_path']          = './assets/upload/image/';
-                $config['allowed_types']        = 'gif|jpg|png|jpeg';
-                $config['max_size']             = 5000; //Dalam Kilobyte
-                $config['max_width']            = 5000; //Lebar (pixel)
-                $config['max_height']           = 5000; //tinggi (pixel)
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('user_image')) {
+                        //End Validasi
+                        $data = array(
+                            'title'             => 'Update Kurir',
+                            'user'              => $user,
+                            'error_upload'      => $this->upload->display_errors(),
+                            'content'           => 'mainagen/kurir/update'
+                        );
+                        $this->load->view('mainagen/layout/wrapp', $data, FALSE);
 
-                    //End Validasi
-                    $data = array(
-                        'title'             => 'Update Kurir',
-                        'user'              => $user,
-                        'error_upload'      => $this->upload->display_errors(),
-                        'content'           => 'mainagen/kurir/update'
-                    );
-                    $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+                        //Masuk Database
 
-                    //Masuk Database
+                    } else {
 
-                } else {
+                        //Proses Manipulasi Gambar
+                        $upload_data    = array('uploads'  => $this->upload->data());
+                        //Gambar Asli disimpan di folder assets/upload/image
+                        //lalu gambar Asli di copy untuk versi mini size ke folder assets/upload/image/thumbs
 
-                    //Proses Manipulasi Gambar
-                    $upload_data    = array('uploads'  => $this->upload->data());
-                    //Gambar Asli disimpan di folder assets/upload/image
-                    //lalu gambar Asli di copy untuk versi mini size ke folder assets/upload/image/thumbs
+                        $config['image_library']    = 'gd2';
+                        $config['source_image']     = './assets/img/avatars/' . $upload_data['uploads']['file_name'];
+                        //Gambar Versi Kecil dipindahkan
+                        // $config['new_image']        = './assets/upload/image/thumbs/' . $upload_data['uploads']['file_name'];
+                        $config['create_thumb']     = TRUE;
+                        $config['maintain_ratio']   = TRUE;
+                        $config['width']            = 200;
+                        $config['height']           = 200;
+                        $config['thumb_marker']     = '';
 
-                    $config['image_library']    = 'gd2';
-                    $config['source_image']     = './assets/img/avatars/' . $upload_data['uploads']['file_name'];
-                    //Gambar Versi Kecil dipindahkan
-                    // $config['new_image']        = './assets/upload/image/thumbs/' . $upload_data['uploads']['file_name'];
-                    $config['create_thumb']     = TRUE;
-                    $config['maintain_ratio']   = TRUE;
-                    $config['width']            = 200;
-                    $config['height']           = 200;
-                    $config['thumb_marker']     = '';
+                        $this->load->library('image_lib', $config);
 
-                    $this->load->library('image_lib', $config);
-
-                    $this->image_lib->resize();
+                        $this->image_lib->resize();
 
 
-                    $i     = $this->input;
+                        $i     = $this->input;
 
-                    // Hapus Gambar Lama Jika Ada upload gambar baru
-                    if ($user->user_image != "") {
-                        unlink('./assets/img/avatars/' . $user->user_image);
-                        // unlink('./assets/upload/image/thumbs/' . $berita->gambar);
+                        // Hapus Gambar Lama Jika Ada upload gambar baru
+                        if ($user->user_image != "") {
+                            unlink('./assets/img/avatars/' . $user->user_image);
+                            // unlink('./assets/upload/image/thumbs/' . $berita->gambar);
+                        }
+                        //End Hapus Gambar
+
+                        $data  = array(
+                            'id'      => $id,
+                            'user_image'         => $upload_data['uploads']['file_name'],
+
+                        );
+                        $this->berita_model->edit($data);
+                        $this->session->set_flashdata('sukses', 'Data telah Diedit');
+                        redirect(base_url('mainagen/kurir'), 'refresh');
                     }
-                    //End Hapus Gambar
+                } else {
+                    //Update Berita Tanpa Ganti Gambar
+                    $i     = $this->input;
+                    // Hapus Gambar Lama Jika ada upload gambar baru
+                    if ($user->user_image != "")
+                        $data  = array(
+                            'id'      => $id,
 
-                    $data  = array(
-                        'id'      => $id,
+                            //'gambar'         => $upload_data['uploads']['file_name'],
+                            'status_berita'  => $i->post('status_berita'),
 
-                        'user_image'         => $upload_data['uploads']['file_name'],
-
-                    );
+                        );
                     $this->berita_model->edit($data);
                     $this->session->set_flashdata('sukses', 'Data telah Diedit');
-                    redirect(base_url('admin/berita'), 'refresh');
+                    redirect(base_url('mainagen/kurir'), 'refresh');
                 }
-            } else {
-                //Update Berita Tanpa Ganti Gambar
-                $i     = $this->input;
-                // Hapus Gambar Lama Jika ada upload gambar baru
-                if ($user->user_image != "")
-                    $data  = array(
-                        'id'      => $id,
-
-                        //'gambar'         => $upload_data['uploads']['file_name'],
-                        'status_berita'  => $i->post('status_berita'),
-
-                    );
-                $this->berita_model->edit($data);
-                $this->session->set_flashdata('sukses', 'Data telah Diedit');
-                redirect(base_url('admin/berita'), 'refresh');
             }
+            //End Masuk Database
+            $data = array(
+                'title'             => 'Update Kurir',
+                'user'              => $user,
+                'content'           => 'mainagen/kurir/update'
+            );
+            $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+        } else {
+            redirect(base_url('mainagen/404'));
         }
-        //End Masuk Database
-        $data = array(
-            'title'             => 'Update Kurir',
-            'user'              => $user,
-            'content'           => 'mainagen/kurir/update'
-        );
-        $this->load->view('mainagen/layout/wrapp', $data, FALSE);
     }
     // Detail Kurir
     public function detail($id)
@@ -230,7 +233,7 @@ class Kurir extends CI_Controller
         // var_dump($user);
         // die;
 
-        if ($kurir->user_create == $user) {
+        if ($kurir->id_agen == $user) {
             $data = [
                 'title'                 => 'Detail Kurir Saya',
                 'kurir'                 => $kurir,
@@ -250,7 +253,7 @@ class Kurir extends CI_Controller
         $kurir_id = $kurir->id;
         $user_code = str_pad($kurir_id, 6, '0', STR_PAD_LEFT);
 
-        if ($kurir->user_create == $user) {
+        if ($kurir->id_agen == $user) {
 
             is_login();
             $data = [
@@ -271,11 +274,12 @@ class Kurir extends CI_Controller
     {
         $user = $this->session->userdata('id');
         $kurir =  $this->user_model->detail($id);
-        if ($kurir->user_create == $user) {
+        if ($kurir->id_agen == $user) {
             //Proteksi delete
             is_login();
             $data = [
                 'id'                    => $id,
+                'is_active'             => 0,
                 'is_locked'             => 0,
             ];
             $this->user_model->update($data);

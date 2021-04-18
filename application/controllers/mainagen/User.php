@@ -29,7 +29,7 @@ class User extends CI_Controller
         // var_dump($user);
         // die;
 
-        if ($my_counter->user_create == $user) {
+        if ($my_counter->id_agen == $user) {
             $data = [
                 'title'                 => 'Detail Counter Saya',
                 'my_counter'             => $my_counter,

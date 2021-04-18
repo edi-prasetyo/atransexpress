@@ -25,13 +25,20 @@ $meta           = $this->meta_model->get_meta();
                             <i class="ti-user"></i> <?php echo $user->name; ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="<?php echo base_url('myaccount') ?>">My Account</a>
 
-                            <a class="dropdown-item" href="<?php echo base_url('myaccount/ubah_password'); ?>">Setings</a>
-                            <div class="dropdown-divider"></div>
+
                             <?php if ($user->role_id == 1) : ?>
                                 <a class="dropdown-item" href="<?php echo base_url('admin/dashboard'); ?>">Panel Admin</a>
+                            <?php elseif ($user->role_id == 4) : ?>
+                                <a class="dropdown-item" href="<?php echo base_url('mainagen/dashboard'); ?>">Dashboard</a>
+                            <?php elseif ($user->role_id == 5) : ?>
+                                <a class="dropdown-item" href="<?php echo base_url('counter/dashboard'); ?>">Dashboard</a>
+                            <?php elseif ($user->role_id == 6) : ?>
+                                <a class="dropdown-item" href="<?php echo base_url('kurirpusat/dashboard'); ?>">Dashboard</a>
+                            <?php elseif ($user->role_id == 7) : ?>
+                                <a class="dropdown-item" href="<?php echo base_url('kurir/dashboard'); ?>">Dashboard</a>
                             <?php endif; ?>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="<?php echo base_url('auth/logout'); ?>">Logout</a>
                         </div>
                     </li>

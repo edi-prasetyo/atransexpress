@@ -37,7 +37,13 @@
 
                                 <td>
                                     <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi->kota_from; ?> <br>
-                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?>
+                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?><br>
+                                    <?php if ($transaksi->stage == 9) : ?>
+                                        <div class="badge badge-success">Selesai</div>
+                                    <?php else : ?>
+                                        <div class="badge badge-danger">Proses</div>
+
+                                    <?php endif; ?>
                                 </td>
                                 <td>
 

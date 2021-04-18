@@ -334,7 +334,7 @@ class Transaksi_model extends CI_Model
     // Join
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
-    $this->db->join('user', 'user.id = transaksi.kurir_id', 'LEFT');
+    $this->db->join('user', 'user.id = transaksi.kurir', 'LEFT');
     //End Join
     $this->db->where(['to_agen' => $user_id, 'stage' => 5]);
     $this->db->or_where(['user_stage' => $user_id]);
@@ -375,7 +375,7 @@ class Transaksi_model extends CI_Model
     return $query->result();
   }
 
-  // Riwayat Main Agen
+  // Riwayat Main Agen 
   public function get_riwayat_mainagen($limit, $start, $user_id)
   {
     $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name, user.user_code, user.user_address');
@@ -400,8 +400,8 @@ class Transaksi_model extends CI_Model
     $this->db->from('transaksi');
     $this->db->where(['mainagen_id' => $user_id]);
     $this->db->or_where(['mainagen_to_id' => $user_id]);
-    $this->db->group_by('MONTH(date_created)');
-    $this->db->order_by('MONTH(date_created)', 'ASC');
+    $this->db->group_by('DATE(date_created)');
+    $this->db->order_by('DATE(date_created)', 'ASC');
     $this->db->limit(12);
     $query = $this->db->get();
     return $query->result();
@@ -455,8 +455,8 @@ class Transaksi_model extends CI_Model
 
   //   $this->db->from('transaksi');
   //   $this->db->where(['counter_id' => $user_id]);
-  //   $this->db->group_by(['total' => 'MONTH(date_created)']);
-  //   $this->db->order_by('MONTH(date_created)', 'ASC');
+  //   $this->db->group_by(['total' => 'DATE(date_created)']);
+  //   $this->db->order_by('DATE(date_created)', 'ASC');
   //   $this->db->limit(12);
   //   $query = $this->db->get();
   //   return $query->result();
@@ -466,8 +466,8 @@ class Transaksi_model extends CI_Model
     $this->db->select('transaksi.*, COUNT(transaksi.id) AS total');
     $this->db->from('transaksi');
     $this->db->where(['counter_id' => $user_id]);
-    $this->db->group_by('MONTH(date_created)');
-    $this->db->order_by('MONTH(date_created)', 'ASC');
+    $this->db->group_by('DATE(date_created)');
+    $this->db->order_by('DATE(date_created)', 'ASC');
     $this->db->limit(12);
     $query = $this->db->get();
     return $query->result();
@@ -520,8 +520,8 @@ class Transaksi_model extends CI_Model
     $this->db->select('transaksi.*, COUNT(transaksi.id) AS total');
     $this->db->from('transaksi');
     $this->db->where(['kurirpusat_id' => $user_id]);
-    $this->db->group_by('MONTH(date_created)');
-    $this->db->order_by('MONTH(date_created)', 'ASC');
+    $this->db->group_by('DATE(date_created)');
+    $this->db->order_by('DATE(date_created)', 'ASC');
     $this->db->limit(12);
     $query = $this->db->get();
     return $query->result();
@@ -574,8 +574,8 @@ class Transaksi_model extends CI_Model
     $this->db->select('transaksi.*, COUNT(transaksi.id) AS total');
     $this->db->from('transaksi');
     $this->db->where(['kurir_id' => $user_id]);
-    $this->db->group_by('MONTH(date_created)');
-    $this->db->order_by('MONTH(date_created)', 'ASC');
+    $this->db->group_by('DATE(date_created)');
+    $this->db->order_by('DATE(date_created)', 'ASC');
     $this->db->limit(12);
     $query = $this->db->get();
     return $query->result();

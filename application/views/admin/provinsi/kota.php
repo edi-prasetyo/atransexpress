@@ -4,7 +4,7 @@
             <div class="card-body">
                 <?php echo form_open(); ?>
                 <div class="form-group">
-                    <label>Nama Kota</label>
+                    <label>Nama Kota / Kabupaten</label>
                     <input type="text" class="form-control" name="kota_name" placeholder="Nama Kota" required="required">
                     <?php echo form_error('kota_name', '<small class="text-danger">', '</small>'); ?>
                 </div>
@@ -20,8 +20,8 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-          
-                <h3 class="card-title">Data Kota <?php echo $provinsi->provinsi_name; ?></h3>
+
+                <h3 class="card-title">Data Kota / kabupaten di Provinsi <?php echo $provinsi->provinsi_name; ?></h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">

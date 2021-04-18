@@ -87,7 +87,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Berat *cm</label>
+                                        <label>Berat *Kg</label>
                                         <input type="number" class="form-control" name="berat" placeholder="..Kg" required>
                                         <div class="invalid-feedback">Silahkan Masukan Berat Barang.</div>
                                     </div>

@@ -32,7 +32,7 @@
                 <?php foreach ($provinsi as $provinsi) { ?>
                     <tr>
                         <td><?php echo $provinsi->provinsi_name; ?></td>
-                        <td> <a href="<?php echo base_url('admin/provinsi/kota/' . $provinsi->id); ?>" class="btn btn-info btn-sm btn-block"><i class="fa fa-plus"></i> Tambah Kota </a>
+                        <td> <a href="<?php echo base_url('admin/provinsi/kota/' . $provinsi->id); ?>" class="btn btn-info btn-sm btn-block"><i class="fa fa-plus"></i> Tambah Kota / Kabupaten </a>
                         </td>
                         <td>
                             <?php include "update_provinsi.php"; ?>

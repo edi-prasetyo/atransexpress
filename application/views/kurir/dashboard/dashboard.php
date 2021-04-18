@@ -34,7 +34,7 @@
 <div class="card">
     <div class="card-header border-0">
         <div class="d-flex justify-content-between">
-            <h3 class="card-title">Jumlah Kiriman Per Bulan</h3>
+            <h3 class="card-title">Jumlah Kiriman Per Hari</h3>
             <a href="<?php echo base_url('kurir/transaksi/riwayat'); ?>">Lihat Riwayat</a>
         </div>
     </div>
@@ -54,7 +54,7 @@
 
         <div class="d-flex flex-row justify-content-end">
             <span class="mr-2">
-                <i class="fas fa-square text-primary"></i> Dalam Bulan
+                <i class="fas fa-square text-primary"></i> Data Per Hari
             </span>
 
 
