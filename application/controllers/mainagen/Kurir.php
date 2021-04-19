@@ -72,7 +72,7 @@ class Kurir extends CI_Controller
                 //Proses Manipulasi Gambar
                 $upload_data    = array('uploads'  => $this->upload->data());
                 //Gambar Asli disimpan di folder assets/upload/image
-                //lalu gambara Asli di copy untuk versi mini size ke folder assets/upload/image/thumbs
+                //lalu gambara Asli di copy untuk versi mini size ke folder assets/img/avatars/thumbs
                 $config['image_library']          = 'gd2';
                 $config['source_image']           = './assets/img/avatars/' . $upload_data['uploads']['file_name'];
                 //Gambar Versi Kecil dipindahkan
@@ -119,11 +119,11 @@ class Kurir extends CI_Controller
     // Update Kurir
     public function update($id)
     {
-        $user   = $this->user_model->detail($id);
+        $user   = $this->session->userdata('id');
         $kurir      = $this->user_model->detail($id);
         //Validasi
 
-        if ($kurir->user_create == $user) {
+        if ($kurir->id_agen == $user) {
             //Validasi
             $valid = $this->form_validation;
 
@@ -138,18 +138,18 @@ class Kurir extends CI_Controller
                 //Kalau nggak Ganti gambar
                 if (!empty($_FILES['user_image']['name'])) {
 
-                    $config['upload_path']          = './assets/upload/image/';
+                    $config['upload_path']          = './assets/img/avatars/';
                     $config['allowed_types']        = 'gif|jpg|png|jpeg';
-                    $config['max_size']             = 5000; //Dalam Kilobyte
-                    $config['max_width']            = 5000; //Lebar (pixel)
-                    $config['max_height']           = 5000; //tinggi (pixel)
+                    $config['max_size']             = 5000000; //Dalam Kilobyte
+                    $config['max_width']            = 5000000; //Lebar (pixel)
+                    $config['max_height']           = 5000000; //tinggi (pixel)
                     $this->load->library('upload', $config);
                     if (!$this->upload->do_upload('user_image')) {
 
                         //End Validasi
                         $data = array(
                             'title'             => 'Update Kurir',
-                            'user'              => $user,
+                            'kurir'              => $kurir,
                             'error_upload'      => $this->upload->display_errors(),
                             'content'           => 'mainagen/kurir/update'
                         );
@@ -162,12 +162,12 @@ class Kurir extends CI_Controller
                         //Proses Manipulasi Gambar
                         $upload_data    = array('uploads'  => $this->upload->data());
                         //Gambar Asli disimpan di folder assets/upload/image
-                        //lalu gambar Asli di copy untuk versi mini size ke folder assets/upload/image/thumbs
+                        //lalu gambar Asli di copy untuk versi mini size ke folder assets/img/avatars/thumbs
 
                         $config['image_library']    = 'gd2';
                         $config['source_image']     = './assets/img/avatars/' . $upload_data['uploads']['file_name'];
                         //Gambar Versi Kecil dipindahkan
-                        // $config['new_image']        = './assets/upload/image/thumbs/' . $upload_data['uploads']['file_name'];
+                        // $config['new_image']        = './assets/img/avatars/thumbs/' . $upload_data['uploads']['file_name'];
                         $config['create_thumb']     = TRUE;
                         $config['maintain_ratio']   = TRUE;
                         $config['width']            = 200;
@@ -179,37 +179,42 @@ class Kurir extends CI_Controller
                         $this->image_lib->resize();
 
 
-                        $i     = $this->input;
 
                         // Hapus Gambar Lama Jika Ada upload gambar baru
-                        if ($user->user_image != "") {
-                            unlink('./assets/img/avatars/' . $user->user_image);
-                            // unlink('./assets/upload/image/thumbs/' . $berita->gambar);
+                        if ($kurir->user_image != "") {
+                            unlink('./assets/img/avatars/' . $kurir->user_image);
+                            // unlink('./assets/img/avatars/thumbs/' . $user->gambar);
                         }
                         //End Hapus Gambar
 
                         $data  = array(
                             'id'      => $id,
+                            'name'      => $this->input->post('name'),
+                            'user_address'      => $this->input->post('user_address'),
+                            'user_phone'      => $this->input->post('user_phone'),
                             'user_image'         => $upload_data['uploads']['file_name'],
+                            'date_updated'         => date('Y-m-d H:i:s')
 
                         );
-                        $this->berita_model->edit($data);
+                        $this->user_model->update($data);
                         $this->session->set_flashdata('sukses', 'Data telah Diedit');
                         redirect(base_url('mainagen/kurir'), 'refresh');
                     }
                 } else {
                     //Update Berita Tanpa Ganti Gambar
-                    $i     = $this->input;
+
                     // Hapus Gambar Lama Jika ada upload gambar baru
-                    if ($user->user_image != "")
+                    if ($kurir->user_image != "")
                         $data  = array(
                             'id'      => $id,
-
-                            //'gambar'         => $upload_data['uploads']['file_name'],
-                            'status_berita'  => $i->post('status_berita'),
+                            'name'      => $this->input->post('name'),
+                            'user_address'      => $this->input->post('user_address'),
+                            'user_phone'      => $this->input->post('user_phone'),
+                            // 'user_image'         => $upload_data['uploads']['file_name'],
+                            'date_updated'         => date('Y-m-d H:i:s')
 
                         );
-                    $this->berita_model->edit($data);
+                    $this->user_model->update($data);
                     $this->session->set_flashdata('sukses', 'Data telah Diedit');
                     redirect(base_url('mainagen/kurir'), 'refresh');
                 }
@@ -217,7 +222,7 @@ class Kurir extends CI_Controller
             //End Masuk Database
             $data = array(
                 'title'             => 'Update Kurir',
-                'user'              => $user,
+                'kurir'              => $kurir,
                 'content'           => 'mainagen/kurir/update'
             );
             $this->load->view('mainagen/layout/wrapp', $data, FALSE);

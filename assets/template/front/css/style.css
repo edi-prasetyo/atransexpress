@@ -457,13 +457,11 @@ ul.navbar-nav .nav-item:after {
   color: #fff;
   background-color: #1abc9c;
   border-color: #1abc9c;
-  border-bottom: 4px solid #16a085;
 }
 .btn-success:hover {
   color: #fff;
   background-color: #16a085;
-  border-color: #008fe1;
-  border-bottom: 4px solid #0c8069;
+  border-color: #16a085;
 }
 .margin-top {
   margin-top: 20px;

@@ -200,7 +200,16 @@ $meta = $this->meta_model->get_meta();
               </a>
             </li>
 
+
+
           </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="<?php echo base_url(); ?>admin/pengaturan" class="nav-link">
+            <i class="far fa-envelope nav-icon"></i>
+            <p>Pengaturan Email</p>
+          </a>
         </li>
 
     </nav>

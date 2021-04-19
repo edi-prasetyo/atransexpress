@@ -7,6 +7,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->library('form_validation');
+		$this->load->model('pengaturan_model');
 	}
 
 	public function index()
@@ -110,7 +111,7 @@ class Auth extends CI_Controller
 			['required' => 'nama harus di isi']
 		);
 		$this->form_validation->set_rules(
-			'email',
+			'real_email',
 			'Email',
 			'required|trim|valid_email|is_unique[user.email]',
 			[
@@ -137,7 +138,7 @@ class Auth extends CI_Controller
 			];
 			$this->load->view('front/layout/wrapp', $data, FALSE);
 		} else {
-			$email = $this->input->post('email', true);
+			$email = $this->input->post('real_email', true);
 			$data = [
 				'user_title'	=> $this->input->post('user_title'),
 				'name' 			=> htmlspecialchars($this->input->post('name', true)),
@@ -160,6 +161,7 @@ class Auth extends CI_Controller
 			$this->db->insert('user_token', $user_token);
 			//Kirim Email
 			$this->_sendEmail($token, 'verify');
+			$this->_deleteUser($email);
 
 			$this->session->set_flashdata('message', '<div class="alert alert-success">Selamat Anda berhasil mendaftar, silahkan Aktivasi akun</div> ');
 			redirect('auth');
@@ -167,37 +169,33 @@ class Auth extends CI_Controller
 	}
 	private function _sendEmail($token, $type)
 	{
+		$email_daftar = $this->pengaturan_model->email_register();
 		$config = [
 
-			'protocol' 		=> 'smtp',
-			'smtp_host' 	=> 'ssl://mail.sitemail.com',
-			'smtp_port' 	=> 465,
-			'smtp_user' 	=> 'mail@sitemail.com',
-			'smtp_pass' 	=> 'password',
-			'mailtype' 		=> 'html',
-			'charset' 		=> 'utf-8',
-
-
+			'protocol'     	=> "$email_daftar->protocol",
+			'smtp_host'   	=> "$email_daftar->smtp_host",
+			'smtp_port'   	=> $email_daftar->smtp_port,
+			'smtp_user'   	=> "$email_daftar->smtp_user",
+			'smtp_pass'   	=> "$email_daftar->smtp_pass",
+			'mailtype'     	=> 'html',
+			'charset'     	=> 'utf-8',
 		];
 
 		$this->load->library('email', $config);
 		$this->email->initialize($config);
-
 		$this->email->set_newline("\r\n");
-
-		$this->email->from('system@tokominigold.com', 'Testing');
-		$this->email->to($this->input->post('email'));
+		$this->email->from("$email_daftar->smtp_user", 'Atrans Express');
+		$this->email->to($this->input->post('real_email'));
 
 		if ($type == 'verify') {
 			$this->email->subject('Account Verification');
 			$this->email->message('Silahkan Klik Link ini untuk mengaktivasi akun 
-			<a href=" ' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . ' ">Aktivasi</a>');
+			<a href=" ' . base_url() . 'auth/verify?email=' . $this->input->post('real_email') . '&token=' . urlencode($token) . ' ">Aktivasi</a>');
 		} elseif ($type == 'forgot') {
 			$this->email->subject('Reset Password');
 			$this->email->message('Silahkan Klik Link ini untuk Mereset Password 
-			<a href=" ' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . ' ">Reset Password</a>');
+			<a href=" ' . base_url() . 'auth/resetpassword?email=' . $this->input->post('real_email') . '&token=' . urlencode($token) . ' ">Reset Password</a>');
 		}
-
 
 		if ($this->email->send()) {
 			return true;
@@ -276,6 +274,14 @@ class Auth extends CI_Controller
 				$this->session->set_flashdata('message', '<div class="alert alert-danger">Email Tidak Terdaftar atau belum di aktivasi</div> ');
 				redirect('auth');
 			}
+		}
+	}
+	public function _deleteUser($email)
+	{
+		$user = $this->db->get_where('user', ['is_active' => 0, 'email' => $email])->row_array();
+		if (date('Y-m-d H:i:s') - $user['date_created'] < (60 * 60 * 24)) {
+		} else {
+			$this->db->delete('user', ['email' => $email]);
 		}
 	}
 	public function resetPassword()

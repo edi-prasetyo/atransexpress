@@ -1,13 +1,14 @@
-<div class="card shadow">
-    <div class="card-header">
-        <h3><?php echo $title; ?></h3>
-        <hr>
-    </div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header">
+                <?php echo $title; ?>
 
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-8">
-                <a href="<?php echo base_url('admin/meta/update/' . $meta->id); ?>" class="btn btn-rounded btn-info btn-lg">Ubah Profil</a>
+            </div>
+
+            <div class="card-body">
+
+                <a href="<?php echo base_url('admin/meta/update/' . $meta->id); ?>" class="btn btn-rounded btn-info btn-sm"><i class="fa fa-edit"></i> Ubah Profil</a>
                 <hr>
                 <div class="row">
                     <div class="col-md-3">Judul Web</div>
@@ -62,16 +63,31 @@
                     <div class="col-md-9">: <?php echo $meta->map; ?></div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <a href="<?php echo base_url('admin/meta/logo'); ?>" class="btn btn-rounded btn-info btn-lg">Ubah Logo</a>
-                <hr>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                Logo
+            </div>
+            <div class="card-body">
                 <img class="img-fluid" src="<?php echo base_url('assets/img/logo/' . $meta->logo); ?>">
                 <hr>
-                <a href="<?php echo base_url('admin/meta/favicon'); ?>" class="btn btn-rounded btn-info btn-lg">Ubah Favicon</a>
-                <hr>
-                <img class="img-fluid" src="<?php echo base_url('assets/img/logo/' . $meta->favicon); ?>">
+                <a href="<?php echo base_url('admin/meta/logo'); ?>" class="btn btn-rounded btn-info btn-sm btn-block"><i class="fa fa-edit"></i> Ubah Logo</a>
             </div>
-
         </div>
+
+        <div class="card">
+            <div class="card-header">
+                Favicon
+            </div>
+            <div class="card-body">
+                <img class="img-fluid" src="<?php echo base_url('assets/img/logo/' . $meta->favicon); ?>">
+                <hr>
+                <a href="<?php echo base_url('admin/meta/favicon'); ?>" class="btn btn-rounded btn-info btn-sm btn-block"><i class="fa fa-edit"></i> Ubah Favicon</a>
+            </div>
+        </div>
+
     </div>
 </div>
