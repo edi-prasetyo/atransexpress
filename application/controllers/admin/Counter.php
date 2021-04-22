@@ -163,11 +163,6 @@ class Counter extends CI_Controller
         $user_id = $this->session->userdata('id');
         $counter = $this->user_model->detail($id);
 
-        $mainagen = $counter->id;
-        $mainagen_name = $this->user_model->mainagen_relasi($mainagen);
-
-        var_dump($mainagen_name);
-        die;
 
         $data = [
             'title'                 => 'Detail Counter',

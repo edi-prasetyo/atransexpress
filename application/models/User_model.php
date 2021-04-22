@@ -273,15 +273,5 @@ class User_model extends CI_Model
     $query = $this->db->get();
     return $query->row();
   }
-  public function mainagen_relasi($mainagen)
-  {
-    $this->db->select('user.*, user.name');
-    $this->db->from('user');
-    // Join
-    $this->db->join('user', 'user.id = user.id_agen', 'LEFT');
-    //End Join
-    $this->db->where(['id' => $mainagen]);
-    $query = $this->db->get();
-    return $query->row();
-  }
+  
 }
