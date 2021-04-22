@@ -50,8 +50,8 @@ class Transaksi extends CI_Controller
         $get_mainagen_name = $this->user_model->get_mainagen_name($parent_counter);
         // $get_mainagen_city = $this->user_model->get_mainagen_city($parent_counter);
 
-        var_dump($get_mainagen_name->kota_name);
-        die;
+        // var_dump($get_mainagen_name->user_phone);
+        // die;
 
 
         // var_dump($get_mainagen_name->name);
@@ -230,7 +230,7 @@ class Transaksi extends CI_Controller
                 'kecamatan_id'                      => $this->input->post('kecamatan_id'),
                 'nomor_resi'                        => $nomor_resi,
                 'provinsi_from'                     => $this->input->post('provinsi_from'),
-                'mainagen_name'                     => $get_mainagen_name->name . '-' . $get_mainagen_name->kota_name,
+                'mainagen_name'                     => $get_mainagen_name->name . '-' . $get_mainagen_name->kota_name . '-' . $get_mainagen_name->user_phone,
                 'kota_from'                         => $this->input->post('kota_from'),
                 'nama_pengirim'                     => $this->input->post('nama_pengirim'),
                 'telp_pengirim'                     => $this->input->post('telp_pengirim'),
