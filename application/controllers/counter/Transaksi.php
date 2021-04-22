@@ -20,6 +20,10 @@ class Transaksi extends CI_Controller
     //Index
     public function index()
     {
+
+
+
+
         $user_id = $this->session->userdata('id');
         // var_dump($user_id);
         // die;
@@ -44,6 +48,12 @@ class Transaksi extends CI_Controller
 
         $parent_counter = $user->id_agen;
         $get_mainagen_name = $this->user_model->get_mainagen_name($parent_counter);
+        // $get_mainagen_city = $this->user_model->get_mainagen_city($parent_counter);
+
+        var_dump($get_mainagen_name->kota_name);
+        die;
+
+
         // var_dump($get_mainagen_name->name);
         // die;
 
@@ -220,7 +230,7 @@ class Transaksi extends CI_Controller
                 'kecamatan_id'                      => $this->input->post('kecamatan_id'),
                 'nomor_resi'                        => $nomor_resi,
                 'provinsi_from'                     => $this->input->post('provinsi_from'),
-                'mainagen_name'                     => $get_mainagen_name->name,
+                'mainagen_name'                     => $get_mainagen_name->name . '-' . $get_mainagen_name->kota_name,
                 'kota_from'                         => $this->input->post('kota_from'),
                 'nama_pengirim'                     => $this->input->post('nama_pengirim'),
                 'telp_pengirim'                     => $this->input->post('telp_pengirim'),

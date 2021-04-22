@@ -45,7 +45,7 @@
                     <td><?php echo $no; ?></td>
                     <td><?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?><br> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
                     <td><?php echo $transaksi->name; ?> <br> <?php echo $transaksi->kota_from; ?></td>
-                    <td><?php echo $transaksi->mainagen_name; ?><br> <?php echo $transaksi->kota_from; ?></td>
+                    <td><?php echo $transaksi->mainagen_name; ?></td>
                     <td><?php echo $transaksi->nomor_resi; ?></td>
                     <td>
                         <?php if ($transaksi->stage == 9) : ?>
