@@ -32,9 +32,11 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><?php echo tanggal_indonesia_lengkap('Y-m-d', strtotime($transaksi->date_created)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
+                                <td><?php echo tanggal_indonesia_lengkap('Y-m-d', strtotime($transaksi->date_created)); ?><br> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB</td>
                                 <td><?php echo $transaksi->nomor_resi; ?></td>
-                                <td><?php echo $transaksi->kota_name; ?></td>
+                                <td><?php echo $transaksi->kota_name; ?><br>
+                                    <span class="badge badge-warning">Menunggu Di Ambil Main Agen</span>
+                                </td>
                                 <td>Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?></td>
                                 <!-- <td><img class="img-fluid" src="<?php echo base_url('assets/img/barcode/' . $transaksi->barcode); ?>"></td> -->
                                 <td>

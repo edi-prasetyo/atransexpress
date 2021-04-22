@@ -41,8 +41,11 @@ class Transaksi extends CI_Controller
 
         $id = $this->session->userdata('id');
         $user = $this->user_model->user_detail($id);
-        $parent_counter = $user->id_agen;
 
+        $parent_counter = $user->id_agen;
+        $get_mainagen_name = $this->user_model->get_mainagen_name($parent_counter);
+        // var_dump($get_mainagen_name->name);
+        // die;
 
         $provinsi       = $this->main_model->getProvinsi();
         $product        = $this->product_model->get_product();
@@ -194,6 +197,16 @@ class Transaksi extends CI_Controller
             // $image_dir      = './assets/img/barcode/'; // penyimpanan file barcode
             // imagejpeg($image_resource, $image_dir . $image_name);
 
+            $nilai_barang               = $this->input->post('nilai_barang');
+            $fix_nilai_barang           = preg_replace('/\D/', '', $nilai_barang);
+
+            $nilai_asuransi               = $this->input->post('nilai_asuransi');
+            $fix_nilai_asuransi           = preg_replace('/\D/', '', $nilai_asuransi);
+
+            $harga               = $this->input->post('harga');
+            $fix_harga           = preg_replace('/\D/', '', $harga);
+
+            $total_harga         = (int)$fix_harga + (int)$fix_nilai_asuransi;
 
 
             $data  = [
@@ -207,6 +220,7 @@ class Transaksi extends CI_Controller
                 'kecamatan_id'                      => $this->input->post('kecamatan_id'),
                 'nomor_resi'                        => $nomor_resi,
                 'provinsi_from'                     => $this->input->post('provinsi_from'),
+                'mainagen_name'                     => $get_mainagen_name->name,
                 'kota_from'                         => $this->input->post('kota_from'),
                 'nama_pengirim'                     => $this->input->post('nama_pengirim'),
                 'telp_pengirim'                     => $this->input->post('telp_pengirim'),
@@ -220,10 +234,15 @@ class Transaksi extends CI_Controller
                 'kodepos_penerima'                  => $this->input->post('kodepos_penerima'),
                 'nama_barang'                       => $this->input->post('nama_barang'),
                 'berat'                             => $this->input->post('berat'),
+                'koli'                              => $this->input->post('koli'),
                 'panjang'                           => $this->input->post('panjang'),
                 'lebar'                             => $this->input->post('lebar'),
                 'tinggi'                            => $this->input->post('tinggi'),
-                'harga'                             => $this->input->post('harga'),
+                'harga'                             => $fix_harga,
+                'asuransi'                          => $this->input->post('asuransi'),
+                'nilai_asuransi'                    => $fix_nilai_asuransi,
+                'total_harga'                       => $total_harga,
+                'nilai_barang'                      => $fix_nilai_barang,
                 'stage'                             => 1,
                 'user_stage'                        => $this->session->userdata('id'),
                 // 'barcode'                           => $image_name,

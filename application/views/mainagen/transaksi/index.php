@@ -6,13 +6,7 @@
 
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -32,7 +26,7 @@
                             <tr>
                                 <td>
                                     <b><?php echo $transaksi->nomor_resi; ?></b><br>
-                                    Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?>
+                                    Rp. <?php echo number_format($transaksi->total_harga, 0, ",", "."); ?>
                                 </td>
                                 <td>
                                     <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi->kota_from; ?> <br>

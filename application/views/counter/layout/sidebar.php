@@ -95,12 +95,7 @@ $meta = $this->meta_model->get_meta();
                 <p>Profile</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="<?php echo base_url('counter/profile/update'); ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Update</p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="<?php echo base_url('counter/profile/password'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -144,9 +139,9 @@ $meta = $this->meta_model->get_meta();
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard') ?>"> Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="<?php echo base_url('admin/' . $this->uri->segment(2)) ?>">
-                <?php echo ucfirst(str_replace('_', ' ', $this->uri->segment(2))) ?>
-              </a></li>
+            <li class="breadcrumb-item active">
+              <?php echo ucfirst(str_replace('_', ' ', $this->uri->segment(2))) ?>
+            </li>
             <li class="breadcrumb-item active"><?php echo $title ?></li>
           </ol>
         </div><!-- /.col -->

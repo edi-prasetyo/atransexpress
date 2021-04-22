@@ -22,7 +22,7 @@
 
                 <option>-- Pilih Agen --</option>
                 <?php foreach ($main_agen_kota as $main_agen_kota) : ?>
-                    <option value='<?php echo $main_agen_kota->id; ?>'><?php echo $main_agen_kota->name; ?> - <?php echo $main_agen_kota->id; ?> </option>
+                    <option value='<?php echo $main_agen_kota->id; ?>'><?php echo $main_agen_kota->name; ?> - <?php echo $main_agen_kota->kota_name; ?> </option>
                 <?php endforeach; ?>
             </select>
         </div>

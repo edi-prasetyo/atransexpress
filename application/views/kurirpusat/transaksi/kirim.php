@@ -54,7 +54,7 @@
                                             Kirim Ke Agen
                                         </a>
                                     <?php else : ?>
-                                        <?php include "view.php"; ?>
+                                        <?php include "view_kirim.php"; ?>
                                     <?php endif; ?>
                                 </td>
                             </tr>

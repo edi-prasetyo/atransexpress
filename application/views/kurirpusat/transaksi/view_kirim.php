@@ -17,6 +17,18 @@
                     <input type="text" class="form-control" name="transaksi_name" value="<?php echo $transaksi['user_code'] ?>" readonly>
                 </div>
                 <div class="form-group">
+                    <label>Nama Agen</label>
+                    <input type="text" class="form-control" name="transaksi_name" value="<?php echo $transaksi['name'] ?>" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Telepon</label>
+                    <input type="text" class="form-control" name="transaksi_name" value="<?php echo $transaksi['user_phone'] ?>" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Kota</label>
+                    <input type="text" class="form-control" name="transaksi_name" value="<?php echo $transaksi['kota_name'] ?>" readonly>
+                </div>
+                <div class="form-group">
                     <label>Alamat Agen</label>
                     <textarea class="form-control" readonly><?php echo $transaksi['user_address'] ?></textarea>
                 </div>

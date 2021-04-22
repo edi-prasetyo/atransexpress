@@ -21,13 +21,13 @@ $meta = $this->meta_model->get_meta();
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-          <?php if($user->user_image == NULL):?>
-        <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/default.jpg') ?>" alt="User profile picture">
-        <?php else:?>
+        <?php if ($user->user_image == NULL) : ?>
+          <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/default.jpg') ?>" alt="User profile picture">
+        <?php else : ?>
           <img src="<?php echo base_url('assets/img/avatars/' . $user->user_image); ?>" class="img-circle elevation-2" alt="User Image">
-                            
-                    
-                <?php endif;?>
+
+
+        <?php endif; ?>
       </div>
       <div class="info">
         <a href="#" class="d-block"><?php echo $user->name; ?></a>
@@ -91,12 +91,7 @@ $meta = $this->meta_model->get_meta();
                 <p>Profile</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="<?php echo base_url('kurirpusat/profile/update'); ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Update</p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="<?php echo base_url('kurirpusat/profile/password'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -134,9 +129,9 @@ $meta = $this->meta_model->get_meta();
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard') ?>"> Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="<?php echo base_url('admin/' . $this->uri->segment(2)) ?>">
-                <?php echo ucfirst(str_replace('_', ' ', $this->uri->segment(2))) ?>
-              </a></li>
+            <li class="breadcrumb-item active">
+              <?php echo ucfirst(str_replace('_', ' ', $this->uri->segment(2))) ?>
+            </li>
             <li class="breadcrumb-item active"><?php echo $title ?></li>
           </ol>
         </div><!-- /.col -->

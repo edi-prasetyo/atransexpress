@@ -6,10 +6,7 @@
             </div>
             <div class="card-body">
                 <!-- Nested Row within Card Body -->
-
-
                 <div class="text-center">
-
                     <?php echo $this->session->flashdata('message');
                     unset($_SESSION['message']);
                     ?>
@@ -41,13 +38,7 @@
                         </button>
                     </div>
                 </div>
-
-
-
                 <?php echo form_close() ?>
-
-
-
             </div>
 
             <div class="card-footer bg-white">
@@ -58,8 +49,6 @@
                                 <a class="small" href="<?php echo base_url('auth/register') ?> ">Create an Account!</a>
                             </div> -->
             </div>
-
         </div>
     </div>
-
 </div>

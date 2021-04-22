@@ -142,7 +142,6 @@ class Transaksi extends CI_Controller
     // Kirim Ke Kurir
     public function kirim()
     {
-
         $user_id = $this->session->userdata('id');
         $transaksi = $this->transaksi_model->kirim_ke_kurir($user_id);
 
@@ -166,7 +165,7 @@ class Transaksi extends CI_Controller
         $kurir = $this->user_model->get_kurir($user_id, $kota_id);
         $kurir_agen = $this->user_model->get_kurir_agen($user_id);
 
-        if ($transaksi->user_agen == $user_id && $transaksi->stage == 2) {
+        if ($transaksi->user_stage == $user_id) {
 
             $this->form_validation->set_rules(
                 'stage',

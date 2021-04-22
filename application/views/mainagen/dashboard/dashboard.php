@@ -10,19 +10,16 @@ $user = $this->user_model->user_detail($user_id);
 
     <div class="col-md-12">
 
-        <a href="<?php echo base_url('mainagen/transaksi/transaksi'); ?>">
+        <a href="<?php echo base_url('mainagen/transaksi'); ?>">
             <div class="info-box mb-3 bg-success">
                 <span class="info-box-icon"><i class="fas fa-archive"></i></span>
-
                 <div class="info-box-content">
-
                     <span class="info-box-number">Ambil Paket</span>
                 </div>
             </div>
         </a>
 
     </div>
-
 
 
     <!-- <div class="col-lg-6">

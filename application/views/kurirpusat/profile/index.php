@@ -17,14 +17,14 @@
 
                 <div class="text-center">
 
-                    <?php if($profile->user_image == NULL):?>
+                    <?php if ($profile->user_image == NULL) : ?>
                         <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/default.jpg') ?>" alt="User profile picture">
-                        <?php else:?>
-                            <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/' . $profile->user_image) ?>" alt="User profile picture">
-                            
-                    
-                <?php endif;?>
-                    
+                    <?php else : ?>
+                        <img class="profile-user-img img-fluid img-circle" src="<?php echo base_url('assets/img/avatars/' . $profile->user_image) ?>" alt="User profile picture">
+
+
+                    <?php endif; ?>
+
                 </div>
 
                 <h3 class="profile-username text-center"><?php
@@ -47,14 +47,7 @@
                         <b>Alamat</b> <span class="float-right"><?php echo $profile->user_address; ?></span>
                     </li>
                 </ul>
-                <div class="row">
-                    <div class="col-6">
-                        <a href="<?php echo base_url('kurirpusat/profile/update'); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
-                    </div>
-                    <div class="col-6">
-                        <a href="<?php echo base_url('kurirpusat/profile/password'); ?>" class="btn btn-info btn-block"><b>Ubah Password</b></a>
-                    </div>
-                </div>
+
             </div>
             <!-- /.card-body -->
         </div>

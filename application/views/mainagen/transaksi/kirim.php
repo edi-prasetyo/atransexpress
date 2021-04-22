@@ -1,3 +1,5 @@
+<?php $user_id = $this->session->userdata('id'); ?>
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -32,7 +34,7 @@
                             <tr>
                                 <td>
                                     <b><?php echo $transaksi->nomor_resi; ?></b><br>
-                                    Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?>
+                                    Rp. <?php echo number_format($transaksi->total_harga, 0, ",", "."); ?>
                                 </td>
                                 <td>
                                     <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi->kota_from; ?> <br>
@@ -40,12 +42,19 @@
                                 </td>
                                 <td>
 
-                                    <?php if ($transaksi->stage == 2) : ?>
+                                    <?php if ($transaksi->user_stage == $user_id && $transaksi->stage == 6) : ?>
                                         <a href="<?php echo base_url('mainagen/transaksi/kurir/' . $transaksi->id); ?>" class="btn btn-danger btn-sm">
                                             <i class="fa fa-motorcycle"></i> Pilih Kurir
                                         </a>
+                                    <?php elseif ($transaksi->stage == 2) : ?>
+                                        <a href="<?php echo base_url('mainagen/transaksi/kurir/' . $transaksi->id); ?>" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-motorcycle"></i> Pilih Kurir
+                                        </a>
+
                                     <?php else : ?>
-                                        <span class="text-danger">Belum di Ambil<br>Kurir</span>
+                                        <span class="text-danger">Belum di Ambil<br>Kurir </span>
+                                        <?php include "datakurir.php"; ?>
+
 
                                     <?php endif; ?>
 

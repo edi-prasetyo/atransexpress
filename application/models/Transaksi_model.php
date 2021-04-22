@@ -100,12 +100,14 @@ class Transaksi_model extends CI_Model
   }
   public function detail($id)
   {
-    $this->db->select('transaksi.*, user.user_code, user.name, user.user_address, user.user_phone, kota.kota_name, provinsi.provinsi_name');
+    $this->db->select('transaksi.*, product.product_name, user.user_code, user.name, user.user_address, user.user_phone, kota.kota_name, provinsi.provinsi_name, category.category_name');
     $this->db->from('transaksi');
     // Join
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
+    $this->db->join('category', 'category.id = transaksi.category_id', 'LEFT');
+    $this->db->join('product', 'product.id = transaksi.product_id', 'LEFT');
     //End Join
     $this->db->where('transaksi.id', $id);
     $query = $this->db->get();
@@ -252,12 +254,14 @@ class Transaksi_model extends CI_Model
   // detail Transaksi Counter
   public function detail_counter($id, $user_id)
   {
-    $this->db->select('transaksi.*, user.user_code, user.name, kota.kota_name, provinsi.provinsi_name');
+    $this->db->select('transaksi.*, user.user_code, user.name, user.user_phone, kota.kota_name, provinsi.provinsi_name, product.product_name, category.category_name');
     $this->db->from('transaksi');
     // Join
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
+    $this->db->join('product', 'product.id = transaksi.product_id', 'LEFT');
+    $this->db->join('category', 'category.id = transaksi.category_id', 'LEFT');
     //End Join
     $this->db->where(['transaksi.id' => $id, 'user_id' => $user_id]);
     $query = $this->db->get();
@@ -267,7 +271,7 @@ class Transaksi_model extends CI_Model
   // detail Riwayat Main Agen
   public function detail_riwayat_mainagen($id, $user_id)
   {
-    $this->db->select('transaksi.*, user.user_code, user.name, kota.kota_name, provinsi.provinsi_name');
+    $this->db->select('transaksi.*, user.user_code, user.name,user.user_phone, kota.kota_name, provinsi.provinsi_name');
     $this->db->from('transaksi');
     // Join
     $this->db->join('user', 'user.id = transaksi.kurir', 'LEFT');
@@ -284,7 +288,7 @@ class Transaksi_model extends CI_Model
   // MAIN AGEN
   public function get_transaksimycounter($user_id)
   {
-    $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name, user.user_code, user.user_address');
+    $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name, user.user_code, user.user_address, user.user_phone');
     $this->db->from('transaksi');
     // Join
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
@@ -299,13 +303,15 @@ class Transaksi_model extends CI_Model
 
   public function kirim_ke_kurir($user_id)
   {
-    $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name');
+    $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name, user.name, user.user_phone');
     $this->db->from('transaksi');
     // Join
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
+    $this->db->join('user', 'user.id = transaksi.kurir', 'LEFT');
+
     //End Join
-    $this->db->where(['user_agen' => $user_id, 'stage' => 2]);
+    $this->db->where(['user_stage' => $user_id]);
     // $this->db->or_where(['user_agen' => $user_id, 'stage' => 3]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -337,7 +343,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('user', 'user.id = transaksi.kurir', 'LEFT');
     //End Join
     $this->db->where(['to_agen' => $user_id, 'stage' => 5]);
-    $this->db->or_where(['user_stage' => $user_id]);
+    // $this->db->or_where(['user_stage' => $user_id]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -658,10 +664,10 @@ class Transaksi_model extends CI_Model
   public function getData($user_id, $rowno, $rowperpage, $search = "")
   {
 
-    $this->db->select('transaksi.*, user.name, kota.kota_name');
+    $this->db->select('transaksi.*, user.name, user.user_code, user.user_phone, user.user_address, kota.kota_name');
     $this->db->from('transaksi');
     // Join
-    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    $this->db->join('user', 'user.id = transaksi.user_agen', 'LEFT');
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     //End Join
     $this->db->where(['stage' => 3, 'kurir_pusat' => $user_id]);
@@ -701,15 +707,15 @@ class Transaksi_model extends CI_Model
   public function getDatakirim($user_id, $rowno, $rowperpage, $search = "")
   {
 
-    $this->db->select('transaksi.*, user.name, user.user_code, user.user_address, kota.kota_name, provinsi.provinsi_name');
+    $this->db->select('transaksi.*, user.name, user.user_code, user.user_address, user.user_phone, kota.kota_name, provinsi.provinsi_name');
     $this->db->from('transaksi');
     // Join
-    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    $this->db->join('user', 'user.id = transaksi.to_agen', 'LEFT');
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['stage' => 4, 'kurirpusat_id' => $user_id]);
-    $this->db->or_where(['user_stage' => $user_id]);
+    $this->db->where(['user_stage' => $user_id]);
+    // $this->db->or_where(['stage' => 5, 'kurirpusat_id' => $user_id]);
 
     $this->db->order_by('transaksi.id', 'DESC');
 

@@ -44,15 +44,10 @@
                     <li class="list-group-item">
                         <b>Alamat</b> <span class="float-right"><?php echo $profile->user_address; ?></span>
                     </li>
+                    <li class="list-group-item">
+                        <b>Main Agen</b> <span class="float-right"><?php echo $profile->name; ?></span>
+                    </li>
                 </ul>
-                <div class="row">
-                    <div class="col-6">
-                        <a href="<?php echo base_url('counter/profile/update'); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
-                    </div>
-                    <div class="col-6">
-                        <a href="<?php echo base_url('counter/profile/password'); ?>" class="btn btn-info btn-block"><b>Ubah Password</b></a>
-                    </div>
-                </div>
             </div>
             <!-- /.card-body -->
         </div>

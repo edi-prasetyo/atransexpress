@@ -31,12 +31,12 @@
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
                                 <td><b><?php echo $transaksi->nomor_resi; ?></b><br>
-                                    Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?>
+                                    Rp. <?php echo number_format($transaksi->total_harga, 0, ",", "."); ?>
                                 </td>
                                 <td>
                                     <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?><br>
                                     <?php if ($transaksi->stage == 5) : ?>
-                                        <div class="badge badge-danger">Paket Belum Di terima</div>
+                                        <div class="badge badge-danger">Paket Dalam Perjalanan</div>
                                     <?php elseif ($transaksi->stage == 6) : ?>
                                         <div class="badge badge-success">Paket Sudah Di terima</div>
                                     <?php elseif ($transaksi->stage == 7) : ?>

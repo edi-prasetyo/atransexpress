@@ -45,14 +45,7 @@
                         <b>Alamat</b> <span class="float-right"><?php echo $profile->user_address; ?></span>
                     </li>
                 </ul>
-                <div class="row">
-                    <div class="col-6">
-                        <a href="<?php echo base_url('kurir/profile/update'); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
-                    </div>
-                    <div class="col-6">
-                        <a href="<?php echo base_url('kurir/profile/password'); ?>" class="btn btn-info btn-block"><b>Ubah Password</b></a>
-                    </div>
-                </div>
+
             </div>
             <!-- /.card-body -->
         </div>

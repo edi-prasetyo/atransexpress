@@ -26,7 +26,7 @@ class Category extends CI_Controller
     );
     if ($this->form_validation->run() === FALSE) {
       $data = [
-        'title'                           => 'Category Artikel',
+        'title'                           => 'Category Barang',
         'category'                        => $category,
         'content'                         => 'admin/category/index_category'
       ];
@@ -57,7 +57,7 @@ class Category extends CI_Controller
     if ($this->form_validation->run() === FALSE) {
       //End Validasi
       $data = [
-        'title'                         => 'Edit kategori Berita',
+        'title'                         => 'Edit Kategori barang',
         'category'                      => $category,
         'content'                       => 'admin/category/update_category'
       ];

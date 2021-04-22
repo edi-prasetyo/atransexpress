@@ -61,6 +61,15 @@ $meta = $this->meta_model->get_meta();
         </li>
 
         <li class="nav-item">
+          <a href="<?php echo base_url(); ?>admin/category" class="nav-link">
+            <i class="nav-icon fas fa-tag"></i>
+            <p>
+              Category Barang
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
             <p>
@@ -81,7 +90,6 @@ $meta = $this->meta_model->get_meta();
                 <p>Kota</p>
               </a>
             </li>
-
           </ul>
         </li>
 
@@ -182,6 +190,12 @@ $meta = $this->meta_model->get_meta();
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
+              <a href="<?php echo base_url('admin/galery'); ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Slider Home</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<?php echo base_url('admin/meta'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Profile Situs</p>
@@ -199,7 +213,6 @@ $meta = $this->meta_model->get_meta();
                 <p>Favicon</p>
               </a>
             </li>
-
 
 
           </ul>

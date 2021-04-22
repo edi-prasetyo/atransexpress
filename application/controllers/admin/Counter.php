@@ -157,12 +157,20 @@ class Counter extends CI_Controller
             redirect('admin/counter');
         }
     }
-    // Detail Main Agen
+    // Detail Counter
     public function detail($id)
     {
+        $user_id = $this->session->userdata('id');
         $counter = $this->user_model->detail($id);
+
+        $mainagen = $counter->id;
+        $mainagen_name = $this->user_model->mainagen_relasi($mainagen);
+
+        var_dump($mainagen_name);
+        die;
+
         $data = [
-            'title'                 => 'Detail Main Agen',
+            'title'                 => 'Detail Counter',
             'counter'               => $counter,
             'content'               => 'admin/counter/detail'
         ];

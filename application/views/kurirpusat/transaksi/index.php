@@ -38,20 +38,15 @@
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
                                 <td><b><?php echo $transaksi['nomor_resi']; ?></b><br>
-                                    Rp. <?php echo number_format($transaksi['harga'], 0, ",", "."); ?>
-
+                                    Rp. <?php echo number_format($transaksi['total_harga'], 0, ",", "."); ?>
                                 </td>
                                 <td>
                                     <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi['kota_from']; ?> <br>
                                     <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi['kota_name']; ?>
                                 </td>
-
                                 <td>
-
-
                                     <a class="btn btn-danger btn-sm btn-block" href="<?php echo base_url('kurirpusat/transaksi/ambil/' . $transaksi['id']); ?>">Ambil Paket</a>
-
-
+                                    <?php include "view_ambil.php"; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

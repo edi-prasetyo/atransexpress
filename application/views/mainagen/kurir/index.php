@@ -57,8 +57,8 @@
                             <a class="btn btn-danger btn-sm" href="<?php echo base_url('mainagen/kurir/banned/' . $my_kurir->id); ?>"><i class="fas fa-user-times"></i> Banned</a>
 
                         <?php endif; ?>
-                        <a href="<?php echo base_url('mainagen/kurir/detail/' . $my_kurir->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Lihat</a>
-                        <a href="<?php echo base_url('mainagen/kurir/update/' . $my_kurir->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Edit</a>
+                        <a href="<?php echo base_url('mainagen/kurir/detail/' . $my_kurir->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Lihat</a>
+                        <a href="<?php echo base_url('mainagen/kurir/update/' . $my_kurir->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Edit</a>
                     </td>
                 </tr>
 

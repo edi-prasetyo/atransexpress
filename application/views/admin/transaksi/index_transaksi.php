@@ -23,17 +23,18 @@
     </div>
 
 
-    <div class="table-responsive">
-        <table class="table">
+    <div class="card-body table-responsive p-0">
+        <table class="table text-nowrap">
             <thead class="thead-white">
                 <tr>
                     <th>#</th>
                     <th>Tanggal</th>
                     <th>Counter</th>
+                    <th>Main Agen</th>
                     <th>Resi</th>
                     <th>Status</th>
-                    <th>From</th>
-                    <th>To</th>
+                    <th>Kota Asal</th>
+                    <th>Kota Tujuan</th>
                     <th>Harga</th>
                     <th width="15%">Action</th>
                 </tr>
@@ -42,8 +43,9 @@
             foreach ($transaksi as $transaksi) { ?>
                 <tr>
                     <td><?php echo $no; ?></td>
-                    <td><?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
-                    <td><?php echo $transaksi->name; ?></td>
+                    <td><?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?><br> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
+                    <td><?php echo $transaksi->name; ?> <br> <?php echo $transaksi->kota_from; ?></td>
+                    <td><?php echo $transaksi->mainagen_name; ?><br> <?php echo $transaksi->kota_from; ?></td>
                     <td><?php echo $transaksi->nomor_resi; ?></td>
                     <td>
                         <?php if ($transaksi->stage == 9) : ?>
@@ -55,7 +57,7 @@
                     </td>
                     <td><?php echo $transaksi->kota_from; ?></td>
                     <td><?php echo $transaksi->kota_name; ?></td>
-                    <td>Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?></td>
+                    <td>Rp. <?php echo number_format($transaksi->total_harga, 0, ",", "."); ?></td>
                     <!-- <td><img class="img-fluid" src="<?php echo base_url('assets/img/barcode/' . $transaksi->barcode); ?>"></td> -->
                     <td>
                         <a href="<?php echo base_url('admin/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm">

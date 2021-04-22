@@ -26,13 +26,16 @@
                         <b>Email</b> <span class="float-right"><?php echo $counter->email; ?></span>
                     </li>
                     <li class="list-group-item">
-                        <b>Main Agen ID</b> <span class="float-right"><?php echo $counter->user_code; ?></span>
+                        <b>ID</b> <span class="float-right"><?php echo $counter->user_code; ?></span>
                     </li>
                     <li class="list-group-item">
                         <b>Kota</b> <span class="float-right"><?php echo $counter->kota_name; ?> - <?php echo $counter->provinsi_name; ?></span>
                     </li>
                     <li class="list-group-item">
                         <b>Alamat</b> <span class="float-right"><?php echo $counter->user_address; ?></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Main Agen</b> <span class="float-right"><?php echo $counter->id_agen; ?></span>
                     </li>
                 </ul>
 

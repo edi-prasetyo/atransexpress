@@ -56,7 +56,18 @@ $meta = $this->meta_model->get_meta();
           <a href="<?php echo base_url(); ?>mainagen/transaksi" class="nav-link">
             <i class="nav-icon fas fa-shopping-bag"></i>
             <p>
-              Ambil Paket
+              Ambil Paket di Conter
+            </p>
+          </a>
+        </li>
+
+
+
+        <li class="nav-item">
+          <a href="<?php echo base_url(); ?>mainagen/transaksi/from_agen" class="nav-link">
+            <i class="nav-icon fas fa-dolly-flatbed"></i>
+            <p>
+              Paket dari Luar Kota
             </p>
           </a>
         </li>
@@ -66,15 +77,6 @@ $meta = $this->meta_model->get_meta();
             <i class="nav-icon fas fa-shipping-fast"></i>
             <p>
               Kirim Paket
-            </p>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a href="<?php echo base_url(); ?>mainagen/transaksi/from_agen" class="nav-link">
-            <i class="nav-icon fas fa-dolly-flatbed"></i>
-            <p>
-              Paket dari Agen
             </p>
           </a>
         </li>
@@ -120,12 +122,7 @@ $meta = $this->meta_model->get_meta();
                 <p>Profile</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="<?php echo base_url('mainagen/profile/update'); ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Update</p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="<?php echo base_url('mainagen/profile/password'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -165,10 +162,10 @@ $meta = $this->meta_model->get_meta();
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard') ?>"> Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="<?php echo base_url('admin/' . $this->uri->segment(2)) ?>">
-                <?php echo ucfirst(str_replace('_', ' ', $this->uri->segment(2))) ?>
-              </a></li>
+            <li class="breadcrumb-item"><a href="<?php echo base_url('mainagen/dashboard') ?>"> Dashboard</a></li>
+            <li class="breadcrumb-item active">
+              <?php echo ucfirst(str_replace('_', ' ', $this->uri->segment(2))) ?>
+            </li>
             <li class="breadcrumb-item active"><?php echo $title ?></li>
           </ol>
         </div><!-- /.col -->

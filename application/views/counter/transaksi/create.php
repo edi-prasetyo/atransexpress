@@ -9,7 +9,6 @@
             </div>
             <div class="card-body">
                 <div class="row">
-
                     <input type="hidden" value="<?php echo $user->provinsi_name; ?>" name="provinsi_from">
                     <input type="hidden" value="<?php echo $user->kota_name; ?>" name="kota_from">
                     <div class="col-md-12">
@@ -17,7 +16,6 @@
                             <legend class="fieldset-title"> Tujuan Pengiriman :</legend>
 
                             <div class="row">
-
                                 <!-- Tujuan Pengiriman -->
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -44,21 +42,18 @@
                                 </div>
                             </div>
                         </fieldset>
-
                     </div>
 
                     <div class="col-md-12">
                         <fieldset class="fieldset-title">
                             <legend class="fieldset-title"> Data Barang :</legend>
                             <div class="row">
-
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Kategori Barang</label>
                                         <select class="custom-select" name="category_id" required>
                                             <option value="">-- Pilih Kategori --</option>
                                             <?php foreach ($category as $category) : ?>
-
                                                 <option value="<?php echo $category->id; ?>"><?php echo $category->category_name; ?></option>
                                             <?php endforeach; ?>
                                         </select>
@@ -94,6 +89,14 @@
                                 </div>
 
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Jumlah koli</label>
+                                        <input type="number" class="form-control" name="koli" placeholder=".." required>
+                                        <div class="invalid-feedback">Silahkan Masukan Berapa koli paket.</div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-12">
 
                                     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -120,27 +123,50 @@
                                                         <input type="number" class="form-control" name="tinggi" placeholder="..cm">
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
-
-
-
-
-
-
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Harga</label>
-                                        <input type="number" class="form-control" name="harga" placeholder="Rp. .." required>
+                                        <input type="text" class="form-control" id="inputku" name="harga" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required>
+                                        <!-- <input type="text" class="form-control" id="rupiah" name="harga" placeholder="Rp. .." required> -->
                                         <div class="invalid-feedback">Silahkan Masukan Harga Paket.</div>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Asuransi</label>
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-success d-inline mr-5">
+                                                <input type="radio" name="asuransi" value="0" id="radioSuccess1" required>
+                                                <label for="radioSuccess1"> Tidak
+                                                </label>
+                                                <div class="invalid-feedback">Silahkan Pilih Asuransi.</div>
+                                            </div>
+                                            <div class="icheck-success d-inline">
+                                                <input type="radio" name="asuransi" value="1" id="radioSuccess2">
+                                                <label for="radioSuccess2"> Ya
+                                                </label>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hit-a"></div>
+                                    <div class="hit-b" style="display: none">
+                                        <div class="form-group">
+                                            <label>Nilai Asuransi</label>
+                                            <input type="text" class="form-control" id="inputku" name="nilai_asuransi" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+                                            <!-- <input type="text" class="form-control" id="rupiah" name="asuransi" placeholder="Rp. .." required> -->
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Nilai Barang</label>
+                                            <input type="text" class="form-control" id="inputku" name="nilai_barang" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -182,9 +208,6 @@
 
                         </fieldset>
                     </div>
-
-
-
 
                     <div class="col-md-6">
                         <fieldset class="fieldset-title">
@@ -293,4 +316,115 @@
         });
 
     });
+</script>
+
+
+
+<script type="text/javascript">
+    function tandaPemisahTitik(b) {
+        var _minus = false;
+        if (b < 0) _minus = true;
+        b = b.toString();
+        b = b.replace(".", "");
+        b = b.replace("-", "");
+        c = "";
+        panjang = b.length;
+        j = 0;
+        for (i = panjang; i > 0; i--) {
+            j = j + 1;
+            if (((j % 3) == 1) && (j != 1)) {
+                c = b.substr(i - 1, 1) + "." + c;
+            } else {
+                c = b.substr(i - 1, 1) + c;
+            }
+        }
+        if (_minus) c = "-" + c;
+        return c;
+    }
+
+    function numbersonly(ini, e) {
+        if (e.keyCode >= 49) {
+            if (e.keyCode <= 57) {
+                a = ini.value.toString().replace(".", "");
+                b = a.replace(/[^\d]/g, "");
+                b = (b == "0") ? String.fromCharCode(e.keyCode) : b + String.fromCharCode(e.keyCode);
+                ini.value = tandaPemisahTitik(b);
+                return false;
+            } else if (e.keyCode <= 105) {
+                if (e.keyCode >= 96) {
+                    //e.keycode = e.keycode - 47;
+                    a = ini.value.toString().replace(".", "");
+                    b = a.replace(/[^\d]/g, "");
+                    b = (b == "0") ? String.fromCharCode(e.keyCode - 48) : b + String.fromCharCode(e.keyCode - 48);
+                    ini.value = tandaPemisahTitik(b);
+                    //alert(e.keycode);
+                    return false;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else if (e.keyCode == 48) {
+            a = ini.value.replace(".", "") + String.fromCharCode(e.keyCode);
+            b = a.replace(/[^\d]/g, "");
+            if (parseFloat(b) != 0) {
+                ini.value = tandaPemisahTitik(b);
+                return false;
+            } else {
+                return false;
+            }
+        } else if (e.keyCode == 95) {
+            a = ini.value.replace(".", "") + String.fromCharCode(e.keyCode - 48);
+            b = a.replace(/[^\d]/g, "");
+            if (parseFloat(b) != 0) {
+                ini.value = tandaPemisahTitik(b);
+                return false;
+            } else {
+                return false;
+            }
+        } else if (e.keyCode == 8 || e.keycode == 46) {
+            a = ini.value.replace(".", "");
+            b = a.replace(/[^\d]/g, "");
+            b = b.substr(0, b.length - 1);
+            if (tandaPemisahTitik(b) != "") {
+                ini.value = tandaPemisahTitik(b);
+            } else {
+                ini.value = "";
+            }
+
+            return false;
+        } else if (e.keyCode == 9) {
+            return true;
+        } else if (e.keyCode == 17) {
+            return true;
+        } else {
+            //alert (e.keyCode);
+            return false;
+        }
+
+    }
+</script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('input[name=asuransi]:radio').change(function(e) {
+            let value = e.target.value.trim()
+
+            $('[class^="hit"]').css('display', 'none');
+
+            switch (value) {
+                case '0':
+                    $('.hit-a').show()
+                    break;
+                case '1':
+                    $('.hit-b').show()
+                    break;
+                default:
+                    break;
+            }
+        })
+    })
 </script>

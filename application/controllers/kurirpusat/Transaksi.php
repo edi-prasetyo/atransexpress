@@ -342,7 +342,7 @@ class Transaksi extends CI_Controller
         // var_dump($transaksi);
         // die;
         $user_id = $this->session->userdata('id');
-        if ($transaksi->kurir_pusat == $user_id) {
+        if ($transaksi->kurirpusat_id == $user_id) {
             $data = [
                 'title'         => 'Pelacakan',
                 'deskripsi'     => 'Halaman Pelacakan',
@@ -479,7 +479,7 @@ class Transaksi extends CI_Controller
         $data = [
             'title'                 => 'Data Transaksi',
             'transaksi'             => $transaksi,
-            'search'     => '',
+            'search'                => '',
             'pagination'            => $this->pagination->create_links(),
             'content'               => 'kurirpusat/transaksi/riwayat'
         ];

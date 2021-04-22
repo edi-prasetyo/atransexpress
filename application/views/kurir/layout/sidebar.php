@@ -54,7 +54,7 @@ $meta = $this->meta_model->get_meta();
           <a href="<?php echo base_url(); ?>kurir/transaksi" class="nav-link">
             <i class="nav-icon fas fa-calendar-week"></i>
             <p>
-              Jadwal
+              Pekerjaan
             </p>
           </a>
         </li>
@@ -62,7 +62,7 @@ $meta = $this->meta_model->get_meta();
           <a href="<?php echo base_url(); ?>kurir/transaksi/kirim" class="nav-link">
             <i class="nav-icon fas fa-box"></i>
             <p>
-              Kirima Paket
+              Kirim Paket
             </p>
           </a>
         </li>
@@ -91,12 +91,7 @@ $meta = $this->meta_model->get_meta();
                 <p>Profile</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="<?php echo base_url('kurir/profile/update'); ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Update</p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="<?php echo base_url('kurir/profile/password'); ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>

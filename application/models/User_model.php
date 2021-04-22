@@ -157,8 +157,6 @@ class User_model extends CI_Model
     return $query->result();
   }
 
-
-
   public function get_agen_kota($kota_id)
   {
     $this->db->select('user.*, user_role.role, kota.kota_name');
@@ -168,7 +166,7 @@ class User_model extends CI_Model
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
     // End Join
     $this->db->where(['role_id' => 4, 'kota_id' => $kota_id]);
-    $this->db->or_where('role_id', 1);
+    // $this->db->or_where('role_id', 1);
     $this->db->order_by('user.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -222,7 +220,6 @@ class User_model extends CI_Model
     $this->db->where('id', $data['id']);
     $this->db->update('user', $data);
   }
-
   // Product User Read
   public function detail($id)
   {
@@ -264,5 +261,27 @@ class User_model extends CI_Model
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
+  }
+  public function get_mainagen_name($parent_counter)
+  {
+    $this->db->select('*');
+    $this->db->from('user');
+    //End Join
+    $this->db->where(['user.id' => $parent_counter]);
+
+    $this->db->order_by('user.id', 'DESC');
+    $query = $this->db->get();
+    return $query->row();
+  }
+  public function mainagen_relasi($mainagen)
+  {
+    $this->db->select('user.*, user.name');
+    $this->db->from('user');
+    // Join
+    $this->db->join('user', 'user.id = user.id_agen', 'LEFT');
+    //End Join
+    $this->db->where(['id' => $mainagen]);
+    $query = $this->db->get();
+    return $query->row();
   }
 }

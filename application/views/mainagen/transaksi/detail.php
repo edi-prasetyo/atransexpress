@@ -78,7 +78,7 @@
                     </tr>
                     <tr>
                         <th style="width:50%">Total Harga:</th>
-                        <td>Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?></td>
+                        <td>Rp. <?php echo number_format($transaksi->total_harga, 0, ",", "."); ?></td>
                     </tr>
 
 
