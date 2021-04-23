@@ -15,11 +15,11 @@ class Profile extends CI_Controller
     {
         $user_id       = $this->session->userdata('id');
         $profile = $this->user_model->user_detail($user_id);
-        $mainagen = $this->user_model->mainagen_relasi($user_id);
+        // $mainagen = $this->user_model->mainagen_relasi($user_id);
         $data = [
             'title'                 => 'Profile Saya',
             'profile'               => $profile,
-            'mainagen'              => $mainagen,
+            // 'mainagen'              => $mainagen,
             'content'               => 'counter/profile/index'
         ];
         $this->load->view('counter/layout/wrapp', $data, FALSE);
