@@ -18,7 +18,7 @@
                 <address>
                     <strong><?php echo $transaksi->nama_pengirim; ?> </strong><br>
                     <?php echo $transaksi->alamat_pengirim; ?><br>
-                    Jakarta Selatan, DKI Jakarta 1556<br>
+                    <?php echo $transaksi->kota_from; ?> - <?php echo $transaksi->kodepos_pengirim; ?><br>
                     Phone: <?php echo $transaksi->telp_pengirim; ?><br>
                     Email: <?php echo $transaksi->email_pengirim; ?><br>
                 </address>
@@ -29,7 +29,7 @@
                 <address>
                     <strong><?php echo $transaksi->nama_penerima; ?></strong><br>
                     <?php echo $transaksi->alamat_penerima; ?><br>
-                    Semarang, Jawa Tengah 1432<br>
+                    <?php echo $transaksi->kota_name; ?> - <?php echo $transaksi->kodepos_penerima; ?><br>
                     Phone: <?php echo $transaksi->telp_penerima; ?><br>
                     Email: <?php echo $transaksi->email_penerima; ?><br>
                 </address>

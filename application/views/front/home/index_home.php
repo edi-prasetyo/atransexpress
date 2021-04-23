@@ -32,7 +32,7 @@
                     <?php echo form_open('lacak'); ?>
                     <label>Nomor Resi</label>
                     <input type="text" name="nomor_resi" class="form-control" placeholder="Nomor Resi">
-                    <button type="submit" class="btn btn-info btn-block mt-3">Cek Tarif</button>
+                    <button type="submit" class="btn btn-info btn-block mt-3">Lacak Resi</button>
                     <?php echo form_close(); ?>
 
                 </div>
