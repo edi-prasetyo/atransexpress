@@ -26,40 +26,51 @@
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
                 <table class="table text-nowrap">
-                    <thead>
+                    <thead class="thead-white">
                         <tr>
-
-                            <th width="50%">Paket</th>
-                            <th width="50%">Action</th>
+                            <th>#</th>
+                            <th>Tanggal</th>
+                            <th>Counter</th>
+                            <th>Main Agen</th>
+                            <th>Resi</th>
+                            <th>Status</th>
+                            <th>Kota Asal</th>
+                            <th>Kota Tujuan</th>
+                            <th>Harga</th>
+                            <th width="15%">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php foreach ($transaksi as $transaksi) : ?>
-                            <tr>
-                                <td><b><?php echo $transaksi['nomor_resi']; ?></b><br>
-                                    <?php echo $transaksi['kota_from']; ?><br><?php echo $transaksi['kota_name']; ?></td>
+                    <?php $no = 1;
+                    foreach ($transaksi as $transaksi) { ?>
+                        <tr>
+                            <td><?php echo $no; ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($transaksi['date_created'])); ?><br> <?php echo date('H:i:s', strtotime($transaksi['date_created'])); ?></td>
+                            <td><?php echo $transaksi['name']; ?> <br> <?php echo $transaksi['kota_from']; ?></td>
+                            <td><?php echo $transaksi['mainagen_name']; ?></td>
+                            <td><?php echo $transaksi['nomor_resi']; ?></td>
+                            <td>
+                                <?php if ($transaksi['stage'] == 9) : ?>
+                                    <span class="badge badge-success badge-pill">Selesai</span>
+                                <?php else : ?>
+                                    <span class="badge badge-danger badge-pill">Proses</span>
+                                <?php endif; ?>
 
-                                <td>
-
-                                    <?php if ($transaksi['status'] == null) : ?>
-                                        <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/transaksi/ambil/' . $transaksi['id']); ?>">Ambil Paket</a>
-                                    <?php else : ?>
-                                    <?php endif; ?>
-                                    <a href="<?php echo base_url('admin/transaksi/lacak/' . $transaksi['id']); ?>" class="btn btn-info btn-sm">
-                                        <ion-icon name="eye-outline"></ion-icon> Lacak
-                                    </a>
-                                    <?php if ($transaksi['status'] == null) : ?>
-
-                                    <?php elseif ($transaksi['to_agen'] == null) : ?>
-
-                                    <?php else : ?>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-
-
-                    </tbody>
+                            </td>
+                            <td><?php echo $transaksi['kota_from']; ?></td>
+                            <td><?php echo $transaksi['kota_name']; ?></td>
+                            <td>Rp. <?php echo number_format($transaksi['total_harga'], 0, ",", "."); ?></td>
+                            <!-- <td><img class="img-fluid" src="<?php echo base_url('assets/img/barcode/' . $transaksi['barcode']); ?>"></td> -->
+                            <td>
+                                <a href="<?php echo base_url('admin/transaksi/lacak/' . $transaksi['id']); ?>" class="btn btn-info btn-sm">
+                                    <i class="fas fa-code-branch"></i> Lacak
+                                </a>
+                                <a href="<?php echo base_url('admin/transaksi/detail/' . $transaksi['id']); ?>" class="btn btn-success btn-sm">
+                                    <i class="fa fa-eye"></i> Detail
+                                </a>
+                            </td>
+                        </tr>
+                    <?php $no++;
+                    }; ?>
                 </table>
 
                 <?php if (count($transaksi) == 0) : ?>

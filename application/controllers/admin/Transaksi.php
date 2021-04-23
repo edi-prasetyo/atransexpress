@@ -62,7 +62,7 @@ class transaksi extends CI_Controller
 
   public function cari($rowno = 0)
   {
-    $main_agen = $this->user_model->get_agen();
+    $main_agen = $this->user_model->get_allcounter();
     // Search text
     $search_text = "";
     if ($this->input->post('submit') != NULL) {

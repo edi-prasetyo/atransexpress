@@ -21,10 +21,10 @@
                 <table class="table text-nowrap">
                     <thead>
                         <tr>
-                            <th>Tanggal</th>
                             <th>Resi</th>
+
                             <th>Tujuan</th>
-                            <th>Harga</th>
+
                             <!-- <th>Barcode</th> -->
                             <th width="15%">Action</th>
                         </tr>
@@ -32,18 +32,22 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><?php echo tanggal_indonesia_lengkap('Y-m-d', strtotime($transaksi->date_created)); ?><br> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB</td>
-                                <td><?php echo $transaksi->nomor_resi; ?></td>
-                                <td><?php echo $transaksi->kota_name; ?><br>
-                                    <span class="badge badge-warning">Menunggu Di Ambil Main Agen</span>
+                                <td>
+                                    <b> <?php echo $transaksi->nomor_resi; ?></b><br>
+                                    <?php echo tanggal_indonesia_pendek('Y-m-d', strtotime($transaksi->date_created)); ?><br> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB
                                 </td>
-                                <td>Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?></td>
+
+                                <td><?php echo $transaksi->kota_name; ?><br>
+                                    <span class="badge badge-warning">Menunggu Di Ambil</span><br>
+                                    <b>Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?></b>
+                                </td>
+
                                 <!-- <td><img class="img-fluid" src="<?php echo base_url('assets/img/barcode/' . $transaksi->barcode); ?>"></td> -->
                                 <td>
-                                    <a href="<?php echo base_url('counter/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm">
+                                    <a href="<?php echo base_url('counter/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm btn-block">
                                         <i class="fa fa-dog"></i> Lacak
                                     </a>
-                                    <a href="<?php echo base_url('counter/transaksi/detail/' . $transaksi->id); ?>" class="btn btn-primary btn-sm">
+                                    <a href="<?php echo base_url('counter/transaksi/detail/' . $transaksi->id); ?>" class="btn btn-primary btn-sm btn-block">
                                         <i class="fa fa-eye"></i> Lihat
                                     </a>
                                 </td>

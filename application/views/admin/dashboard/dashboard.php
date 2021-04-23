@@ -66,7 +66,7 @@
   <div class="card-header border-0">
     <div class="d-flex justify-content-between">
       <h3 class="card-title">Jumlah Order 7 Hari Terakhir</h3>
-      <a href="<?php echo base_url('admin/transaksi/riwayat'); ?>">Lihat Riwayat</a>
+      <a href="<?php echo base_url('admin/transaksi'); ?>">Lihat Transaksi</a>
     </div>
   </div>
   <div class="card-body">

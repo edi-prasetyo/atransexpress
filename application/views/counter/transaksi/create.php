@@ -130,7 +130,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Harga</label>
-                                        <input type="number" class="form-control" id="inputku" name="harga" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required>
+                                        <input type="text" class="form-control" id="inputku" name="harga" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required>
                                         <!-- <input type="text" class="form-control" id="rupiah" name="harga" placeholder="Rp. .." required> -->
                                         <div class="invalid-feedback">Silahkan Masukan Harga Paket.</div>
                                     </div>
@@ -157,13 +157,13 @@
                                     <div class="hit-b" style="display: none">
                                         <div class="form-group">
                                             <label>Nilai Asuransi</label>
-                                            <input type="number" class="form-control" id="inputku" name="nilai_asuransi" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+                                            <input type="text" class="form-control" id="inputku" name="nilai_asuransi" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
                                             <!-- <input type="text" class="form-control" id="rupiah" name="asuransi" placeholder="Rp. .." required> -->
                                         </div>
 
                                         <div class="form-group">
                                             <label>Nilai Barang</label>
-                                            <input type="number" class="form-control" id="inputku" name="nilai_barang" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+                                            <input type="text" class="form-control" id="inputku" name="nilai_barang" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
                                         </div>
                                     </div>
                                 </div>

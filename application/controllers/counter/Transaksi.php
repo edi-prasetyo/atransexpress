@@ -194,18 +194,21 @@ class Transaksi extends CI_Controller
             $this->load->view('counter/layout/wrapp', $data, FALSE);
         } else {
 
-            $nomor_resi = random_string('numeric', 8);
+            $nomor_resi = random_string('numeric', 12);
 
 
-            // $this->load->library('zend');
-            // $this->zend->load('Zend/Barcode');
+            $this->load->library('zend');
+            $this->zend->load('Zend/Barcode');
 
-            // $barcodeOptions = array('text' => $nomor_resi);
-            // $rendererOptions = array();
-            // $image_resource = Zend_Barcode::draw('code39', 'image', $barcodeOptions, $rendererOptions);
-            // $image_name     = $nomor_resi . '.jpg';
-            // $image_dir      = './assets/img/barcode/'; // penyimpanan file barcode
-            // imagejpeg($image_resource, $image_dir . $image_name);
+
+            $image_resource = Zend_Barcode::factory('code128', 'image', array(
+                'text' => $nomor_resi,
+                'barHeight' => 25,
+                'factor' => 2.98,
+            ), array())->draw();
+            $image_name     = $nomor_resi . '.jpg';
+            $image_dir      = './assets/img/barcode/'; // penyimpanan file barcode
+            imagejpeg($image_resource, $image_dir . $image_name);
 
             $nilai_barang               = $this->input->post('nilai_barang');
             $fix_nilai_barang           = preg_replace('/\D/', '', $nilai_barang);
@@ -255,7 +258,7 @@ class Transaksi extends CI_Controller
                 'nilai_barang'                      => $fix_nilai_barang,
                 'stage'                             => 1,
                 'user_stage'                        => $this->session->userdata('id'),
-                // 'barcode'                           => $image_name,
+                'barcode'                           => $image_name,
                 'date_created'                      => date('Y-m-d H:i:s'),
                 'date_updated'                      => date('Y-m-d H:i:s')
             ];
@@ -373,6 +376,27 @@ class Transaksi extends CI_Controller
                 'content'               => 'counter/transaksi/detail'
             ];
             $this->load->view('counter/layout/wrapp', $data, FALSE);
+        } else {
+            redirect(base_url('counter/404'));
+        }
+    }
+
+    public function print($id)
+    {
+        $user_id = $this->session->userdata('id');
+        $transaksi = $this->transaksi_model->detail_counter($id, $user_id);
+
+        $lacak = $this->lacak_model->get_detail_lacak($id);
+
+        if ($transaksi->user_id == $user_id) {
+
+            $data = [
+                'title'                 => 'Detail Transaksi',
+                'transaksi'             => $transaksi,
+                'lacak'                 => $lacak,
+                'content'               => 'counter/transaksi/print'
+            ];
+            $this->load->view('counter/transaksi/print', $data, FALSE);
         } else {
             redirect(base_url('counter/404'));
         }
