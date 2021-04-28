@@ -1,6 +1,15 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title"><?php echo $title; ?></h3>
+        <h3 class="card-title">
+            <?php echo form_open('admin/kurir'); ?>
+            <div class="input-group mb-3">
+                <input type="text" name="search" class="form-control" placeholder="Masukan Nama" value="<?php echo set_value('search'); ?>">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-info" type="submit" id="button-addon2">Cari</button>
+                </div>
+            </div>
+            <?php echo form_close(); ?>
+        </h3>
         <div class="card-tools">
 
         </div>

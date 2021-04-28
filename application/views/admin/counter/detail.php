@@ -34,12 +34,13 @@
                     <li class="list-group-item">
                         <b>Alamat</b> <span class="float-right"><?php echo $counter->user_address; ?></span>
                     </li>
-                    <li class="list-group-item">
+                    <!-- <li class="list-group-item">
                         <b>Main Agen</b> <span class="float-right"><?php echo $counter->id_agen; ?></span>
-                    </li>
+                    </li> -->
                 </ul>
 
                 <a href="<?php echo base_url('admin/counter/update/' . $counter->id); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
+                <a href="<?php echo base_url('admin/counter/update_password/' . $counter->id); ?>" class="btn btn-primary btn-block"><b>Ubah Password</b></a>
             </div>
             <!-- /.card-body -->
         </div>

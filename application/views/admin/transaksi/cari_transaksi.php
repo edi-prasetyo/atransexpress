@@ -3,16 +3,26 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <?php echo $title; ?>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <?php echo form_open('admin/transaksi/cari'); ?>
+                        <div class="input-group mb-3">
+                            <input type="text" name="resi" class="form-control" placeholder="Masukan Nomor Resi">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-info" type="button" id="button-addon2">Cari</button>
+                            </div>
+                        </div>
+                        <?php echo form_close(); ?>
+                    </div>
+                    <div class="col-md-4">
                         <?php echo form_open('admin/transaksi/cari'); ?>
                         <div class="input-group mb-3" style="width: 100%;">
                             <select class="form-control select2bs4" name="search">
                                 <option>-- Pilih Kota --</option>
                                 <?php foreach ($main_agen as $main_agen) : ?>
-                                    <option value='<?php echo $main_agen->kota_name; ?>'><?php echo $main_agen->kota_name; ?> - <?php echo $main_agen->name; ?> </option>
+                                    <option value='<?php echo $main_agen->kota_id; ?>'><?php echo $main_agen->kota_name; ?> - <?php echo $main_agen->name; ?> </option>
                                 <?php endforeach; ?>
                             </select>
                             <div class="input-group-append">
@@ -25,7 +35,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
-                <table class="table text-nowrap">
+                <table class="table">
                     <thead class="thead-white">
                         <tr>
                             <th>#</th>
@@ -45,7 +55,10 @@
                         <tr>
                             <td><?php echo $no; ?></td>
                             <td><?php echo date('d/m/Y', strtotime($transaksi['date_created'])); ?><br> <?php echo date('H:i:s', strtotime($transaksi['date_created'])); ?></td>
-                            <td><?php echo $transaksi['name']; ?> <br> <?php echo $transaksi['kota_from']; ?></td>
+                            <td><?php echo $transaksi['name']; ?> <br>
+                                <?php echo $transaksi['kota_from']; ?><br>
+                                <b>Code : <?php echo $transaksi['user_code']; ?></b>
+                            </td>
                             <td><?php echo $transaksi['mainagen_name']; ?></td>
                             <td><?php echo $transaksi['nomor_resi']; ?></td>
                             <td>

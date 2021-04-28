@@ -13,9 +13,10 @@ class Kurirpusat extends CI_Controller
     }
     public function index()
     {
+        $search = $this->input->post('search');
 
         $config['base_url']         = base_url('admin/kurirpusat/index/');
-        $config['total_rows']       = count($this->user_model->total_row_kurirpusat());
+        $config['total_rows']       = count($this->user_model->total_row_kurirpusat($search));
         $config['per_page']         = 10;
         $config['uri_segment']      = 4;
 
@@ -43,7 +44,7 @@ class Kurirpusat extends CI_Controller
         $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $kurirpusat = $this->user_model->get_kurirpusat($limit, $start);
+        $kurirpusat = $this->user_model->get_kurirpusat($limit, $start, $search);
         // var_dump($kurirpusat);
         // die;
 
@@ -115,6 +116,38 @@ class Kurirpusat extends CI_Controller
             ];
             $this->db->insert('user', $data);
             $this->session->set_flashdata('message', 'Selamat Anda berhasil mendaftar, silahkan Aktivasi akun');
+            redirect('admin/kurirpusat');
+        }
+    }
+    // Update Password
+    public function update_password($id)
+    {
+        $user = $this->user_model->detail($id);
+        $this->form_validation->set_rules(
+            'password1',
+            'Password',
+            'required|trim|min_length[3]|matches[password2]',
+            [
+                'matches'     => 'Password tidak sama',
+                'min_length'   => 'Password Min 3 karakter'
+            ]
+        );
+        $this->form_validation->set_rules('password2', 'Ulangi Password', 'required|trim|matches[password1]');
+
+        if ($this->form_validation->run() == false) {
+            $data = [
+                'title'         => 'Update Password',
+                'user'          => $user,
+                'content'       => 'admin/kurirpusat/update_password'
+            ];
+            $this->load->view('admin/layout/wrapp', $data, FALSE);
+        } else {
+            $data = [
+                'id'                => $id,
+                'password'          => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
+            ];
+            $this->user_model->update($data);
+            $this->session->set_flashdata('message', 'Data Berhasil di Update');
             redirect('admin/kurirpusat');
         }
     }

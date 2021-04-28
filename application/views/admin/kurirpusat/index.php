@@ -1,6 +1,15 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title"><?php echo $title; ?></h3>
+        <h3 class="card-title">
+            <?php echo form_open('admin/kurirpusat'); ?>
+            <div class="input-group mb-3">
+                <input type="text" name="search" class="form-control" placeholder="Masukan Nama" value="<?php echo set_value('search'); ?>">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-info" type="submit" id="button-addon2">Cari</button>
+                </div>
+            </div>
+            <?php echo form_close(); ?>
+        </h3>
         <div class="card-tools">
             <a href="<?php echo base_url(); ?>admin/kurirpusat/create" class="btn btn-info right"><i class="fa fa-plus"></i> Buat Kurir Pusat</a>
         </div>
@@ -15,8 +24,7 @@
             unset($_SESSION['message']);
             echo '</div>';
         }
-        echo validation_errors('<div class="alert alert-warning">', '</div>');
-
+        echo validation_errors('<div class="alert alert-warning">', '</div>')
         ?>
     </div>
 
@@ -65,18 +73,12 @@
                             <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/kurirpusat/banned/' . $kurirpusat->id); ?>"><i class="fas fa-kurirpusat-times"></i> Banned</a>
 
                         <?php endif; ?>
-                        <a href="<?php echo base_url('admin/kurirpusat/detail/' . $kurirpusat->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Lihat</a>
-                        <a href="<?php echo base_url('admin/kurirpusat/update/' . $kurirpusat->id); ?>" class="btn btn-info btn-sm" target="blank"> <i class="fas fa-external-link-alt"></i> Update</a>
+                        <a href="<?php echo base_url('admin/kurirpusat/detail/' . $kurirpusat->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Detail</a>
                     </td>
                 </tr>
-
             <?php $no++;
             }; ?>
         </table>
-
-
-
-
     </div>
     <div class="card-footer">
         <div class="pagination col-md-12 text-center">

@@ -7,7 +7,7 @@
                         <?php echo $title; ?>
                     </div>
                     <div class="col-md-6">
-                        <?php echo form_open('kurirpusat/transaksi/kirim'); ?>
+                        <!-- <?php echo form_open('kurirpusat/transaksi/kirim'); ?>
                         <div class="input-group mb-3" style="width: 100%;">
                             <select class="form-control select2bs4" name="search">
                                 <option>-- Pilih Kota --</option>
@@ -19,7 +19,7 @@
                                 <input type='submit' name='submit' value='Cari' class="btn btn-info">
                             </div>
                         </div>
-                        <?php echo form_close(); ?>
+                        <?php echo form_close(); ?> -->
                     </div>
                 </div>
             </div>
@@ -36,21 +36,21 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><b><?php echo $transaksi['nomor_resi']; ?></b><br>
+                                <td><b><?php echo $transaksi->nomor_resi; ?></b><br>
 
                                 </td>
                                 <td>
 
-                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi['kota_name']; ?><br>
-                                    <?php if ($transaksi['to_agen'] == NULL) : ?>
+                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?><br>
+                                    <?php if ($transaksi->to_agen == NULL) : ?>
                                         <div class="badge badge-danger">Belum di kirim</div>
                                     <?php else : ?>
                                         <div class="badge badge-success">Sedang di kirim</div>
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($transaksi['to_agen'] == NULL) : ?>
-                                        <a href="<?php echo base_url('kurirpusat/transaksi/agen/' . $transaksi['id']); ?>" class="btn btn-danger btn-sm btn-block">
+                                    <?php if ($transaksi->to_agen == NULL) : ?>
+                                        <a href="<?php echo base_url('kurirpusat/transaksi/agen/' . $transaksi->id); ?>" class="btn btn-danger btn-sm btn-block">
                                             Kirim Ke Agen
                                         </a>
                                     <?php else : ?>

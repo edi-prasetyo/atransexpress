@@ -2,6 +2,14 @@
     <div class="card-header">
         <h3 class="card-title"><?php echo $title; ?></h3>
         <div class="card-tools">
+            <?php echo form_open('mainagen/user'); ?>
+            <div class="input-group mb-3">
+                <input type="text" name="search" class="form-control" placeholder="Masukan Nama Counter" value="<?php echo set_value('search'); ?>">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-info" type="submit" id="button-addon2">Cari</button>
+                </div>
+            </div>
+            <?php form_close(); ?>
             <!-- <a href="<?php echo base_url(); ?>mainagen/user/create_agen" class="btn btn-info right"><i class="fa fa-plus"></i> Buat Main Agen</a> -->
         </div>
     </div>

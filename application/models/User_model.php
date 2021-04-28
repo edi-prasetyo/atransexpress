@@ -46,7 +46,7 @@ class User_model extends CI_Model
   }
 
   // Main Agen
-  public function get_mainagen($limit, $start)
+  public function get_mainagen($limit, $start, $search)
   {
     $this->db->select('user.*, user_role.role, kota.kota_name, provinsi_name');
     $this->db->from('user');
@@ -55,23 +55,27 @@ class User_model extends CI_Model
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
     // End Join
+    $this->db->like('name', $search);
+    // $this->db->like('name', $search);
     $this->db->where('role_id', 4);
     $this->db->limit($limit, $start);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }
-  public function total_row_mainagen()
+  public function total_row_mainagen($search)
   {
     $this->db->select('*');
     $this->db->from('user');
+    $this->db->like('name', $search);
+    // $this->db->like('name', $search);
     $this->db->where('role_id', 4);
     $this->db->order_by('id', 'ASC');
     $query = $this->db->get();
     return $query->result();
   }
   // Kurir Pusat
-  public function get_kurirpusat($limit, $start)
+  public function get_kurirpusat($limit, $start, $search)
   {
     $this->db->select('user.*, user_role.role, kota.kota_name');
     $this->db->from('user');
@@ -79,23 +83,25 @@ class User_model extends CI_Model
     $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
     // End Join
+    $this->db->like('name', $search);
     $this->db->where('role_id', 6);
     $this->db->limit($limit, $start);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }
-  public function total_row_kurirpusat()
+  public function total_row_kurirpusat($search)
   {
     $this->db->select('*');
     $this->db->from('user');
+    $this->db->like('name', $search);
     $this->db->where('role_id', 6);
     $this->db->order_by('id', 'ASC');
     $query = $this->db->get();
     return $query->result();
   }
   // Kurir
-  public function get_allkurir($limit, $start)
+  public function get_allkurir($limit, $start, $search)
   {
     $this->db->select('user.*, user_role.role, kota.kota_name');
     $this->db->from('user');
@@ -103,16 +109,18 @@ class User_model extends CI_Model
     $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
     // End Join
+    $this->db->like('name', $search);
     $this->db->where('role_id', 7);
     $this->db->limit($limit, $start);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }
-  public function total_row_allkurir()
+  public function total_row_allkurir($search)
   {
     $this->db->select('*');
     $this->db->from('user');
+    $this->db->like('name', $search);
     $this->db->where('role_id', 7);
     $this->db->order_by('id', 'ASC');
     $query = $this->db->get();
@@ -132,7 +140,7 @@ class User_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-  public function get_counter($limit, $start)
+  public function get_counter($limit, $start, $search)
   {
     $this->db->select('user.*, user_role.role, kota.kota_name, provinsi_name');
     $this->db->from('user');
@@ -141,16 +149,18 @@ class User_model extends CI_Model
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
     // End Join
+    $this->db->like('name', $search);
     $this->db->where('role_id', 5);
     $this->db->limit($limit, $start);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }
-  public function total_row_counter()
+  public function total_row_counter($search)
   {
     $this->db->select('*');
     $this->db->from('user');
+    $this->db->like('name', $search);
     $this->db->where('role_id', 5);
     $this->db->order_by('id', 'ASC');
     $query = $this->db->get();
@@ -235,7 +245,7 @@ class User_model extends CI_Model
     return $query->row();
   }
   // Mitra Agen
-  public function get_counterByAgen()
+  public function get_counterByAgen($search)
   {
     $id_agen = $this->session->userdata('id');
     $this->db->select('user.*, user_role.role');
@@ -243,13 +253,14 @@ class User_model extends CI_Model
     // join
     $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
     // End Join
+    $this->db->like('name', $search);
     $this->db->where(['id_agen' => $id_agen, 'role_id' => 5]);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }
   // Kurir Agen
-  public function get_kurirByAgen()
+  public function get_kurirByAgen($search)
   {
     $id_agen = $this->session->userdata('id');
     $this->db->select('user.*, user_role.role');
@@ -257,6 +268,7 @@ class User_model extends CI_Model
     // join
     $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
     // End Join
+    $this->db->like('name', $search);
     $this->db->where(['user_create' => $id_agen, 'role_id' => 7]);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();

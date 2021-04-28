@@ -54,8 +54,6 @@
                                     <?php else : ?>
                                         <span class="text-danger">Belum di Ambil<br>Kurir </span>
                                         <?php include "datakurir.php"; ?>
-
-
                                     <?php endif; ?>
 
                                 </td>

@@ -16,10 +16,11 @@ class transaksi extends CI_Controller
   //listing data transaksi
   public function index()
   {
+    $resi = $this->input->post('resi');
     $main_agen = $this->user_model->get_allcounter();
 
     $config['base_url']         = base_url('admin/transaksi/index/');
-    $config['total_rows']       = count($this->transaksi_model->total_row());
+    $config['total_rows']       = count($this->transaksi_model->total_row($resi));
     $config['per_page']         = 10;
     $config['uri_segment']      = 4;
 
@@ -47,7 +48,7 @@ class transaksi extends CI_Controller
     $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
     //End Limit Start
     $this->pagination->initialize($config);
-    $transaksi = $this->transaksi_model->get_transaksi($limit, $start);
+    $transaksi = $this->transaksi_model->get_transaksi($limit, $start, $resi);
     $data = [
       'title'                 => 'Data Transaksi',
       'transaksi'             => $transaksi,

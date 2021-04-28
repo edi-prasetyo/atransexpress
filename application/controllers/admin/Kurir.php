@@ -13,9 +13,10 @@ class Kurir extends CI_Controller
     }
     public function index()
     {
+        $search = $this->input->post('search');
 
         $config['base_url']         = base_url('admin/kurir/index/');
-        $config['total_rows']       = count($this->user_model->total_row_allkurir());
+        $config['total_rows']       = count($this->user_model->total_row_allkurir($search));
         $config['per_page']         = 10;
         $config['uri_segment']      = 4;
 
@@ -43,7 +44,7 @@ class Kurir extends CI_Controller
         $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $main_agen = $this->user_model->get_allkurir($limit, $start);
+        $main_agen = $this->user_model->get_allkurir($limit, $start, $search);
         // var_dump($main_agen);
         // die;
 

@@ -12,7 +12,8 @@ class Kurir extends CI_Controller
     }
     public function index()
     {
-        $my_kurir = $this->user_model->get_kurirByAgen();
+        $search = $this->input->post('search');
+        $my_kurir = $this->user_model->get_kurirByAgen($search);
         $data = [
             'title'                 => 'Data Kurir Saya',
             'my_kurir'              => $my_kurir,
@@ -114,6 +115,47 @@ class Kurir extends CI_Controller
             'content'       => 'mainagen/kurir/create'
         ];
         $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+    }
+    // Update Password
+    public function update_password($id)
+    {
+
+        $user_id = $this->session->userdata('id');
+        $user = $this->user_model->detail($id);
+
+
+        if ($user->user_create == $user_id) {
+
+            $this->form_validation->set_rules(
+                'password1',
+                'Password',
+                'required|trim|min_length[3]|matches[password2]',
+                [
+                    'matches'     => 'Password tidak sama',
+                    'min_length'   => 'Password Min 3 karakter'
+                ]
+            );
+            $this->form_validation->set_rules('password2', 'Ulangi Password', 'required|trim|matches[password1]');
+
+            if ($this->form_validation->run() == false) {
+                $data = [
+                    'title'         => 'Update Password',
+                    'user'          => $user,
+                    'content'       => 'mainagen/kurir/update_password'
+                ];
+                $this->load->view('mainagen/layout/wrapp', $data, FALSE);
+            } else {
+                $data = [
+                    'id'                => $id,
+                    'password'          => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
+                ];
+                $this->user_model->update($data);
+                $this->session->set_flashdata('message', 'Data Berhasil di Update');
+                redirect('mainagen/kurir');
+            }
+        } else {
+            redirect('mainagen/404');
+        }
     }
 
     // Update Kurir

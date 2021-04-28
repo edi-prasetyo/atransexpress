@@ -1,6 +1,15 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title"><?php echo $title; ?></h3>
+        <h3 class="card-title">
+            <?php echo form_open('admin/counter'); ?>
+            <div class="input-group mb-3">
+                <input type="text" name="search" class="form-control" placeholder="Masukan Nama" value="<?php echo set_value('search'); ?>">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-info" type="submit" id="button-addon2">Cari</button>
+                </div>
+            </div>
+            <?php echo form_close(); ?>
+        </h3>
         <div class="card-tools">
             <a href="<?php echo base_url(); ?>admin/counter/create" class="btn btn-info right"><i class="fa fa-plus"></i> Add Counter</a>
         </div>
@@ -27,7 +36,7 @@
                     <th>No</th>
                     <th>ID</th>
                     <th>Nama</th>
-                    <th>Role</th>
+                    <th>Email</th>
                     <th>Kota</th>
                     <th>Status</th>
                     <th>Locked</th>
@@ -40,7 +49,7 @@
                     <td><?php echo $no; ?></td>
                     <td><?php echo $counter->user_code; ?></td>
                     <td><?php echo $counter->name; ?></td>
-                    <td><?php echo $counter->role; ?></td>
+                    <td><?php echo $counter->email; ?></td>
                     <td><?php echo $counter->kota_name; ?> - <?php echo $counter->provinsi_name; ?></td>
                     <td>
                         <?php if ($counter->is_active == 1) : ?>
@@ -67,8 +76,7 @@
                             <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/counter/banned/' . $counter->id); ?>"><i class="fas fa-counter-times"></i> Banned</a>
 
                         <?php endif; ?>
-                        <a href="<?php echo base_url('admin/counter/detail/' . $counter->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Lihat</a>
-                        <a href="<?php echo base_url('admin/counter/update/' . $counter->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Update</a>
+                        <a href="<?php echo base_url('admin/counter/detail/' . $counter->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Detail</a>
                     </td>
                 </tr>
 

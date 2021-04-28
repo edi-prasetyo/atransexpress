@@ -30,6 +30,7 @@
                 </ul>
 
                 <a href="<?php echo base_url('mainagen/kurir/update/' . $kurir->id); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
+                <a href="<?php echo base_url('mainagen/kurir/update_password/' . $kurir->id); ?>" class="btn btn-warning btn-block"><b>Ubah Password</b></a>
             </div>
             <!-- /.card-body -->
         </div>

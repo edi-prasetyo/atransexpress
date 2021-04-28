@@ -143,13 +143,16 @@ class Transaksi extends CI_Controller
     public function kirim()
     {
         $user_id = $this->session->userdata('id');
+
         $transaksi = $this->transaksi_model->kirim_ke_kurir($user_id);
+        // $kurirpusat = $this->transaksi_model->kirim_ke_kurirpusat($user_id);
 
         $data = array(
             'title'         => 'Kirim Paket',
             'deskripsi'     => 'Halaman Dashboard',
             'keywords'      => '',
             'transaksi'     => $transaksi,
+            // 'kurirpusat'    => $kurirpusat,
 
             'content'       => 'mainagen/transaksi/kirim'
         );
@@ -189,8 +192,9 @@ class Transaksi extends CI_Controller
             } else {
                 $data  = [
                     'id'                                => $id,
-                    'kurir_pusat'                             => $this->input->post('kurir_pusat'),
+                    'kurir_pusat'                       => $this->input->post('kurir'),
                     'kurir'                             => $this->input->post('kurir'),
+                    'kurir_stage'                       => $this->input->post('kurir'),
                     'stage'                             => $this->input->post('stage'),
                     'date_updated'                      => date('Y-m-d H:i:s')
                 ];
@@ -262,7 +266,8 @@ class Transaksi extends CI_Controller
                 $data  = [
                     'id'                                => $id,
                     'kurir'                             => $this->input->post('kurir'),
-                    'kurir_id'                             => $this->input->post('kurir'),
+                    'kurir_id'                          => $this->input->post('kurir'),
+                    'kurir_stage'                       => $this->input->post('kurir'),
                     'stage'                             => 7,
                     'date_updated'                      => date('Y-m-d H:i:s')
                 ];
@@ -294,9 +299,10 @@ class Transaksi extends CI_Controller
     public function riwayat()
     {
         $user_id = $this->session->userdata('id');
+        $search = $this->input->post('search');
 
         $config['base_url']         = base_url('mainagen/transaksi/riwayat/index/');
-        $config['total_rows']       = count($this->transaksi_model->get_row_mainagen($user_id));
+        $config['total_rows']       = count($this->transaksi_model->get_row_mainagen($user_id, $search));
         $config['per_page']         = 10;
         $config['uri_segment']      = 4;
 
@@ -324,7 +330,7 @@ class Transaksi extends CI_Controller
         $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $transaksi = $this->transaksi_model->get_riwayat_mainagen($limit, $start, $user_id);
+        $transaksi = $this->transaksi_model->get_riwayat_mainagen($limit, $start, $user_id, $search);
         $data = [
             'title'                 => 'Riwayat Transaksi',
             'transaksi'             => $transaksi,

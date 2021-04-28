@@ -13,7 +13,9 @@ class User extends CI_Controller
 
     public function index()
     {
-        $my_counter = $this->user_model->get_counterByAgen();
+        $search = $this->input->post('search');
+        $my_counter = $this->user_model->get_counterByAgen($search);
+        
         $data = [
             'title'                 => 'Data Counter Saya',
             'my_counter'             => $my_counter,

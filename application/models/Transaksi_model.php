@@ -58,15 +58,16 @@ class Transaksi_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-  public function get_transaksi($limit, $start)
+  public function get_transaksi($limit, $start, $resi)
   {
-    $this->db->select('transaksi.*, user.name, kota.kota_name, provinsi.provinsi_name');
+    $this->db->select('transaksi.*, user.name, user_code, kota.kota_name, provinsi.provinsi_name');
     $this->db->from('transaksi');
     // join
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     // End Join
+    $this->db->like('nomor_resi', $resi);
     // $this->db->where('stage', 6);
     $this->db->order_by('id', 'DESC');
     $this->db->limit($limit, $start);
@@ -87,13 +88,14 @@ class Transaksi_model extends CI_Model
     return $query->result();
   }
   //Total Berita Main Page
-  public function total_row()
+  public function total_row($resi)
   {
     $this->db->select('transaksi.*, user.name');
     $this->db->from('transaksi');
     // Join
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     //End Join
+    $this->db->like('nomor_resi', $resi);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -197,7 +199,7 @@ class Transaksi_model extends CI_Model
   public function getData_admin($rowno, $rowperpage, $search = "")
   {
 
-    $this->db->select('transaksi.*, user.name, kota.kota_name, provinsi.provinsi_name');
+    $this->db->select('transaksi.*, user.name, user.user_code, kota.kota_name, provinsi.provinsi_name');
     $this->db->from('transaksi');
     // Join
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
@@ -308,7 +310,7 @@ class Transaksi_model extends CI_Model
     // Join
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
-    $this->db->join('user', 'user.id = transaksi.kurir', 'LEFT');
+    $this->db->join('user', 'user.id = transaksi.kurir_stage', 'LEFT');
 
     //End Join
     $this->db->where(['user_stage' => $user_id]);
@@ -317,6 +319,8 @@ class Transaksi_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
+
+
 
   public function get_transaksidetailmycounter($user_id, $id)
   {
@@ -382,7 +386,7 @@ class Transaksi_model extends CI_Model
   }
 
   // Riwayat Main Agen 
-  public function get_riwayat_mainagen($limit, $start, $user_id)
+  public function get_riwayat_mainagen($limit, $start, $user_id, $search)
   {
     $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name, user.user_code, user.user_address');
     $this->db->from('transaksi');
@@ -390,6 +394,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    $this->db->like('nomor_resi', $search);
     //End Join
     $this->db->where(['mainagen_id' => $user_id]);
     $this->db->or_where(['mainagen_to_id' => $user_id]);
@@ -424,7 +429,7 @@ class Transaksi_model extends CI_Model
   }
 
 
-  public function get_row_mainagen($user_id)
+  public function get_row_mainagen($user_id, $search)
   {
     $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name');
     $this->db->from('transaksi');
@@ -432,6 +437,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
+    $this->db->like('nomor_resi', $search);
     $this->db->where(['mainagen_id' => $user_id]);
 
     $this->db->order_by('transaksi.id', 'DESC');
@@ -440,7 +446,7 @@ class Transaksi_model extends CI_Model
   }
 
   // Riwayat Counter
-  public function get_riwayat_counter($limit, $start, $user_id)
+  public function get_riwayat_counter($limit, $start, $user_id, $search)
   {
     $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name');
     $this->db->from('transaksi');
@@ -448,6 +454,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
+    $this->db->like('nomor_resi', $search);
     $this->db->where(['counter_id' => $user_id]);
     $this->db->limit($limit, $start);
     $this->db->order_by('transaksi.id', 'DESC');
@@ -488,7 +495,7 @@ class Transaksi_model extends CI_Model
   }
 
 
-  public function get_row_counter($user_id)
+  public function get_row_counter($user_id, $search)
   {
     $this->db->select('transaksi.*, kota.kota_name, provinsi.provinsi_name');
     $this->db->from('transaksi');
@@ -496,6 +503,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
+    $this->db->like('nomor_resi', $search);
     $this->db->where(['counter_id' => $user_id]);
 
     $this->db->order_by('transaksi.id', 'DESC');
@@ -623,6 +631,36 @@ class Transaksi_model extends CI_Model
     $this->db->where('stage', 6);
     $this->db->order_by('id', 'DESC');
     $this->db->limit($limit, $start);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function get_kurirpusat_kirim($limit, $start, $user_id)
+  {
+    $this->db->select('transaksi.*, user.name, user.user_code, user.user_address, user.user_phone, kota.kota_name, provinsi.provinsi_name');
+    $this->db->from('transaksi');
+    // Join
+    $this->db->join('user', 'user.id = transaksi.to_agen', 'LEFT');
+    $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
+    //End Join
+    $this->db->where(['user_stage' => $user_id]);
+    // $this->db->or_where(['stage' => 5, 'kurirpusat_id' => $user_id]);
+    $this->db->order_by('transaksi.id', 'DESC');
+    $this->db->limit($limit, $start);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function total_row_kirim($user_id)
+  {
+    $this->db->select('transaksi.*, user.name');
+    $this->db->from('transaksi');
+    // Join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    //End Join
+    $this->db->like('kurir_pusat', $user_id);
+    $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }

@@ -44,10 +44,9 @@ $user = $this->user_model->user_detail($user_id);
         <?php else : ?>
 
 
-
             <div class="form-group">
                 <label>Pilih Kurir <?php echo $transaksi->kota_name; ?></label>
-                <select class="form-control select2bs4" name="kurir_pusat" value="">
+                <select class="form-control select2bs4" name="kurir" value="">
 
                     <option>-- Pilih Kurir --</option>
 

@@ -2,29 +2,29 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title"><?php echo $title; ?></h3>
-
-                <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
+                <h3 class="card-title">
+                    <?php echo form_open('counter/transaksi/riwayat'); ?>
+                    <div class="input-group mb-3">
+                        <input type="text" name="search" class="form-control" placeholder="Masukan  Nomor Resi" value="<?php echo set_value('search'); ?>">
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                            </button>
+                            <button class="btn btn-outline-info" type="submit" id="button-addon2">Cari</button>
                         </div>
                     </div>
+                    <?php form_close(); ?>
+                </h3>
+
+                <div class="card-tools">
+
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
-                <table class="table text-nowrap">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>Tanggal</th>
                             <th>Resi</th>
                             <th>Tujuan</th>
-                            <th>Harga</th>
+
                             <!-- <th>Barcode</th> -->
                             <th width="15%">Action</th>
                         </tr>
@@ -32,16 +32,27 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><?php echo tanggal_indonesia_lengkap('Y-m-d', strtotime($transaksi->date_created)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
-                                <td><?php echo $transaksi->nomor_resi; ?></td>
-                                <td><?php echo $transaksi->kota_name; ?></td>
-                                <td>Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?></td>
+                                <td>
+                                    <b><?php echo $transaksi->nomor_resi; ?></b><br>
+                                    <?php echo tanggal_indonesia_pendek('Y-m-d', strtotime($transaksi->date_created)); ?><br>
+                                    <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB
+                                </td>
+                                <td>
+                                    <?php echo $transaksi->kota_name; ?><br>
+                                    <?php if ($transaksi->stage == 9) : ?>
+                                        <span class="badge badge-success">Selesai</span>
+                                    <?php else : ?>
+                                        <span class="badge badge-danger">Proses</span>
+                                    <?php endif; ?><br>
+                                    Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?>
+                                </td>
+
                                 <!-- <td><img class="img-fluid" src="<?php echo base_url('assets/img/barcode/' . $transaksi->barcode); ?>"></td> -->
                                 <td>
-                                    <a href="<?php echo base_url('counter/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm">
+                                    <a href="<?php echo base_url('counter/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm btn-block">
                                         <i class="fa fa-dog"></i> Lacak
                                     </a>
-                                    <a href="<?php echo base_url('counter/transaksi/detail/' . $transaksi->id); ?>" class="btn btn-primary btn-sm">
+                                    <a href="<?php echo base_url('counter/transaksi/detail/' . $transaksi->id); ?>" class="btn btn-primary btn-sm btn-block">
                                         <i class="fa fa-eye"></i> Lihat
                                     </a>
 

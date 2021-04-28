@@ -22,9 +22,7 @@
                     <thead>
                         <tr>
                             <th>Resi</th>
-
                             <th>Tujuan</th>
-
                             <!-- <th>Barcode</th> -->
                             <th width="15%">Action</th>
                         </tr>
@@ -49,6 +47,9 @@
                                     </a>
                                     <a href="<?php echo base_url('counter/transaksi/detail/' . $transaksi->id); ?>" class="btn btn-primary btn-sm btn-block">
                                         <i class="fa fa-eye"></i> Lihat
+                                    </a>
+                                    <a href="<?php echo base_url('counter/transaksi/update/' . $transaksi->id); ?>" class="btn btn-danger btn-sm btn-block">
+                                        <i class="fa fa-edit"></i> Ubah
                                     </a>
                                 </td>
                             </tr>

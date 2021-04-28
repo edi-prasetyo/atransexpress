@@ -34,9 +34,7 @@
                     <input type="text" name="nomor_resi" class="form-control" placeholder="Nomor Resi">
                     <button type="submit" class="btn btn-info btn-block mt-3">Lacak Resi</button>
                     <?php echo form_close(); ?>
-
                 </div>
-
             </div>
 
             <div class="card shadow-sm col-md-7">

@@ -5,15 +5,15 @@
                 <h3 class="card-title"><?php echo $title; ?></h3>
 
                 <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
+                    <?php echo form_open('mainagen/transaksi/riwayat'); ?>
+                    <div class="input-group mb-3">
+                        <input type="text" name="search" class="form-control" placeholder="Masukan Nomor Resi" value="<?php echo set_value('search'); ?>">
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                            </button>
+                            <button class="btn btn-outline-info" type="submit" id="button-addon2">Cari</button>
                         </div>
                     </div>
+                    <?php form_close(); ?>
+
                 </div>
             </div>
             <!-- /.card-header -->

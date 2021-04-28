@@ -13,9 +13,11 @@ class Counter extends CI_Controller
     }
     public function index()
     {
+        $search = $this->input->post('search');
+
 
         $config['base_url']         = base_url('admin/counter/index/');
-        $config['total_rows']       = count($this->user_model->total_row_counter());
+        $config['total_rows']       = count($this->user_model->total_row_counter($search));
         $config['per_page']         = 10;
         $config['uri_segment']      = 4;
 
@@ -43,7 +45,7 @@ class Counter extends CI_Controller
         $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $counter = $this->user_model->get_counter($limit, $start);
+        $counter = $this->user_model->get_counter($limit, $start, $search);
         // var_dump($main_agen);
         // die;
 
@@ -150,7 +152,40 @@ class Counter extends CI_Controller
                 'id_agen'       => $this->input->post('id_agen'),
                 'user_phone'    => $this->input->post('user_phone'),
                 'user_address'  => $this->input->post('user_address'),
+                'email'         => $this->input->post('email'),
                 'date_updated'  => date('Y-m-d H:i:s')
+            ];
+            $this->user_model->update($data);
+            $this->session->set_flashdata('message', 'Data Berhasil di Update');
+            redirect('admin/counter');
+        }
+    }
+    // Update Password
+    public function update_password($id)
+    {
+        $user = $this->user_model->detail($id);
+        $this->form_validation->set_rules(
+            'password1',
+            'Password',
+            'required|trim|min_length[3]|matches[password2]',
+            [
+                'matches'     => 'Password tidak sama',
+                'min_length'   => 'Password Min 3 karakter'
+            ]
+        );
+        $this->form_validation->set_rules('password2', 'Ulangi Password', 'required|trim|matches[password1]');
+
+        if ($this->form_validation->run() == false) {
+            $data = [
+                'title'         => 'Update Password',
+                'user'          => $user,
+                'content'       => 'admin/counter/update_password'
+            ];
+            $this->load->view('admin/layout/wrapp', $data, FALSE);
+        } else {
+            $data = [
+                'id'                => $id,
+                'password'          => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
             ];
             $this->user_model->update($data);
             $this->session->set_flashdata('message', 'Data Berhasil di Update');
@@ -163,7 +198,6 @@ class Counter extends CI_Controller
         $user_id = $this->session->userdata('id');
         $counter = $this->user_model->detail($id);
 
-
         $data = [
             'title'                 => 'Detail Counter',
             'counter'               => $counter,
@@ -171,6 +205,7 @@ class Counter extends CI_Controller
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
     }
+
     // Activated
     public function activated($id)
     {

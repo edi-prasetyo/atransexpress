@@ -37,6 +37,7 @@
                 </ul>
 
                 <a href="<?php echo base_url('admin/kurirpusat/update/' . $kurirpusat->id); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
+                <a href="<?php echo base_url('admin/kurirpusat/update_password/' . $kurirpusat->id); ?>" class="btn btn-warning btn-block"><b>Ubah Password</b></a>
             </div>
             <!-- /.card-body -->
         </div>

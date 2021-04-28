@@ -25,7 +25,7 @@
                     <input type="text" class="form-control" name="kota_name" value="<?php echo $user->kota_name; ?>" readonly>
                 </div>
             </div>
-            
+
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Ubah main Agen</label>
                 <div class="col-md-8">
@@ -67,7 +67,7 @@
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Email</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="email" placeholder="Email Address" value="<?php echo $user->email; ?>" style="text-transform: lowercase" readonly>
+                    <input type="text" class="form-control" name="email" placeholder="Email Address" value="<?php echo $user->email; ?>" style="text-transform: lowercase">
                     <?php echo form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<?php echo form_open('counter/transaksi/create',  array('class' => 'needs-validation', 'novalidate' => 'novalidate')); ?>
+<?php echo form_open('counter/transaksi/update/' . $transaksi->id,  array('class' => 'needs-validation', 'novalidate' => 'novalidate')); ?>
 <div class="row">
 
 
@@ -9,8 +9,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <input type="hidden" value="<?php echo $user->provinsi_name; ?>" name="provinsi_from">
-                    <input type="hidden" value="<?php echo $user->kota_name; ?>" name="kota_from">
+
                     <div class="col-md-12">
                         <fieldset class="fieldset-title">
                             <legend class="fieldset-title"> Tujuan Pengiriman :</legend>
@@ -52,9 +51,10 @@
                                     <div class="form-group">
                                         <label>Kategori Barang</label>
                                         <select class="custom-select" name="category_id" required>
-                                            <option value="">-- Pilih Kategori --</option>
                                             <?php foreach ($category as $category) : ?>
-                                                <option value="<?php echo $category->id; ?>"><?php echo $category->category_name; ?></option>
+                                                <option value="<?php echo $category->id; ?>" <?php if ($transaksi->category_id == $category->id) {
+                                                                                                    echo "selected";
+                                                                                                } ?>><?php echo $category->category_name; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                         <div class="invalid-feedback">Silahkan Pilih Kategori Barang.</div>
@@ -66,7 +66,9 @@
                                         <select class="custom-select" name="product_id" required>
                                             <option value="">-- Pilih Paket --</option>
                                             <?php foreach ($product as $product) : ?>
-                                                <option value="<?php echo $product->id; ?>"><?php echo $product->product_name; ?></option>
+                                                <option value="<?php echo $product->id; ?>" <?php if ($transaksi->product_id == $product->id) {
+                                                                                                echo "selected";
+                                                                                            } ?>><?php echo $product->product_name; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                         <div class="invalid-feedback">Silahkan Pilih Jenis Paket.</div>
@@ -75,7 +77,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nama barang</label>
-                                        <input type="text" class="form-control" name="nama_barang" placeholder="Nama Barang" required>
+                                        <input type="text" class="form-control" name="nama_barang" value="<?php echo $transaksi->nama_barang; ?>" required>
                                         <div class="invalid-feedback">Silahkan Masukan Nama Barang.</div>
                                     </div>
                                 </div>
@@ -83,7 +85,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Berat *Kg</label>
-                                        <input type="number" class="form-control" name="berat" placeholder="..Kg" required>
+                                        <input type="number" class="form-control" name="berat" value="<?php echo $transaksi->berat; ?>" required>
                                         <div class="invalid-feedback">Silahkan Masukan Berat Barang.</div>
                                     </div>
                                 </div>
@@ -92,7 +94,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Jumlah koli</label>
-                                        <input type="number" class="form-control" name="koli" placeholder=".." required>
+                                        <input type="number" class="form-control" name="koli" value="<?php echo $transaksi->koli; ?>" required>
                                         <div class="invalid-feedback">Silahkan Masukan Berapa koli paket.</div>
                                     </div>
                                 </div>
@@ -108,19 +110,19 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Panjang *cm</label>
-                                                        <input type="number" class="form-control" name="panjang" placeholder="..cm">
+                                                        <input type="number" class="form-control" name="panjang" value="<?php echo $transaksi->panjang; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Lebar *cm</label>
-                                                        <input type="number" class="form-control" name="lebar" placeholder="..cm">
+                                                        <input type="number" class="form-control" name="lebar" value="<?php echo $transaksi->lebar; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>tinggi *cm</label>
-                                                        <input type="number" class="form-control" name="tinggi" placeholder="..cm">
+                                                        <input type="number" class="form-control" name="tinggi" value="<?php echo $transaksi->tinggi; ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -130,7 +132,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Harga</label>
-                                        <input type="text" class="form-control" id="inputku" name="harga" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required>
+                                        <input type="text" class="form-control" id="inputku" name="harga" value="<?php echo $transaksi->harga; ?>" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required>
                                         <!-- <input type="text" class="form-control" id="rupiah" name="harga" placeholder="Rp. .." required> -->
                                         <div class="invalid-feedback">Silahkan Masukan Harga Paket.</div>
                                     </div>
@@ -140,7 +142,9 @@
                                         <label>Asuransi</label>
                                         <div class="form-group clearfix">
                                             <div class="icheck-success d-inline mr-5">
-                                                <input type="radio" name="asuransi" value="0" id="radioSuccess1" required>
+                                                <input type="radio" name="asuransi" value="0" <?php if ($transaksi->asuransi == 0) {
+                                                                                                    echo "checked";
+                                                                                                } ?> id="radioSuccess1" required>
                                                 <label for="radioSuccess1"> Tidak
                                                 </label>
                                                 <div class="invalid-feedback">Silahkan Pilih Asuransi.</div>
@@ -155,15 +159,19 @@
                                     </div>
                                     <div class="hit-a"></div>
                                     <div class="hit-b" style="display: none">
+
                                         <div class="form-group">
                                             <label>Nilai Barang</label>
-                                            <input type="text" class="form-control" id="inputku" name="nilai_barang" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+                                            <input type="text" class="form-control" id="inputku" name="nilai_barang" value="<?php echo $transaksi->nilai_barang; ?>" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
                                         </div>
+
                                         <div class="form-group">
-                                            <label>Nilai Asuransi 0,25% dari nilai barang</label>
-                                            <input type="text" class="form-control" id="inputku" name="nilai_asuransi" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+                                            <label>Nilai Asuransi * 0,25% dari nilai barang</label>
+                                            <input type="text" class="form-control" id="inputku" name="nilai_asuransi" value="<?php echo $transaksi->nilai_asuransi; ?>" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
                                             <!-- <input type="text" class="form-control" id="rupiah" name="asuransi" placeholder="Rp. .." required> -->
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -179,28 +187,28 @@
 
                             <div class="form-group">
                                 <label>Nama Pengirim</label>
-                                <input type="text" class="form-control" name="nama_pengirim" placeholder="Nama Pengirim" required>
+                                <input type="text" class="form-control" name="nama_pengirim" value="<?php echo $transaksi->nama_pengirim; ?>" required>
                                 <div class="invalid-feedback">Silahkan Masukan Nama Pengirim.</div>
                             </div>
                             <div class="form-group">
                                 <label>No. Telpon Pengirim</label>
-                                <input type="number" class="form-control" name="telp_pengirim" placeholder="telp Pengirim" required>
+                                <input type="number" class="form-control" name="telp_pengirim" value="<?php echo $transaksi->telp_pengirim; ?>" required>
                                 <div class="invalid-feedback">Silahkan Masukan Nomor HP Pengirim.</div>
                             </div>
                             <div class="form-group">
                                 <label>Email Pengirim <span class="text-success">* Boleh di kosongkan</span></label>
-                                <input type="text" class="form-control" name="email_pengirim" placeholder="Email Pengirim">
+                                <input type="text" class="form-control" name="email_pengirim" value="<?php echo $transaksi->email_pengirim; ?>">
                             </div>
 
                             <div class="form-group">
                                 <label>Alamat Pengirim</label>
-                                <textarea class="form-control" rows="3" name="alamat_pengirim" placeholder="Alamat ..." required></textarea>
+                                <textarea class="form-control" rows="3" name="alamat_pengirim"><?php echo $transaksi->alamat_pengirim; ?></textarea>
                                 <div class="invalid-feedback">Silahkan Masukan Alamat Pengiriman.</div>
                             </div>
 
                             <div class="form-group">
                                 <label>Kode Pos Pengirim <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" name="kodepos_pengirim" placeholder="Kode Pos Pengirim" required>
+                                <input type="number" class="form-control" name="kodepos_pengirim" value="<?php echo $transaksi->kodepos_pengirim; ?>" required>
                                 <div class="invalid-feedback">Silahkan Masukan Kode Pos.</div>
                             </div>
 
@@ -213,32 +221,32 @@
                             <legend class="fieldset-title"> Data Penerima:</legend>
                             <div class="form-group">
                                 <label>Nama Penerima</label>
-                                <input type="text" class="form-control" name="nama_penerima" placeholder="Nama Penerima.." required>
+                                <input type="text" class="form-control" name="nama_penerima" value="<?php echo $transaksi->nama_penerima; ?>" required>
                                 <div class="invalid-feedback">Silahkan Masukan nama penerima.</div>
                             </div>
                             <div class="form-group">
                                 <label>No. Telpon Penerima</label>
-                                <input type="number" class="form-control" name="telp_penerima" placeholder="Telp penerima" required>
+                                <input type="number" class="form-control" name="telp_penerima" value="<?php echo $transaksi->telp_penerima; ?>" required>
                                 <div class="invalid-feedback">Silahkan Masukan Nomor HP Penerima.</div>
                             </div>
                             <div class="form-group">
                                 <label>Email Penerima <span class="text-success">* Boleh di kosongkan</span></label>
-                                <input type="text" class="form-control" name="email_penerima" placeholder="Email Penerima">
+                                <input type="text" class="form-control" name="email_penerima" value="<?php echo $transaksi->email_penerima; ?>">
                             </div>
                             <div class="form-group">
                                 <label>Alamat Penerima</label>
-                                <textarea class="form-control" rows="3" name="alamat_penerima" placeholder="Enter ..." required></textarea>
+                                <textarea class="form-control" rows="3" name="alamat_penerima" required><?php echo $transaksi->alamat_penerima; ?></textarea>
                                 <div class="invalid-feedback">Silahkan Masukan Alamat Penerima.</div>
                             </div>
                             <div class="form-group">
                                 <label>Kode Pos Penerima <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" name="kodepos_penerima" placeholder="Kode Pos Penerima" required>
+                                <input type="number" class="form-control" name="kodepos_penerima" value="<?php echo $transaksi->kodepos_penerima; ?>" required>
                                 <div class="invalid-feedback">Silahkan Masukan KOde Pos Penerima.</div>
                             </div>
                         </fieldset>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block">Buat Resi</button>
+                    <button type="submit" class="btn btn-primary btn-block">Update Resi</button>
                 </div>
             </div>
         </div>
