@@ -20,84 +20,16 @@ class Transaksi extends CI_Controller
     }
     //Index
 
-    // public function index()
-    // {
-
-    //     $main_agen = $this->user_model->get_agen();
-
-    //     $config['base_url']         = base_url('kurirpusat/transaksi/index/');
-    //     $config['total_rows']       = count($this->transaksi_model->total_row());
-    //     $config['per_page']         = 10;
-    //     $config['uri_segment']      = 4;
-
-    //     //Membuat Style pagination untuk BootStrap v4
-    //     $config['first_link']       = 'First';
-    //     $config['last_link']        = 'Last';
-    //     $config['next_link']        = 'Next';
-    //     $config['prev_link']        = 'Prev';
-    //     $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-    //     $config['full_tag_close']   = '</ul></nav></div>';
-    //     $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-    //     $config['num_tag_close']    = '</span></li>';
-    //     $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-    //     $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-    //     $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-    //     $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-    //     $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-    //     $config['prev_tagl_close']  = '</span>Next</li>';
-    //     $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-    //     $config['first_tagl_close'] = '</span></li>';
-    //     $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
-    //     $config['last_tagl_close']  = '</span></li>';
-    //     //Limit dan Start
-    //     $limit                      = $config['per_page'];
-    //     $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
-    //     //End Limit Start
-    //     $this->pagination->initialize($config);
-    //     $transaksi = $this->transaksi_model->get_kurirpusat($limit, $start);
-    //     $data = [
-    //         'title'                 => 'Data Transaksi',
-    //         'transaksi'             => $transaksi,
-    //         'main_agen'             => $main_agen,
-    //         'search'     => '',
-    //         'pagination'            => $this->pagination->create_links(),
-    //         'content'               => 'kurirpusat/transaksi/index'
-    //     ];
-    //     $this->load->view('kurirpusat/layout/wrapp', $data, FALSE);
-    // }
-
-    public function index($rowno = 0)
+    public function index()
     {
+
+        // $main_agen = $this->user_model->get_agen();
         $user_id = $this->session->userdata('id');
-        $main_agen = $this->user_model->get_all_mainagen();
-        // Search text
-        $search_text = "";
-        if ($this->input->post('submit') != NULL) {
-            $search_text = $this->input->post('search');
-            $this->session->set_userdata(array("search" => $search_text));
-        } else {
-            if ($this->session->userdata('search') != NULL) {
-                $search_text = $this->session->userdata('search');
-            }
-        }
-        // Row per page
-        $rowperpage = 10;
-        // Row position
-        if ($rowno != 0) {
-            $rowno = ($rowno - 1) * $rowperpage;
-        }
 
-        // All records count
-        $allcount = $this->transaksi_model->getrecordCount($user_id, $search_text);
-
-        // Get records
-        $result = $this->transaksi_model->getData($user_id, $rowno, $rowperpage, $search_text);
-
-        // Pagination Configuration
-        $config['base_url'] = base_url() . 'kurirpusat/transaksi';
-        $config['use_page_numbers'] = TRUE;
-        $config['total_rows'] = $allcount;
-        $config['per_page'] = $rowperpage;
+        $config['base_url']         = base_url('kurirpusat/transaksi/index/');
+        $config['total_rows']       = count($this->transaksi_model->total_row_kurirpusat($user_id));
+        $config['per_page']         = 10;
+        $config['uri_segment']      = 4;
 
         //Membuat Style pagination untuk BootStrap v4
         $config['first_link']       = 'First';
@@ -118,32 +50,101 @@ class Transaksi extends CI_Controller
         $config['first_tagl_close'] = '</span></li>';
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tagl_close']  = '</span></li>';
-
-        // Initialize
+        //Limit dan Start
+        $limit                      = $config['per_page'];
+        $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
+        //End Limit Start
         $this->pagination->initialize($config);
-
-        // $data['pagination'] = $this->pagination->create_links();
-        // $data['result'] = $users_record;
-        // $data['row'] = $rowno;
-        // $data['search'] = $search_text;
-        // var_dump($result);
-        // die;
-
+        $transaksi = $this->transaksi_model->get_transaksi_kurirpusat($limit, $start, $user_id);
         $data = [
-            'title'             => 'Ambil Paket Dari',
-            'deskripsi'         => 'Pencarian',
-            'keywords'          => 'Pencarian',
-            'pagination'        => $this->pagination->create_links(),
-            'transaksi'         => $result,
-            'row'               => $rowno,
-            'search'            => $search_text,
-            'main_agen'         => $main_agen,
-            'content'           => 'kurirpusat/transaksi/index'
-
+            'title'                 => 'Data Transaksi',
+            'transaksi'             => $transaksi,
+            // 'main_agen'             => $main_agen,
+            'search'     => '',
+            'pagination'            => $this->pagination->create_links(),
+            'content'               => 'kurirpusat/transaksi/index'
         ];
-        // Load view
-        $this->load->view('kurirpusat/layout/wrapp', $data);
+        $this->load->view('kurirpusat/layout/wrapp', $data, FALSE);
     }
+
+    // public function index($rowno = 0)
+    // {
+    //     $user_id = $this->session->userdata('id');
+    //     $main_agen = $this->user_model->get_all_mainagen();
+    //     // Search text
+    //     $search_text = "";
+    //     if ($this->input->post('submit') != NULL) {
+    //         $search_text = $this->input->post('search');
+    //         $this->session->set_userdata(array("search" => $search_text));
+    //     } else {
+    //         if ($this->session->userdata('search') != NULL) {
+    //             $search_text = $this->session->userdata('search');
+    //         }
+    //     }
+    //     // Row per page
+    //     $rowperpage = 10;
+    //     // Row position
+    //     if ($rowno != 0) {
+    //         $rowno = ($rowno - 1) * $rowperpage;
+    //     }
+
+    //     // All records count
+    //     $allcount = $this->transaksi_model->getrecordCount($user_id, $search_text);
+
+    //     // Get records
+    //     $result = $this->transaksi_model->getData($user_id, $rowno, $rowperpage, $search_text);
+
+    //     // Pagination Configuration
+    //     $config['base_url'] = base_url() . 'kurirpusat/transaksi';
+    //     $config['use_page_numbers'] = TRUE;
+    //     $config['total_rows'] = $allcount;
+    //     $config['per_page'] = $rowperpage;
+
+    //     //Membuat Style pagination untuk BootStrap v4
+    //     $config['first_link']       = 'First';
+    //     $config['last_link']        = 'Last';
+    //     $config['next_link']        = 'Next';
+    //     $config['prev_link']        = 'Prev';
+    //     $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+    //     $config['full_tag_close']   = '</ul></nav></div>';
+    //     $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+    //     $config['num_tag_close']    = '</span></li>';
+    //     $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+    //     $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+    //     $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+    //     $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+    //     $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+    //     $config['prev_tagl_close']  = '</span>Next</li>';
+    //     $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+    //     $config['first_tagl_close'] = '</span></li>';
+    //     $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+    //     $config['last_tagl_close']  = '</span></li>';
+
+    //     // Initialize
+    //     $this->pagination->initialize($config);
+
+    //     // $data['pagination'] = $this->pagination->create_links();
+    //     // $data['result'] = $users_record;
+    //     // $data['row'] = $rowno;
+    //     // $data['search'] = $search_text;
+    //     // var_dump($result);
+    //     // die;
+
+    //     $data = [
+    //         'title'             => 'Ambil Paket Dari',
+    //         'deskripsi'         => 'Pencarian',
+    //         'keywords'          => 'Pencarian',
+    //         'pagination'        => $this->pagination->create_links(),
+    //         'transaksi'         => $result,
+    //         'row'               => $rowno,
+    //         'search'            => $search_text,
+    //         'main_agen'         => $main_agen,
+    //         'content'           => 'kurirpusat/transaksi/index'
+
+    //     ];
+    //     // Load view
+    //     $this->load->view('kurirpusat/layout/wrapp', $data);
+    // }
 
 
     // Ambil Paket

@@ -18,6 +18,10 @@
                     <input type="text" class="form-control" name="transaksi_name" value="<?php echo $transaksi->name ?>" readonly>
                 </div>
                 <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" class="form-control" name="transaksi_name" value="<?php echo $transaksi->email ?>" readonly>
+                </div>
+                <div class="form-group">
                     <label>Telepon</label>
                     <input type="text" class="form-control" name="transaksi_name" value="<?php echo $transaksi->user_phone ?>" readonly>
                 </div>

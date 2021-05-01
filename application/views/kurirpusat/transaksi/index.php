@@ -6,7 +6,7 @@
                     <div class="col-md-6">
                         <?php echo $title; ?>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <?php echo form_open('kurirpusat/transaksi'); ?>
                         <div class="input-group mb-3" style="width: 100%;">
                             <select class="form-control select2bs4" name="search">
@@ -20,12 +20,12 @@
                             </div>
                         </div>
                         <?php echo form_close(); ?>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
-                <table class="table text-nowrap">
+                <table class="table">
                     <thead>
                         <tr>
 
@@ -37,15 +37,15 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><b><?php echo $transaksi['nomor_resi']; ?></b><br>
-                                    Rp. <?php echo number_format($transaksi['total_harga'], 0, ",", "."); ?>
+                                <td><b><?php echo $transaksi->nomor_resi; ?></b><br>
+                                    Rp. <?php echo number_format($transaksi->total_harga, 0, ",", "."); ?>
                                 </td>
                                 <td>
-                                    <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi['kota_from']; ?> <br>
-                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi['kota_name']; ?>
+                                    <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi->kota_from; ?> <br>
+                                    <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?>
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger btn-sm btn-block" href="<?php echo base_url('kurirpusat/transaksi/ambil/' . $transaksi['id']); ?>">Ambil Paket</a>
+                                    <a class="btn btn-danger btn-sm btn-block" href="<?php echo base_url('kurirpusat/transaksi/ambil/' . $transaksi->id); ?>">Ambil Paket</a>
                                     <?php include "view_ambil.php"; ?>
                                 </td>
                             </tr>
@@ -55,16 +55,6 @@
                     </tbody>
                 </table>
 
-                <?php if (count($transaksi) == 0) : ?>
-
-
-                    <div class="display-5 text-center">
-                        <span class="py-3">Tidak Ada Paket </span><br>
-                        <div class="col-md-6 mx-auto my-3">
-                        </div>
-                    </div>
-
-                <?php endif; ?>
 
 
             </div>

@@ -69,9 +69,10 @@ class Transaksi extends CI_Controller
     // Paket dari Agen Lain
     public function from_agen()
     {
+        $resi = $this->input->post('resi');
         $main_agen = $this->user_model->get_all_mainagen();
         $user_id = $this->session->userdata('id');
-        $transaksi = $this->transaksi_model->get_transaksifromagen($user_id);
+        $transaksi = $this->transaksi_model->get_transaksifromagen($user_id, $resi);
         $data = array(
             'title'         => 'Paket Dari Pusat',
             'deskripsi'     => 'Halaman Paket',
@@ -143,8 +144,9 @@ class Transaksi extends CI_Controller
     public function kirim()
     {
         $user_id = $this->session->userdata('id');
+        $resi = $this->input->post('resi');
 
-        $transaksi = $this->transaksi_model->kirim_ke_kurir($user_id);
+        $transaksi = $this->transaksi_model->kirim_ke_kurir($user_id, $resi);
         // $kurirpusat = $this->transaksi_model->kirim_ke_kurirpusat($user_id);
 
         $data = array(
