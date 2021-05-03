@@ -30,7 +30,7 @@
             <label class="col-lg-3 col-form-label">fee Dari Luar Kota <span class="text-danger">*</span>
             </label>
             <div class="col-lg-6">
-                <input type="text" class="form-control" name="fee_from_counter" value="<?php echo $persentase->fee_from_agen; ?>">
+                <input type="text" class="form-control" name="fee_from_agen" value="<?php echo $persentase->fee_from_agen; ?>">
             </div>
         </div>
 

@@ -40,7 +40,7 @@
                 <b>Nama Counter Agen :</b> <?php echo $transaksi->name; ?><br>
                 <b>ID Counter Agen :</b> <?php echo $transaksi->user_code; ?><br>
                 <b>Telp Counter Agen :</b> <?php echo $transaksi->user_phone; ?><br>
-                <b>Tanggal Order :</b> <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?><br>
+                <b>Tanggal Order :</b> <?php echo tanggal_indonesia_lengkap(date('Y-m-d', strtotime($transaksi->date_created))); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?><br>
 
             </div>
             <!-- /.col -->
@@ -164,7 +164,7 @@
                         <td class="track_dot">
                             <span class="track_line"></span>
                         </td>
-                        <td><b><?php echo date('d/m/Y', strtotime($lacak->date_created)); ?>
+                        <td><b><?php echo tanggal_indonesia_lengkap(date('Y-m-d', strtotime($lacak->date_updated))); ?>
                                 <?php echo date('H:i:s', strtotime($lacak->date_updated)); ?> WIB</b></td>
                         <td>
                             <?php echo $lacak->lacak_desc; ?> - <span class="text-danger">

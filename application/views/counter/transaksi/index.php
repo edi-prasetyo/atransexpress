@@ -32,7 +32,7 @@
                             <tr>
                                 <td>
                                     <b> <?php echo $transaksi->nomor_resi; ?></b><br>
-                                    <?php echo tanggal_indonesia_pendek('Y-m-d', strtotime($transaksi->date_created)); ?><br> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB
+                                    <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?><br> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB
                                 </td>
 
                                 <td><?php echo $transaksi->kota_name; ?><br>

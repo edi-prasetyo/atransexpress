@@ -91,6 +91,12 @@ $meta = $this->meta_model->get_meta();
               </a>
             </li>
             <li class="nav-item">
+              <a href="<?php echo base_url(); ?>admin/nilaitopup" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Setting Nilai Topup</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<?php echo base_url(); ?>admin/provinsi" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Provinsi</p>
@@ -117,7 +123,13 @@ $meta = $this->meta_model->get_meta();
             <li class="nav-item">
               <a href="<?php echo base_url(); ?>admin/nilaitopup" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Setting Nilai Topup</p>
+                <p>Top Up</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url(); ?>admin/nilaitopup" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Withdraw</p>
               </a>
             </li>
 

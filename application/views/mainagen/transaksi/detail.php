@@ -19,7 +19,7 @@
                 <?php echo $transaksi->alamat_pengirim; ?><br>
                 Jakarta Selatan, DKI Jakarta 1556<br>
                 Phone: <?php echo $transaksi->telp_pengirim; ?><br>
-                Email: info@almasaeedstudio.com
+                Email: <?php echo $transaksi->email_pengirim; ?>
             </address>
         </div>
         <!-- /.col -->
@@ -30,7 +30,7 @@
                 <?php echo $transaksi->alamat_penerima; ?><br>
                 Semarang, Jawa Tengah 1432<br>
                 Phone: <?php echo $transaksi->telp_penerima; ?><br>
-                Email: john.doe@example.com
+                Email: <?php echo $transaksi->email_penerima; ?>
             </address>
         </div>
         <!-- /.col -->
@@ -40,7 +40,7 @@
             <b>Nama Agen :</b> <?php echo $transaksi->name; ?><br>
             <b>ID Agen:</b> <?php echo $transaksi->user_code; ?><br>
             <b>Order ID:</b> <?php echo $transaksi->id; ?><br>
-            <b>Tanggal Order :</b> <?php echo tanggal_indonesia_lengkap('Y-m-d', strtotime($transaksi->date_created)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?><br>
+            <b>Tanggal Order :</b> <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?><br>
 
         </div>
         <!-- /.col -->
@@ -104,7 +104,7 @@
                 <tbody>
                     <?php foreach ($lacak as $lacak) : ?>
                         <tr>
-                            <td><b><?php echo tanggal_indonesia_lengkap('Y-m-d', strtotime($transaksi->date_updated)); ?>
+                            <td><b><?php echo date('d/m/Y', strtotime($lacak->date_updated)); ?>
                                     <?php echo date('H:i:s', strtotime($lacak->date_updated)); ?></b></td>
                             <td>
                                 <?php echo $lacak->lacak_desc; ?> <?php echo $lacak->name; ?></td>

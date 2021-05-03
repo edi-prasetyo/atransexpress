@@ -31,6 +31,7 @@
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
                                 <td><b><?php echo $transaksi->nomor_resi; ?></b><br>
+                                    <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?>
                                     <?php if ($transaksi->stage == 9) : ?>
                                         <div class="badge badge-success">Selesai</div>
                                     <?php else : ?>

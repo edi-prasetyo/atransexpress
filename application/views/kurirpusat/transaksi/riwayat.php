@@ -30,7 +30,7 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><?php echo tanggal_indonesia_lengkap('Y-m-d', strtotime($transaksi->date_created)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($transaksi->date_updated)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
                                 <td><?php echo $transaksi->nomor_resi; ?></td>
                                 <td><?php echo $transaksi->kota_name; ?></td>
 

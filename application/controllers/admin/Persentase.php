@@ -23,8 +23,8 @@ class Persentase extends CI_Controller
   {
     $persentase = $this->persentase_model->detail_persentase($id);
     $this->form_validation->set_rules(
-      'title',
-      'Judul Web',
+      'potong_saldo',
+      'Potong Saldo',
       'required',
       array('required'            => '%s Harus Diisi')
     );
@@ -37,10 +37,11 @@ class Persentase extends CI_Controller
       $this->load->view('admin/layout/wrapp', $data, FALSE);
     } else {
       $data = [
-        'id'                      => $persentase->id,
+        'id'                      => $id,
         'user_id'                 => $this->session->userdata('id'),
-        'title'                   => $this->input->post('title'),
-        'tagline'                 => $this->input->post('tagline'),
+        'potong_saldo'            => $this->input->post('potong_saldo'),
+        'fee_from_counter'        => $this->input->post('fee_from_counter'),
+        'fee_from_agen'           => $this->input->post('fee_from_agen'),
         'date_updated'            => date('Y-m-d H:i:s')
       ];
       $this->persentase_model->update($data);
