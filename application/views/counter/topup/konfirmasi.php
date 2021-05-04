@@ -33,7 +33,7 @@
                     <table class="table table-borderless">
                         <thead>
                             <tr>
-                                <th scope="col" width="15%"></th>
+
                                 <th scope="col">Bank</th>
                                 <th scope="col">Nomor Rek</th>
                                 <th scope="col">Atas Nama</th>
@@ -42,7 +42,7 @@
                         <tbody>
                             <?php foreach ($bank as $bank) : ?>
                                 <tr>
-                                    <td><img src="<?php echo base_url('assets/img/bank/' . $bank->bank_logo); ?>" class="img-fluid"> </td>
+
                                     <td> <?php echo $bank->bank_name; ?></td>
                                     <td><?php echo $bank->bank_number; ?></td>
                                     <td><?php echo $bank->bank_account; ?></td>
@@ -59,13 +59,13 @@
                 <?php echo form_open_multipart('topup/konfirmasi/' . $topup->id); ?>
                 <div class="form-group row mt-3">
                     <div class="col-12">
-                        <div class="wrap-custom-file col-md-12">
-                            <input type="file" name="bukti_bayar" id="image1" accept=".gif, .jpg, .png, jpeg">
-                            <label for="image1">
-                                <span>Foto Struk Transfer</span>
-                                <i class="fa fa-plus-circle"></i>
-                            </label>
+                        <div class="custom-file">
+                            <input type='file' class="custom-file-input" id="customFile" name="foto">
+                            <label class="custom-file-label" for="customFile">Ambil Foto</label>
                         </div>
+                        <br>
+                        <img class="img-fluid mt-4" id="gambar" src="#" alt="Ambil Foto" OnError=" $(this).hide();" />
+
                     </div>
                 </div>
                 <input type="hidden" value="Process" name="transaction_status">
@@ -78,3 +78,24 @@
 
     <?php endif; ?>
 </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#gambar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+
+    $("#customFile").change(function() {
+        $('#gambar').show();
+        readURL(this);
+    });
+</script>
