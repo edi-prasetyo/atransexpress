@@ -25,8 +25,7 @@ $user = $this->user_model->user_detail($user_id);
     <!-- <div class="col-lg-6">
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>Rp. <?php echo number_format($user->user_saldo, 0, ",", ","); ?></h3>
-
+                <h3>Rp. <?php echo number_format($user->saldo_mainagen, 0, ",", ","); ?></h3>
                 <p>Saldo</p>
             </div>
             <div class="icon">

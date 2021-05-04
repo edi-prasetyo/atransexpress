@@ -18,7 +18,23 @@ class Topup_model extends CI_Model
         return $query->result();
     }
 
-
+    public function create($data)
+    {
+        $this->db->insert('topup', $data);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+    public function last_topup($id)
+    {
+        $this->db->select('topup.*, user.name, user_code, user.user_phone, user.email');
+        $this->db->from('topup');
+        // join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        // End Join
+        $this->db->where('md5(topup.id)', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
     public function new_topup()
     {
         $this->db->select('*');
@@ -52,6 +68,31 @@ class Topup_model extends CI_Model
         $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
         //End Join
         $this->db->order_by('id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    // Detail Top Up
+    public function detail_topup($id)
+    {
+        $this->db->select('topup.*, user.name, user_code, user.user_phone, user.email');
+        $this->db->from('topup');
+        // join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        // End Join
+        $this->db->where(['md5(topup.id)' => $id]);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    // Topup User
+    public function get_my_topup($user_id)
+    {
+        $this->db->select('*');
+        $this->db->from('topup');
+        $this->db->where(['user_id' => $user_id, 'status_bayar' => 'Pending']);
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(1);
         $query = $this->db->get();
         return $query->result();
     }

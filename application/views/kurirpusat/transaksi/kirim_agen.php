@@ -7,7 +7,7 @@
         //Error warning
         echo validation_errors('<div class="alert alert-warning">', '</div>');
 
-        echo form_open(base_url('kurirpusat/transaksi/agen/' . $transaksi->id));
+        echo form_open('kurirpusat/transaksi/agen/' . $transaksi->id,  array('class' => 'needs-validation', 'novalidate' => 'novalidate'));
 
         ?>
 
@@ -18,13 +18,14 @@
 
         <div class="form-group">
             <label>Agen tujuan</label>
-            <select class="form-control select2bs4" name="to_agen" value="">
+            <select class="form-control select2bs4" name="to_agen" value="" required>
 
-                <option>-- Pilih Agen --</option>
+                <option value="">-- Pilih Agen --</option>
                 <?php foreach ($main_agen_kota as $main_agen_kota) : ?>
                     <option value='<?php echo $main_agen_kota->id; ?>'><?php echo $main_agen_kota->name; ?> - <?php echo $main_agen_kota->kota_name; ?> </option>
                 <?php endforeach; ?>
             </select>
+            <div class="invalid-feedback">Silahkan Pilih Agen Tujuan.</div>
         </div>
 
         <div class="form-group">

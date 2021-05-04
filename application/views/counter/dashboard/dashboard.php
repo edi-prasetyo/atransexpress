@@ -22,7 +22,7 @@ $user = $this->user_model->user_detail($user_id);
     <!-- <div class="col-lg-10">
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>Rp. <?php echo number_format($user->user_deposit, 0, ",", ","); ?></h3>
+                <h3>Rp. <?php echo number_format($user->deposit_counter, 0, ",", ","); ?></h3>
                 <p>Deposit</p>
             </div>
             <div class="icon">

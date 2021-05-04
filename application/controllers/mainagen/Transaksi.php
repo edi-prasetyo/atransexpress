@@ -16,6 +16,8 @@ class Transaksi extends CI_Controller
         $this->load->model('category_model');
         $this->load->model('transaksi_model');
         $this->load->model('lacak_model');
+        $this->load->model('persentase_model');
+        $this->load->model('user_model');
     }
     //Index
     public function index()
@@ -38,15 +40,21 @@ class Transaksi extends CI_Controller
     // Ambil Paket dari Counter
     public function ambil($id)
     {
-        $user_id = $this->session->userdata('id');
-        $user = $this->user_model->user_detail($user_id);
+
+        $mainagen_id = $this->session->userdata('id');
+        $user = $this->user_model->user_detail($mainagen_id);
+
         $transaksi = $this->transaksi_model->detail($id);
         $nomor_resi = $transaksi->nomor_resi;
+        // Fungsi Untuk Pemotongan
+        $total_harga = $transaksi->total_harga;
+        $counter_id = $transaksi->user_id;
+        // End Fungsi Untuk Pemotongan
 
         $status = 'Paket telah di ambil Oleh Main Agen ' . $user->kota_name;
         $provinsi_id = $user->provinsi_id;
 
-        if ($transaksi->user_agen == $user_id && $transaksi->stage == 1) {
+        if ($transaksi->user_agen == $mainagen_id && $transaksi->stage == 1) {
 
             $data  = [
                 'id'                                => $id,
@@ -59,11 +67,54 @@ class Transaksi extends CI_Controller
             $this->transaksi_model->update($data);
             //Update Status Lacak
             $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
+            // Fungsi Pemotongan
+            $this->potong_saldo_counter($total_harga, $counter_id);
+            // End Fungsi Potongan
+            $this->tambah_saldo_mainagen($total_harga, $user);
             $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
             redirect(base_url('mainagen/transaksi'), 'refresh');
         } else {
             redirect(base_url('mainagen/404'));
         }
+    }
+
+    // Potong Saldo Counter
+    public function potong_saldo_counter($total_harga, $counter_id)
+    {
+        $persentase = $this->persentase_model->get_persentase();
+        $pemotongan = $persentase->potong_saldo;
+        // var_dump($pemotongan);
+        // die;
+        // $deposit_counter = $user_id->deposit_counter - $pemotongan;
+        $counter = $this->user_model->detail_counter($counter_id);
+
+        $fee_counter = ($pemotongan / 100) * $total_harga;
+        $deposit_counter = $counter->deposit_counter - $fee_counter;
+
+        $data = [
+            'id'                => $counter_id,
+            'deposit_counter'   => $deposit_counter,
+        ];
+        $this->user_model->update($data);
+    }
+    // Tambah Saldo Mainagen
+    public function tambah_saldo_mainagen($total_harga, $user)
+    {
+        $mainagen_id = $this->session->userdata('id');
+        $persentase = $this->persentase_model->get_persentase();
+        $fee_mainagen = $persentase->fee_from_counter;
+        // var_dump($pemotongan);
+        // die;
+        // $deposit_counter = $user_id->deposit_counter - $pemotongan;
+
+        $fee_mainagen = ($fee_mainagen / 100) * $total_harga;
+        $saldo_mainagen = $user->saldo_mainagen + $fee_mainagen;
+
+        $data = [
+            'id'                => $mainagen_id,
+            'saldo_mainagen'   => $saldo_mainagen,
+        ];
+        $this->user_model->update($data);
     }
 
     // Paket dari Agen Lain
@@ -118,6 +169,10 @@ class Transaksi extends CI_Controller
         $transaksi = $this->transaksi_model->detail($id);
         $nomor_resi = $transaksi->nomor_resi;
 
+        // Fungsi Untuk Fee Main Agen Tujuan
+        $total_harga = $transaksi->total_harga;
+        // End Fungsi Untuk Fee Main Agen Tujuan
+
         $status = 'Paket telah di terima Oleh Main Agen ' . $user->kota_name;
         $provinsi_id = $user->provinsi_id;
 
@@ -133,11 +188,32 @@ class Transaksi extends CI_Controller
             $this->transaksi_model->update($data);
             //Update Status Lacak
             $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
+            // Tambah Saldo Mainagen Tujuan
+            $this->tambah_saldo_mainagen_tujuan($total_harga, $user);
             $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
             redirect(base_url('mainagen/transaksi/from_agen'), 'refresh');
         } else {
             redirect(base_url('mainagen/404'));
         }
+    }
+    // Fungsi Tambah Saldo Main Agen Tujuan
+    public function tambah_saldo_mainagen_tujuan($total_harga, $user)
+    {
+        $mainagen_id = $this->session->userdata('id');
+        $persentase = $this->persentase_model->get_persentase();
+        $fee_mainagen = $persentase->fee_from_agen;
+        // var_dump($pemotongan);
+        // die;
+        // $deposit_counter = $user_id->deposit_counter - $pemotongan;
+
+        $fee_mainagen = ($fee_mainagen / 100) * $total_harga;
+        $saldo_mainagen_tujuan = $user->saldo_mainagen + $fee_mainagen;
+
+        $data = [
+            'id'                => $mainagen_id,
+            'saldo_mainagen'    => $saldo_mainagen_tujuan,
+        ];
+        $this->user_model->update($data);
     }
 
     // Kirim Ke Kurir

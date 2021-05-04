@@ -9,7 +9,7 @@ $user = $this->user_model->user_detail($user_id);
         //Error warning
         echo validation_errors('<div class="alert alert-warning">', '</div>');
 
-        echo form_open(base_url('mainagen/transaksi/kurir/' . $transaksi->id));
+        echo form_open('mainagen/transaksi/kurir/' . $transaksi->id, array('class' => 'needs-validation', 'novalidate' => 'novalidate'));
 
         ?>
 
@@ -21,23 +21,20 @@ $user = $this->user_model->user_detail($user_id);
 
 
 
-
-
-
-
         <?php if ($transaksi->kota_id == $user->kota_id) : ?>
 
             <div class="form-group">
                 <label>Pilih Kurir <?php echo $transaksi->kota_name; ?></label>
-                <select class="form-control select2bs4" name="kurir" value="">
+                <select class="form-control select2bs4" name="kurir" value="" required>
 
-                    <option>-- Pilih Kurir --</option>
+                    <option value="">-- Pilih Kurir --</option>
 
                     <?php foreach ($kurir_agen as $kurir_agen) : ?>
                         <option value='<?php echo $kurir_agen->id; ?>'><?php echo $kurir_agen->name; ?> </option>
                     <?php endforeach; ?>
 
                 </select>
+                <div class="invalid-feedback">Silahkan Pilih Kurir.</div>
             </div>
             <input type="hidden" name="stage" value="7">
 
@@ -46,18 +43,14 @@ $user = $this->user_model->user_detail($user_id);
 
             <div class="form-group">
                 <label>Pilih Kurir <?php echo $transaksi->kota_name; ?></label>
-                <select class="form-control select2bs4" name="kurir" value="">
+                <select class="form-control select2bs4" name="kurir" value="" required>
 
-                    <option>-- Pilih Kurir --</option>
-
-
-
+                    <option value="">-- Pilih Kurir --</option>
                     <?php foreach ($kurir as $kurir) : ?>
                         <option value='<?php echo $kurir->id; ?>'><?php echo $kurir->name; ?> </option>
                     <?php endforeach; ?>
-
-
                 </select>
+                <div class="invalid-feedback">Silahkan Pilih Kurir.</div>
             </div>
 
 

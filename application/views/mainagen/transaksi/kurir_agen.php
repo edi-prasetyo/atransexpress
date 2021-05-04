@@ -6,24 +6,23 @@
         //Error warning
         echo validation_errors('<div class="alert alert-warning">', '</div>');
 
-        echo form_open(base_url('mainagen/transaksi/pilih_kurir/' . $transaksi->id));
+        echo form_open('mainagen/transaksi/pilih_kurir/' . $transaksi->id,  array('class' => 'needs-validation', 'novalidate' => 'novalidate'));
 
         ?>
-
-
 
         <input type="hidden" name="status" value="Paket Dikirim Ke <?php echo $transaksi->kota_name; ?>">
         <input type="hidden" name="provinsi_id" value="<?php echo $transaksi->provinsi_id; ?>">
 
         <div class="form-group">
             <label>Pilih Kurir <?php echo $transaksi->kota_name; ?></label>
-            <select class="form-control select2bs4" name="kurir" value="">
+            <select class="form-control select2bs4" name="kurir" value="" required>
 
-                <option>-- Pilih Kurir --</option>
+                <option value="">-- Pilih Kurir --</option>
                 <?php foreach ($kurir_agen as $kurir_agen) : ?>
                     <option value='<?php echo $kurir_agen->id; ?>'><?php echo $kurir_agen->name; ?> </option>
                 <?php endforeach; ?>
             </select>
+            <div class="invalid-feedback">Silahkan Pilih Kurir.</div>
         </div>
 
         <div class="form-group">
