@@ -44,7 +44,7 @@ class Transaksi extends CI_Controller
         $id = $this->session->userdata('id');
         $user = $this->user_model->user_detail($id);
 
-        $deposit = $user->deposit_counter;
+        // $deposit = $user->deposit_counter;
 
 
         $parent_counter = $user->id_agen;
@@ -63,220 +63,220 @@ class Transaksi extends CI_Controller
         $category       = $this->category_model->get_category();
 
 
-        if ($deposit <= 0) {
-            $this->session->set_flashdata('message', '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h5><i class="icon fas fa-exclamation-triangle"></i> Saldo Tidak Mencukupi!</h5>Maaf Anda tidak dapat mencetak E-Resi Karena saldo Anda tidak mencukupi, Silahkan Top Up Deposit, Untuk Melanjutkan</div>');
-            redirect(base_url('counter/topup'), 'refresh');
+        // if ($deposit <= 0) {
+        //     $this->session->set_flashdata('message', '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h5><i class="icon fas fa-exclamation-triangle"></i> Saldo Tidak Mencukupi!</h5>Maaf Anda tidak dapat mencetak E-Resi Karena saldo Anda tidak mencukupi, Silahkan Top Up Deposit, Untuk Melanjutkan</div>');
+        //     redirect(base_url('counter/topup'), 'refresh');
+        // } else {
+
+
+
+
+        $this->form_validation->set_rules(
+            'provinsi_id',
+            'Provinsi Tujuan',
+            'required',
+            array(
+                'required'                        => 'Pilih %s'
+            )
+        );
+        $this->form_validation->set_rules(
+            'kota_id',
+            'Kota Tujuan',
+            'required',
+            array(
+                'required'                        => 'Pilih %s'
+            )
+        );
+        $this->form_validation->set_rules(
+            'category_id',
+            'Kategori Barang',
+            'required',
+            array(
+                'required'                        => 'Pilih %s'
+            )
+        );
+        $this->form_validation->set_rules(
+            'product_id',
+            'Paket',
+            'required',
+            array(
+                'required'                        => 'Pilih %s'
+            )
+        );
+        $this->form_validation->set_rules(
+            'nama_pengirim',
+            'Nama Pengirim',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'telp_pengirim',
+            'Telp Pengirim',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'alamat_pengirim',
+            'Alamat Pengirim',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'kodepos_pengirim',
+            'Kode Pos Pengirim',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'nama_penerima',
+            'Nama Penerima',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'telp_penerima',
+            'Telp Penerima',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'alamat_penerima',
+            'Alamat Penerima',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'kodepos_penerima',
+            'Kode Pos Penerima',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'nama_barang',
+            'Nama Barang',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'berat',
+            'Berat Paket',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        $this->form_validation->set_rules(
+            'harga',
+            'Harga Paket',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        if ($this->form_validation->run() === FALSE) {
+            $data = [
+                'title'                           => 'Buat Transaksi',
+                'provinsi'                        => $provinsi,
+                'product'                         => $product,
+                'category'                        => $category,
+                'user'                              => $user,
+                'content'                         => 'counter/transaksi/create'
+            ];
+            $this->load->view('counter/layout/wrapp', $data, FALSE);
         } else {
 
+            $nomor_resi = random_string('numeric', 12);
+            $this->load->library('zend');
+            $this->zend->load('Zend/Barcode');
 
 
+            $image_resource = Zend_Barcode::factory('code128', 'image', array(
+                'text' => $nomor_resi,
+                'barHeight' => 25,
+                'factor' => 2.98,
+            ), array())->draw();
+            $image_name     = $nomor_resi . '.jpg';
+            $image_dir      = './assets/img/barcode/'; // penyimpanan file barcode
+            imagejpeg($image_resource, $image_dir . $image_name);
 
-            $this->form_validation->set_rules(
-                'provinsi_id',
-                'Provinsi Tujuan',
-                'required',
-                array(
-                    'required'                        => 'Pilih %s'
-                )
-            );
-            $this->form_validation->set_rules(
-                'kota_id',
-                'Kota Tujuan',
-                'required',
-                array(
-                    'required'                        => 'Pilih %s'
-                )
-            );
-            $this->form_validation->set_rules(
-                'category_id',
-                'Kategori Barang',
-                'required',
-                array(
-                    'required'                        => 'Pilih %s'
-                )
-            );
-            $this->form_validation->set_rules(
-                'product_id',
-                'Paket',
-                'required',
-                array(
-                    'required'                        => 'Pilih %s'
-                )
-            );
-            $this->form_validation->set_rules(
-                'nama_pengirim',
-                'Nama Pengirim',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'telp_pengirim',
-                'Telp Pengirim',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'alamat_pengirim',
-                'Alamat Pengirim',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'kodepos_pengirim',
-                'Kode Pos Pengirim',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'nama_penerima',
-                'Nama Penerima',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'telp_penerima',
-                'Telp Penerima',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'alamat_penerima',
-                'Alamat Penerima',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'kodepos_penerima',
-                'Kode Pos Penerima',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'nama_barang',
-                'Nama Barang',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'berat',
-                'Berat Paket',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            $this->form_validation->set_rules(
-                'harga',
-                'Harga Paket',
-                'required',
-                array(
-                    'required'                        => '%s Harus Diisi'
-                )
-            );
-            if ($this->form_validation->run() === FALSE) {
-                $data = [
-                    'title'                           => 'Buat Transaksi',
-                    'provinsi'                        => $provinsi,
-                    'product'                         => $product,
-                    'category'                        => $category,
-                    'user'                              => $user,
-                    'content'                         => 'counter/transaksi/create'
-                ];
-                $this->load->view('counter/layout/wrapp', $data, FALSE);
-            } else {
+            $nilai_barang               = $this->input->post('nilai_barang');
+            $fix_nilai_barang           = preg_replace('/\D/', '', $nilai_barang);
 
-                $nomor_resi = random_string('numeric', 12);
-                $this->load->library('zend');
-                $this->zend->load('Zend/Barcode');
+            $nilai_asuransi               = $this->input->post('nilai_asuransi');
+            $fix_nilai_asuransi           = preg_replace('/\D/', '', $nilai_asuransi);
+
+            $harga               = $this->input->post('harga');
+            $fix_harga           = preg_replace('/\D/', '', $harga);
+
+            $total_harga         = (int)$fix_harga + (int)$fix_nilai_asuransi;
 
 
-                $image_resource = Zend_Barcode::factory('code128', 'image', array(
-                    'text' => $nomor_resi,
-                    'barHeight' => 25,
-                    'factor' => 2.98,
-                ), array())->draw();
-                $image_name     = $nomor_resi . '.jpg';
-                $image_dir      = './assets/img/barcode/'; // penyimpanan file barcode
-                imagejpeg($image_resource, $image_dir . $image_name);
+            $data  = [
+                'user_id'                           => $this->session->userdata('id'),
+                'user_agen'                         => $parent_counter,
+                'counter_id'                        => $this->session->userdata('id'),
+                'category_id'                       => $this->input->post('category_id'),
+                'product_id'                        => $this->input->post('product_id'),
+                'provinsi_id'                       => $this->input->post('provinsi_id'),
+                'kota_id'                           => $this->input->post('kota_id'),
+                'kecamatan_id'                      => $this->input->post('kecamatan_id'),
+                'nomor_resi'                        => $nomor_resi,
+                'provinsi_from'                     => $this->input->post('provinsi_from'),
+                'mainagen_name'                     => $get_mainagen_name->name . '-' . $get_mainagen_name->kota_name . '-' . $get_mainagen_name->user_phone,
+                'kota_from'                         => $this->input->post('kota_from'),
+                'nama_pengirim'                     => $this->input->post('nama_pengirim'),
+                'telp_pengirim'                     => $this->input->post('telp_pengirim'),
+                'alamat_pengirim'                   => $this->input->post('alamat_pengirim'),
+                'email_pengirim'                    => $this->input->post('email_pengirim'),
+                'kodepos_pengirim'                  => $this->input->post('kodepos_pengirim'),
+                'nama_penerima'                     => $this->input->post('nama_penerima'),
+                'telp_penerima'                     => $this->input->post('telp_penerima'),
+                'alamat_penerima'                   => $this->input->post('alamat_penerima'),
+                'email_penerima'                    => $this->input->post('email_penerima'),
+                'kodepos_penerima'                  => $this->input->post('kodepos_penerima'),
+                'nama_barang'                       => $this->input->post('nama_barang'),
+                'berat'                             => $this->input->post('berat'),
+                'koli'                              => $this->input->post('koli'),
+                'panjang'                           => $this->input->post('panjang'),
+                'lebar'                             => $this->input->post('lebar'),
+                'tinggi'                            => $this->input->post('tinggi'),
+                'harga'                             => $fix_harga,
+                'asuransi'                          => $this->input->post('asuransi'),
+                'nilai_asuransi'                    => $fix_nilai_asuransi,
+                'total_harga'                       => $total_harga,
+                'nilai_barang'                      => $fix_nilai_barang,
+                'stage'                             => 1,
+                'user_stage'                        => $this->session->userdata('id'),
+                'barcode'                           => $image_name,
+                'date_created'                      => date('Y-m-d H:i:s'),
+                'date_updated'                      => date('Y-m-d H:i:s')
+            ];
+            $insert_id = $this->transaksi_model->create($data);
+            //Update Status Lacak
 
-                $nilai_barang               = $this->input->post('nilai_barang');
-                $fix_nilai_barang           = preg_replace('/\D/', '', $nilai_barang);
-
-                $nilai_asuransi               = $this->input->post('nilai_asuransi');
-                $fix_nilai_asuransi           = preg_replace('/\D/', '', $nilai_asuransi);
-
-                $harga               = $this->input->post('harga');
-                $fix_harga           = preg_replace('/\D/', '', $harga);
-
-                $total_harga         = (int)$fix_harga + (int)$fix_nilai_asuransi;
-
-
-                $data  = [
-                    'user_id'                           => $this->session->userdata('id'),
-                    'user_agen'                         => $parent_counter,
-                    'counter_id'                        => $this->session->userdata('id'),
-                    'category_id'                       => $this->input->post('category_id'),
-                    'product_id'                        => $this->input->post('product_id'),
-                    'provinsi_id'                       => $this->input->post('provinsi_id'),
-                    'kota_id'                           => $this->input->post('kota_id'),
-                    'kecamatan_id'                      => $this->input->post('kecamatan_id'),
-                    'nomor_resi'                        => $nomor_resi,
-                    'provinsi_from'                     => $this->input->post('provinsi_from'),
-                    'mainagen_name'                     => $get_mainagen_name->name . '-' . $get_mainagen_name->kota_name . '-' . $get_mainagen_name->user_phone,
-                    'kota_from'                         => $this->input->post('kota_from'),
-                    'nama_pengirim'                     => $this->input->post('nama_pengirim'),
-                    'telp_pengirim'                     => $this->input->post('telp_pengirim'),
-                    'alamat_pengirim'                   => $this->input->post('alamat_pengirim'),
-                    'email_pengirim'                    => $this->input->post('email_pengirim'),
-                    'kodepos_pengirim'                  => $this->input->post('kodepos_pengirim'),
-                    'nama_penerima'                     => $this->input->post('nama_penerima'),
-                    'telp_penerima'                     => $this->input->post('telp_penerima'),
-                    'alamat_penerima'                   => $this->input->post('alamat_penerima'),
-                    'email_penerima'                    => $this->input->post('email_penerima'),
-                    'kodepos_penerima'                  => $this->input->post('kodepos_penerima'),
-                    'nama_barang'                       => $this->input->post('nama_barang'),
-                    'berat'                             => $this->input->post('berat'),
-                    'koli'                              => $this->input->post('koli'),
-                    'panjang'                           => $this->input->post('panjang'),
-                    'lebar'                             => $this->input->post('lebar'),
-                    'tinggi'                            => $this->input->post('tinggi'),
-                    'harga'                             => $fix_harga,
-                    'asuransi'                          => $this->input->post('asuransi'),
-                    'nilai_asuransi'                    => $fix_nilai_asuransi,
-                    'total_harga'                       => $total_harga,
-                    'nilai_barang'                      => $fix_nilai_barang,
-                    'stage'                             => 1,
-                    'user_stage'                        => $this->session->userdata('id'),
-                    'barcode'                           => $image_name,
-                    'date_created'                      => date('Y-m-d H:i:s'),
-                    'date_updated'                      => date('Y-m-d H:i:s')
-                ];
-                $insert_id = $this->transaksi_model->create($data);
-                //Update Status Lacak
-
-                $this->create_lacak($insert_id, $nomor_resi);
-                $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-                redirect(base_url('counter/transaksi'), 'refresh');
-            }
+            $this->create_lacak($insert_id, $nomor_resi);
+            $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
+            redirect(base_url('counter/transaksi'), 'refresh');
         }
+        //}
     }
 
     // Update Transaksi
