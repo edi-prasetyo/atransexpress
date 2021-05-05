@@ -18,26 +18,30 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
-                <table class="table text-nowrap">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
-                            <th>Resi</th>
-                            <th>Tujuan</th>
-                            <th>Action</th>
+                            <th>Resi/Tujuan</th>
+                            <th width="15%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><?php echo date('d/m/Y', strtotime($transaksi->date_updated)); ?> <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?></td>
-                                <td><?php echo $transaksi->nomor_resi; ?></td>
-                                <td><?php echo $transaksi->kota_name; ?></td>
+                                <td>
 
-                                <!-- <td><img class="img-fluid" src="<?php echo base_url('assets/img/barcode/' . $transaksi->barcode); ?>"></td> -->
-                                <td><a href="<?php echo base_url('kurirpusat/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm">
-                                        <ion-icon name="eye-outline"></ion-icon> Lacak
-                                    </a></td>
+                                    <?php echo date('d/m/Y', strtotime($transaksi->date_updated)); ?><br>
+                                    <?php echo date('H:i', strtotime($transaksi->date_created)); ?> WIB
+                                </td>
+                                <td>
+                                    <b><?php echo $transaksi->nomor_resi; ?></b><br>
+                                    <i class="fa fa-map-marker-alt"></i> <?php echo $transaksi->kota_name; ?>
+                                </td>
+                                <td><a href="<?php echo base_url('kurirpusat/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm btn-block">
+                                        <i class="fa fa-route"></i> Lacak
+                                    </a>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
 
