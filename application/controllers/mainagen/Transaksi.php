@@ -382,7 +382,7 @@ class Transaksi extends CI_Controller
         $config['base_url']         = base_url('mainagen/transaksi/riwayat/index/');
         $config['total_rows']       = count($this->transaksi_model->get_row_mainagen($user_id, $search));
         $config['per_page']         = 10;
-        $config['uri_segment']      = 4;
+        $config['uri_segment']      = 5;
 
         //Membuat Style pagination untuk BootStrap v4
         $config['first_link']       = 'First';
@@ -405,7 +405,7 @@ class Transaksi extends CI_Controller
         $config['last_tagl_close']  = '</span></li>';
         //Limit dan Start
         $limit                      = $config['per_page'];
-        $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
+        $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
         $transaksi = $this->transaksi_model->get_riwayat_mainagen($limit, $start, $user_id, $search);

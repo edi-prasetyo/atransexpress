@@ -276,7 +276,7 @@ class Transaksi extends CI_Controller
             $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
             redirect(base_url('counter/transaksi'), 'refresh');
         }
-        //}
+        // }
     }
 
     // Update Transaksi
