@@ -91,6 +91,24 @@ $meta = $this->meta_model->get_meta();
         </li>
 
         <li class="nav-item">
+          <a href="<?php echo base_url(); ?>mainagen/withdraw" class="nav-link">
+            <i class="nav-icon fas fa-wallet"></i>
+            <p>
+              Wallet
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="<?php echo base_url(); ?>mainagen/saldo" class="nav-link">
+            <i class="nav-icon fas fa-wallet"></i>
+            <p>
+              Laporan
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a href="<?php echo base_url(); ?>mainagen/user" class="nav-link">
             <i class="nav-icon fas fa-user-friends"></i>
             <p>

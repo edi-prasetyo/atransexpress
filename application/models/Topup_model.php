@@ -31,7 +31,7 @@ class Topup_model extends CI_Model
         // join
         $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
         // End Join
-        $this->db->where('md5(topup.id)', $id);
+        $this->db->where('topup.id', $id);
         $query = $this->db->get();
         return $query->row();
     }
@@ -80,7 +80,19 @@ class Topup_model extends CI_Model
         // join
         $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
         // End Join
-        $this->db->where(['md5(topup.id)' => $id]);
+        $this->db->where(['topup.id' => $id]);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    // Detail Top Up Konfirmasi
+    public function detail_topup_konfirmasi($id)
+    {
+        $this->db->select('topup.*, user.name, user_code, user.user_phone, user.email');
+        $this->db->from('topup');
+        // join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        // End Join
+        $this->db->where(['topup.id' => $id]);
         $query = $this->db->get();
         return $query->row();
     }
@@ -95,5 +107,12 @@ class Topup_model extends CI_Model
         $this->db->limit(1);
         $query = $this->db->get();
         return $query->result();
+    }
+    // Update Data
+    //Update Data
+    public function update($data)
+    {
+        $this->db->where('id', $data['id']);
+        $this->db->update('topup', $data);
     }
 }

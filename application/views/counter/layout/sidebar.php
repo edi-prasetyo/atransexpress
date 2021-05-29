@@ -81,6 +81,15 @@ $meta = $this->meta_model->get_meta();
         </li>
 
         <li class="nav-item">
+          <a href="<?php echo base_url(); ?>counter/saldo" class="nav-link">
+            <i class="nav-icon fas fa-wallet"></i>
+            <p>
+              Laporan
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-cog"></i>
             <p>

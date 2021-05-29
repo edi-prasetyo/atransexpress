@@ -10,6 +10,7 @@ class Counter extends CI_Controller
         $this->load->model('user_model');
         $this->load->model('provinsi_model');
         $this->load->model('main_model');
+        $this->load->model('saldo_model');
     }
     public function index()
     {
@@ -204,6 +205,125 @@ class Counter extends CI_Controller
             'content'               => 'admin/counter/detail'
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
+    }
+    // Saldo
+    public function saldo($id)
+    {
+
+        $counter = $this->user_model->detail($id);
+
+        $data = [
+            'title'                 => 'Saldo Counter',
+            'counter'               => $counter,
+            'content'               => 'admin/counter/saldo'
+        ];
+        $this->load->view('admin/layout/wrapp', $data, FALSE);
+    }
+    public function tambah_saldo($id)
+    {
+        $user_type = $this->session->userdata('id');
+        $counter = $this->user_model->detail($id);
+        $counter_id = $counter->id;
+
+        $this->form_validation->set_rules(
+            'keterangan',
+            'Keterangan',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi',
+            )
+        );
+        if ($this->form_validation->run() === FALSE) {
+            $data = [
+                'title'                 => 'Saldo Counter',
+                'counter'               => $counter,
+                'content'               => 'admin/counter/saldo'
+            ];
+            $this->load->view('admin/layout/wrapp', $data, FALSE);
+        } else {
+
+
+            $pemasukan               = $this->input->post('pemasukan');
+            $fix_pemasukan          = preg_replace('/\D/', '', $pemasukan);
+
+            // $pemasukan = $this->input->post('pemasukan');
+            // $total_saldo = $counter->deposit_counter + $pemasukan;
+            $total_saldo = (int)$counter->deposit_counter + (int)$fix_pemasukan;
+
+            $data  = [
+                'user_id'                   => $id,
+                'pemasukan'                 => $fix_pemasukan,
+                'keterangan'                => $this->input->post('keterangan'),
+                'transaksi'                 => 0,
+                'asuransi'                  => 0,
+                'pengeluaran'               => 0,
+                'total_saldo'               => $total_saldo,
+                'user_type'                 => $user_type,
+                'date_created'              => date('Y-m-d H:i:s')
+            ];
+            $this->saldo_model->create($data);
+            $this->session->set_flashdata('message', 'Data telah ditambahkan');
+            $this->update_saldo_counter($total_saldo, $counter_id);
+            redirect(base_url('admin/counter'), 'refresh');
+        }
+    }
+
+    public function potong_saldo($id)
+    {
+
+        $user_type = $this->session->userdata('id');
+        $counter = $this->user_model->detail($id);
+        $counter_id = $counter->id;
+
+        $this->form_validation->set_rules(
+            'keterangan',
+            'Keterangan',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi',
+            )
+        );
+        if ($this->form_validation->run() === FALSE) {
+            $data = [
+                'title'                 => 'Saldo Counter',
+                'counter'               => $counter,
+                'content'               => 'admin/counter/saldo'
+            ];
+            $this->load->view('admin/layout/wrapp', $data, FALSE);
+        } else {
+
+            $pengeluaran               = $this->input->post('pengeluaran');
+            $fix_pengeluaran          = preg_replace('/\D/', '', $pengeluaran);
+
+            // $pengeluaran = $this->input->post('pengeluaran');
+            $total_saldo = (int)$counter->deposit_counter - (int)$fix_pengeluaran;
+
+            $data  = [
+                'user_id'                   => $id,
+                'pemasukan'                 => 0,
+                'keterangan'                => $this->input->post('keterangan'),
+                'transaksi'                 => 0,
+                'asuransi'                  => 0,
+                'pengeluaran'               => $fix_pengeluaran,
+                'total_saldo'               => $total_saldo,
+                'user_type'                 => $user_type,
+                'date_created'              => date('Y-m-d H:i:s')
+            ];
+            $this->saldo_model->create($data);
+            $this->session->set_flashdata('message', 'Data telah ditambahkan');
+            $this->update_saldo_counter($total_saldo, $counter_id);
+            redirect(base_url('admin/counter'), 'refresh');
+        }
+    }
+
+    public function update_saldo_counter($total_saldo, $counter_id)
+    {
+        $data = [
+            'id'                => $counter_id,
+            'deposit_counter'   => $total_saldo,
+
+        ];
+        $this->user_model->update($data);
     }
 
     // Activated

@@ -22,6 +22,7 @@ class Profile extends CI_Controller
         ];
         $this->load->view('mainagen/layout/wrapp', $data, FALSE);
     }
+    
 
     // Change Password
     public function password()

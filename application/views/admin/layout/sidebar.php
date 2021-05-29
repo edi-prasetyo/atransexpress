@@ -121,13 +121,13 @@ $meta = $this->meta_model->get_meta();
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?php echo base_url(); ?>admin/nilaitopup" class="nav-link">
+              <a href="<?php echo base_url(); ?>admin/topup" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Top Up</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?php echo base_url(); ?>admin/nilaitopup" class="nav-link">
+              <a href="<?php echo base_url(); ?>admin/withdraw" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Withdraw</p>
               </a>
@@ -137,6 +137,17 @@ $meta = $this->meta_model->get_meta();
 
           </ul>
         </li>
+
+        <li class="nav-item">
+          <a href="<?php echo base_url(); ?>admin/report" class="nav-link">
+            <i class="nav-icon fas fa-vote-yea"></i>
+            <p>
+              Laporan
+            </p>
+          </a>
+        </li>
+
+
 
         <li class="nav-item">
           <a href="#" class="nav-link">

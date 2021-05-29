@@ -158,10 +158,12 @@
                                         <div class="form-group">
                                             <label>Nilai Barang</label>
                                             <input type="text" class="form-control" id="inputku" name="nilai_barang" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+                                            <input type="hidden" name="nilai_barang_zero" value="0">
                                         </div>
                                         <div class="form-group">
                                             <label>Nilai Asuransi 0,25% dari nilai barang</label>
                                             <input type="text" class="form-control" id="inputku" name="nilai_asuransi" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+                                            <input type="hidden" name="nilai_asuransi_zero" value="0">
                                             <!-- <input type="text" class="form-control" id="rupiah" name="asuransi" placeholder="Rp. .." required> -->
                                         </div>
                                     </div>

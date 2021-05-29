@@ -19,7 +19,7 @@ $user = $this->user_model->user_detail($user_id);
         </a>
     </div>
 
-    <!-- <div class="col-lg-10">
+    <div class="col-lg-10">
         <div class="small-box bg-info">
             <div class="inner">
                 <h3>Rp. <?php echo number_format($user->deposit_counter, 0, ",", ","); ?></h3>
@@ -47,7 +47,7 @@ $user = $this->user_model->user_detail($user_id);
                 <i class="fas fa-arrow-circle-right" style="color: transparent;"></i>
             </div>
         </a>
-    </div> -->
+    </div>
 
 
 

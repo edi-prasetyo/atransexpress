@@ -165,7 +165,7 @@ class Mainagen extends CI_Controller
     );
     if ($this->form_validation->run() == false) {
       $data = [
-        'title'         => 'Update Counter',
+        'title'         => 'Update Mainagen',
         'provinsi'      => $provinsi,
         'user'          => $user,
         'content'       => 'admin/mainagen/update'
@@ -183,6 +183,40 @@ class Mainagen extends CI_Controller
       $this->user_model->update($data);
       $this->session->set_flashdata('message', 'Data Berhasil di Update');
       redirect('admin/mainagen');
+    }
+  }
+  // Data Bank
+  public function data_bank($id)
+  {
+    $user = $this->user_model->detail($id);
+    $this->form_validation->set_rules(
+      'bank_name',
+      'Password',
+      'required',
+      [
+        'required'      => 'Password harus Di isi'
+      ]
+    );
+
+    if ($this->form_validation->run() == false) {
+      // End Listing Berita dengan paginasi
+      $data = array(
+        'title'       => 'Data Bank',
+        'user'        => $user,
+        'content'     => 'admin/mainagen/data_bank'
+      );
+      $this->load->view('admin/layout/wrapp', $data, FALSE);
+    } else {
+      $data = [
+        'id'                    => $id,
+        'bank_name'             => $this->input->post('bank_name'),
+        'bank_account'          => $this->input->post('bank_account'),
+        'bank_number'           => $this->input->post('bank_number'),
+        'bank_branch'           => $this->input->post('bank_branch'),
+      ];
+      $this->user_model->update($data);
+      $this->session->set_flashdata('message', '<div class="alert alert-success">Data telah di Update</div>');
+      redirect(base_url('admin/mainagen'), 'refresh');
     }
   }
   // Detail Main Agen

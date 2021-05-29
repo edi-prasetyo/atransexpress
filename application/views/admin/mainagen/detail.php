@@ -32,8 +32,29 @@
                     <li class="list-group-item">
                         <b>Alamat</b> <span class="float-right"><?php echo $main_agen->user_address; ?></span>
                     </li>
+
                 </ul>
-                <a href="<?php echo base_url('admin/mainagen/update/' . $main_agen->id); ?>" class="btn btn-primary btn-block"><b>Ubah Data</b></a>
+
+                <h5 class="my-5">Data Bank</h5>
+
+                <ul class="list-group list-group-unbordered mb-3">
+
+                    <li class="list-group-item">
+                        <b>Nama Bank</b> <span class="float-right"><?php echo $main_agen->bank_name; ?></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Atas Nama</b> <span class="float-right"><?php echo $main_agen->bank_account; ?></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Nomor Rekening</b> <span class="float-right"><?php echo $main_agen->bank_number; ?></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Cabang</b> <span class="float-right"><?php echo $main_agen->bank_branch; ?></span>
+                    </li>
+                </ul>
+
+                <a href="<?php echo base_url('admin/mainagen/data_bank/' . $main_agen->id); ?>" class="btn btn-info btn-block"><b>Ubah Data Bank</b></a>
+                <a href="<?php echo base_url('admin/mainagen/update/' . $main_agen->id); ?>" class="btn btn-primary btn-block"><b>Ubah Profile</b></a>
                 <a href="<?php echo base_url('admin/mainagen/update_password/' . $main_agen->id); ?>" class="btn btn-success btn-block"><b>Ubah Password</b></a>
             </div>
             <!-- /.card-body -->

@@ -18,6 +18,7 @@ class Transaksi extends CI_Controller
         $this->load->model('lacak_model');
         $this->load->model('persentase_model');
         $this->load->model('user_model');
+        $this->load->model('saldo_model');
     }
     //Index
     public function index()
@@ -47,7 +48,8 @@ class Transaksi extends CI_Controller
         $transaksi = $this->transaksi_model->detail($id);
         $nomor_resi = $transaksi->nomor_resi;
         // Fungsi Untuk Pemotongan
-        $total_harga = $transaksi->total_harga;
+        $harga = $transaksi->harga;
+        $nilai_asuransi = $transaksi->nilai_asuransi;
         $counter_id = $transaksi->user_id;
         // End Fungsi Untuk Pemotongan
 
@@ -68,9 +70,9 @@ class Transaksi extends CI_Controller
             //Update Status Lacak
             $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
             // Fungsi Pemotongan
-            $this->potong_saldo_counter($total_harga, $counter_id);
+            $this->potong_saldo_counter($harga, $nilai_asuransi, $counter_id, $nomor_resi);
             // End Fungsi Potongan
-            $this->tambah_saldo_mainagen($total_harga, $user);
+            $this->tambah_saldo_mainagen($harga, $user, $nomor_resi);
             $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
             redirect(base_url('mainagen/transaksi'), 'refresh');
         } else {
@@ -79,7 +81,7 @@ class Transaksi extends CI_Controller
     }
 
     // Potong Saldo Counter
-    public function potong_saldo_counter($total_harga, $counter_id)
+    public function potong_saldo_counter($harga, $nilai_asuransi, $counter_id, $nomor_resi)
     {
         $persentase = $this->persentase_model->get_persentase();
         $pemotongan = $persentase->potong_saldo;
@@ -88,17 +90,36 @@ class Transaksi extends CI_Controller
         // $deposit_counter = $user_id->deposit_counter - $pemotongan;
         $counter = $this->user_model->detail_counter($counter_id);
 
-        $fee_counter = ($pemotongan / 100) * $total_harga;
-        $deposit_counter = $counter->deposit_counter - $fee_counter;
+        $fee_counter = ($pemotongan / 100) * $harga;
+        $deposit_counter = $counter->deposit_counter - $fee_counter - $nilai_asuransi;
 
         $data = [
             'id'                => $counter_id,
             'deposit_counter'   => $deposit_counter,
         ];
         $this->user_model->update($data);
+        // Create Riwayat Saldo
+        $this->create_saldo_counter($counter_id, $fee_counter, $nomor_resi, $deposit_counter, $harga, $nilai_asuransi);
+    }
+    public function create_saldo_counter($counter_id, $fee_counter, $nomor_resi, $deposit_counter, $harga, $nilai_asuransi)
+    {
+        $pengeluaran = $fee_counter + $nilai_asuransi;
+
+        $data = [
+            'user_id'       => $counter_id,
+            'pemasukan'     => 0,
+            'pengeluaran'   => $fee_counter,
+            'transaksi'     => $harga,
+            'asuransi'      => $nilai_asuransi,
+            'keterangan'    => $nomor_resi,
+            'total_saldo'   => $deposit_counter,
+            'user_type'     => $counter_id,
+            'date_created'                      => date('Y-m-d H:i:s')
+        ];
+        $this->saldo_model->create($data);
     }
     // Tambah Saldo Mainagen
-    public function tambah_saldo_mainagen($total_harga, $user)
+    public function tambah_saldo_mainagen($total_harga, $user, $nomor_resi)
     {
         $mainagen_id = $this->session->userdata('id');
         $persentase = $this->persentase_model->get_persentase();
@@ -115,6 +136,23 @@ class Transaksi extends CI_Controller
             'saldo_mainagen'   => $saldo_mainagen,
         ];
         $this->user_model->update($data);
+        $this->create_saldo_mainagen($fee_mainagen, $saldo_mainagen, $nomor_resi);
+    }
+    public function create_saldo_mainagen($fee_mainagen, $saldo_mainagen, $nomor_resi)
+    {
+        $user_id = $this->session->userdata('id');
+        $data = [
+            'user_id'       => $user_id,
+            'pemasukan'     => $fee_mainagen,
+            'transaksi'     => 0,
+            'asuransi'      => 0,
+            'pengeluaran'   => 0,
+            'total_saldo'   => $saldo_mainagen,
+            'keterangan'    => $nomor_resi,
+            'user_type'     => $user_id,
+            'date_created'  => date('Y-m-d H:i:s')
+        ];
+        $this->saldo_model->create($data);
     }
 
     // Paket dari Agen Lain

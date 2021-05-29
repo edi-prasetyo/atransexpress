@@ -26,7 +26,7 @@ class Transaksi_model extends CI_Model
     $this->db->select('transaksi.*, COUNT(transaksi.id) AS total');
     $this->db->from('transaksi');
     $this->db->group_by('DATE(date_created)');
-    $this->db->order_by('DATE(date_created)', 'ASC');
+    $this->db->order_by('DATE(date_created)', 'DESC');
     $this->db->limit(7);
     $query = $this->db->get();
     return $query->result();
@@ -414,7 +414,7 @@ class Transaksi_model extends CI_Model
     $this->db->where(['mainagen_id' => $user_id]);
     $this->db->or_where(['mainagen_to_id' => $user_id]);
     $this->db->group_by('DATE(date_created)');
-    $this->db->order_by('DATE(date_created)', 'ASC');
+    $this->db->order_by('DATE(date_created)', 'DESC');
     $this->db->limit(12);
     $query = $this->db->get();
     return $query->result();
@@ -482,7 +482,7 @@ class Transaksi_model extends CI_Model
     $this->db->from('transaksi');
     $this->db->where(['counter_id' => $user_id]);
     $this->db->group_by('DATE(date_created)');
-    $this->db->order_by('DATE(date_created)', 'ASC');
+    $this->db->order_by('DATE(date_created)', 'DESC');
     $this->db->limit(12);
     $query = $this->db->get();
     return $query->result();

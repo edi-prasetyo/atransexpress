@@ -37,7 +37,7 @@
 
                                 <td><?php echo $transaksi->kota_name; ?><br>
                                     <span class="badge badge-warning">Menunggu Di Ambil</span><br>
-                                    <b>Rp. <?php echo number_format($transaksi->harga, 0, ",", "."); ?></b>
+                                    <b>Rp. <?php echo number_format($transaksi->total_harga, 0, ",", "."); ?></b>
                                 </td>
 
                                 <!-- <td><img class="img-fluid" src="<?php echo base_url('assets/img/barcode/' . $transaksi->barcode); ?>"></td> -->

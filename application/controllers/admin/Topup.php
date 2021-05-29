@@ -9,15 +9,12 @@ class topup extends CI_Controller
         parent::__construct();
         $this->load->library('pagination');
         $this->load->model('topup_model');
-        $this->load->model('lacak_model');
-        $this->load->model('provinsi_model');
-        $this->load->model('main_model');
+        $this->load->model('user_model');
+        $this->load->model('saldo_model');
     }
     //listing data topup
     public function index()
     {
-
-
 
         $config['base_url']         = base_url('admin/topup/index/');
         $config['total_rows']       = count($this->topup_model->total_row());
@@ -62,16 +59,72 @@ class topup extends CI_Controller
 
     public function detail($id)
     {
-        $topup = $this->topup_model->detail($id);
-        $lacak = $this->lacak_model->get_detail_lacak($id);
+        $topup = $this->topup_model->detail_topup($id);
         // var_dump($topup);
         // die;
         $data = [
             'title'                 => 'Detail Topup',
             'topup'             => $topup,
-            'lacak'                 => $lacak,
             'content'               => 'admin/topup/detail'
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
+    }
+    // Aprove
+    public function aprove($id)
+    {
+        $topup = $this->topup_model->detail_topup($id);
+        $nominal = $topup->nominal;
+        $counter_id = $topup->user_id;
+
+        $counter_detail = $this->user_model->detail($counter_id);
+        $deposit_counter = $counter_detail->deposit_counter;
+
+        $tambah_saldo = $nominal + $deposit_counter;
+
+        // var_dump($tambah_saldo);
+        // die;
+
+        $data = [
+            'id'                => $counter_id,
+            'deposit_counter'   => $tambah_saldo,
+
+        ];
+        $this->user_model->update($data);
+        $this->update_topup($counter_id, $id);
+        $this->create_saldo_topup($counter_id, $nominal, $tambah_saldo);
+        $this->session->set_flashdata('message', 'Data telah di Update');
+        redirect(base_url('admin/topup'), 'refresh');
+    }
+    // Create Saldo Topup
+    public function create_saldo_topup($counter_id, $nominal, $tambah_saldo)
+    {
+        $data = [
+            'user_id'               => $counter_id,
+            'pemasukan'             => $nominal,
+            'transaksi'             => 0,
+            'asuransi'              => 0,
+            'pengeluaran'           => 0,
+            'total_saldo'           => $tambah_saldo,
+            'user_type'             => 'Counter',
+            'keterangan'            => 'Top Up Saldo',
+            'date_created'          => date('Y-m-d H:i:s')
+
+        ];
+        $this->saldo_model->create($data);
+    }
+    // Update Top Up
+    public function update_topup($counter_id, $id)
+    {
+        $data = [
+            'id'                => $id,
+            'user_id'            => $counter_id,
+            'status_bayar'      => 'Success',
+            'date_updated'      => date('Y-m-d H:i:s')
+        ];
+        $this->topup_model->update($data);
+    }
+    // Decline
+    public function decline($id)
+    {
     }
 }

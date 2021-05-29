@@ -38,6 +38,7 @@
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Kota</th>
+                    <th width="15%">Saldo</th>
                     <th>Status</th>
                     <th>Locked</th>
                     <th width="20%">Action</th>
@@ -51,6 +52,7 @@
                     <td><?php echo $counter->name; ?></td>
                     <td><?php echo $counter->email; ?></td>
                     <td><?php echo $counter->kota_name; ?> - <?php echo $counter->provinsi_name; ?></td>
+                    <td>Rp. <?php echo number_format($counter->deposit_counter, 0, ",", "."); ?></td>
                     <td>
                         <?php if ($counter->is_active == 1) : ?>
                             <span class="badge badge-success">Aktif</span>
@@ -67,16 +69,17 @@
                     </td>
                     <td>
                         <?php if ($counter->is_locked == 0) : ?>
-                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/counter/activated/' . $counter->id); ?>"><i class="fas fa-counter-times"></i> Setujui</a>
+                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/counter/activated/' . $counter->id); ?>"><i class="fas fa-check"></i></a>
                         <?php endif; ?>
 
                         <?php if ($counter->is_active == 0) : ?>
-                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/counter/activated/' . $counter->id); ?>"><i class="fas fa-counter-times"></i> Activated</a>
+                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/counter/activated/' . $counter->id); ?>"><i class="fas fa-check"></i></a>
                         <?php else : ?>
-                            <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/counter/banned/' . $counter->id); ?>"><i class="fas fa-counter-times"></i> Banned</a>
+                            <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/counter/banned/' . $counter->id); ?>"><i class="fas fa-times"></i></a>
 
                         <?php endif; ?>
-                        <a href="<?php echo base_url('admin/counter/detail/' . $counter->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Detail</a>
+                        <a href="<?php echo base_url('admin/counter/detail/' . $counter->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-eye"></i></a>
+                        <a href="<?php echo base_url('admin/counter/saldo/' . $counter->id); ?>" class="btn btn-success btn-sm"> <i class="fas fa-wallet"></i></a>
                     </td>
                 </tr>
 

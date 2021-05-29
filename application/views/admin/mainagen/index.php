@@ -43,7 +43,7 @@
                     <th>Email</th>
                     <th>Status</th>
                     <th>Locked</th>
-                    <th width="20%">Action</th>
+                    <th width="30%">Action</th>
                 </tr>
             </thead>
             <?php $no = 1;
@@ -80,6 +80,7 @@
 
                         <?php endif; ?>
                         <a href="<?php echo base_url('admin/mainagen/detail/' . $main_agen->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Detail</a>
+                        <a href="<?php echo base_url('admin/mainagen/data_bank/' . $main_agen->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-credit-card"></i> Data Bank</a>
                     </td>
                 </tr>
 

@@ -22,7 +22,7 @@ $user = $this->user_model->user_detail($user_id);
     </div>
 
 
-    <!-- <div class="col-lg-6">
+    <div class="col-lg-6">
         <div class="small-box bg-info">
             <div class="inner">
                 <h3>Rp. <?php echo number_format($user->saldo_mainagen, 0, ",", ","); ?></h3>
@@ -46,7 +46,7 @@ $user = $this->user_model->user_detail($user_id);
             </div>
             <a href=" #" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
-    </div> -->
+    </div>
 
 
 </div>
