@@ -126,5 +126,13 @@ class topup extends CI_Controller
     // Decline
     public function decline($id)
     {
+        $data = [
+            'id'                => $id,
+            'status_bayar'      => 'Decline',
+            'date_updated'      => date('Y-m-d H:i:s')
+        ];
+        $this->topup_model->update($data);
+        $this->session->set_flashdata('message', 'Top Up Decline');
+        redirect(base_url('admin/topup'), 'refresh');
     }
 }

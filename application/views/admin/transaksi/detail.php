@@ -164,7 +164,7 @@
                         <td class="track_dot">
                             <span class="track_line"></span>
                         </td>
-                        <td><b><?php echo date('d/m/Y', strtotime($lacak->date_created)); ?>
+                        <td><b><?php echo date('d/m/Y', strtotime($lacak->date_updated)); ?>
                                 <?php echo date('H:i:s', strtotime($lacak->date_updated)); ?> WIB</b></td>
                         <td>
                             <?php echo $lacak->lacak_desc; ?> - <span class="text-danger">

@@ -49,7 +49,7 @@
             <!-- /.col -->
 
             <div class="col-md-6">
-                <a href="<?php echo base_url('counter/topup/konfirmasi/' . $last_topup->id); ?>" class="btn btn-success pull-right"><i class="fa fa-check"></i> Konfirmasi</a>
+                <a href="<?php echo base_url('counter/topup/konfirmasi/' . $last_topup->id); ?>" class="btn btn-success pull-right"><i class="fa fa-check"></i> Konfirmasi Pembayaran</a>
                 <a href="<?php echo base_url('counter/topup/batal/' . $last_topup->id); ?>" class="btn btn-danger pull-right"><i class="fa fa-times"></i> Batalkan</a>
             </div>
 

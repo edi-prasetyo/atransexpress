@@ -72,7 +72,7 @@ $meta = $this->meta_model->get_meta();
         </li>
 
         <li class="nav-item">
-          <a href="<?php echo base_url(); ?>counter/transaksi" class="nav-link">
+          <a href="<?php echo base_url(); ?>counter/topup" class="nav-link">
             <i class="nav-icon far fa-credit-card"></i>
             <p>
               Top Up

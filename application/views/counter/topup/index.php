@@ -28,7 +28,7 @@ echo validation_errors('<div class="alert alert-warning">', '</div>');
                         </td>
                         <td>
                             <a href="<?php echo base_url('counter/topup/batal/' . $my_topup->id); ?>" class="btn btn-danger btn-sm btn-block">Batalkan</a>
-                            <a href="<?php echo base_url('counter/topup/konfirmasi/' . $my_topup->id); ?>" class="btn btn-success btn-sm btn-block">Konfirmasi</a>
+                            <a href="<?php echo base_url('counter/topup/konfirmasi/' . $my_topup->id); ?>" class="btn btn-success btn-sm btn-block">Konfirmasi Pembayaran</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

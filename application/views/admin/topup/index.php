@@ -3,6 +3,7 @@
         <div class="row">
             <div class="col-md-4">
                 <?php echo $title; ?>
+
             </div>
             <div class="col-md-4">
                 <?php echo form_open('admin/topup'); ?>
@@ -20,7 +21,20 @@
         </div>
     </div>
 
+    <?php
+    //Notifikasi
+    if ($this->session->flashdata('message')) {
+        echo '<div class="alert alert-success">';
+        echo $this->session->flashdata('message');
+        unset($_SESSION['message']);
+        echo '</div>';
+    }
+    echo validation_errors('<div class="alert alert-warning">', '</div>');
+
+    ?>
+
     <div class="card-body table-responsive p-0">
+
         <table class="table">
             <thead class="thead-white">
                 <tr>
