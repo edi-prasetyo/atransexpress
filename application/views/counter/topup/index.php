@@ -27,7 +27,7 @@ echo validation_errors('<div class="alert alert-warning">', '</div>');
                             <span class="badge badge-pill badge-danger"> <?php echo $my_topup->status_bayar; ?></span>
                         </td>
                         <td>
-                            <a class="btn btn-danger btn-sm btn-block">Batalkan</a>
+                            <a href="<?php echo base_url('counter/topup/batal/' . $my_topup->id); ?>" class="btn btn-danger btn-sm btn-block">Batalkan</a>
                             <a href="<?php echo base_url('counter/topup/konfirmasi/' . $my_topup->id); ?>" class="btn btn-success btn-sm btn-block">Konfirmasi</a>
                         </td>
                     </tr>
