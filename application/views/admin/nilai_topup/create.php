@@ -18,7 +18,7 @@
                 ?>
 
                 <div class="form-group">
-                    <label>Nama Kategori</label>
+                    <label>Nominal Top Up</label>
                     <input type="text" class="form-control" name="nilai_topup" placeholder="Rp. ..">
                     <?php echo form_error('nilai_topup', '<small class="text-danger">', '</small>'); ?>
                 </div>

@@ -68,6 +68,15 @@ class Mainagen extends CI_Controller
     );
 
     $this->form_validation->set_rules(
+      'kota_id',
+      'Kota ID',
+      'required|is_unique[user.kota_id]',
+      [
+        'required'     => 'Kota Harus diisi',
+        'is_unique'    => 'Kota Sudah ada, Gunakan Kota lain'
+      ]
+    );
+    $this->form_validation->set_rules(
       'email',
       'Email',
       'required|trim|valid_email|is_unique[user.email]',
