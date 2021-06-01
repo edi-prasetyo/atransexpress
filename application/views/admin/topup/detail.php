@@ -45,7 +45,7 @@
             <div class="col-md-6">
                 <span class="text-muted" style="font-size: 80px;font-weight:bold;"> <?php echo number_format($topup->nominal, 0, ",", "."); ?></span><br>
                 <div class="row">
-                    <?php if ($topup->status_bayar == 'Success' || $topup->status_bayar == 'Pending' || $topup->status_bayar == 'Decline') : ?>
+                    <?php if ($topup->status_bayar == 'Success' || $topup->status_bayar == 'Decline') : ?>
 
                     <?php else : ?>
                         <div class="col-6">
