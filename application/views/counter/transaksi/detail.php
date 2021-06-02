@@ -22,7 +22,7 @@
             <div class="col-sm-6 invoice-col text-right">
                 <h4><b><?php echo $meta->title; ?></b></h4>
                 <?php echo $meta->tagline; ?><br>
-                <?php echo $meta->alamat; ?>
+
             </div>
         </div>
         <div class="card-body">

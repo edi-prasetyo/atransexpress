@@ -58,6 +58,20 @@ class Topup_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    // Riwayat Top up Counter
+    public function get_riwayat_topup_counter($limit, $start, $user_id)
+    {
+        $this->db->select('topup.*, user.name, user_code');
+        $this->db->from('topup');
+        // join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        // End Join
+        $this->db->where('user_id', $user_id);
+        $this->db->limit($limit, $start);
+        $this->db->order_by('id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     //Total Berita Main Page
     public function total_row()
@@ -67,6 +81,19 @@ class Topup_model extends CI_Model
         // Join
         $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
         //End Join
+        $this->db->order_by('id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    //Total Top Up Counter
+    public function get_row_counter($user_id)
+    {
+        $this->db->select('topup.*, user.name');
+        $this->db->from('topup');
+        // Join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        //End Join
+        $this->db->where('user_id', $user_id);
         $this->db->order_by('id', 'DESC');
         $query = $this->db->get();
         return $query->result();

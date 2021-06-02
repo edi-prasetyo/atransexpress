@@ -1,4 +1,6 @@
 <?php
+$user_id = $this->session->userdata('id');
+$user = $this->user_model->user_detail($user_id);
 //Notifikasi
 if ($this->session->flashdata('message')) {
     echo $this->session->flashdata('message');
@@ -7,6 +9,19 @@ if ($this->session->flashdata('message')) {
 echo validation_errors('<div class="alert alert-warning">', '</div>');
 $meta = $this->meta_model->get_meta();
 ?>
+
+
+<div class="small-box bg-info">
+    <div class="inner">
+        <h3>Rp. <?php echo number_format($user->deposit_counter, 0, ",", ","); ?></h3>
+        <a class="text-white" href="<?php echo base_url('counter/topup/riwayat'); ?>">Riwayat Top Up Saldo</a>
+    </div>
+    <div class="icon">
+        <i class="fas fa-coins"></i>
+    </div>
+
+</div>
+
 
 <div class="card" style="height:200px;overflow:hidden">
     <img class="card-img" src="<?php echo base_url('assets/img/galery/bg_bank.jpg'); ?>" alt="Card image">
