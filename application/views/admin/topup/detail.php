@@ -28,7 +28,7 @@
                     <span class="badge badge-warning badge-pill">Pending</span>
                 <?php elseif ($topup->status_bayar == "Process") : ?>
                     <span class="badge badge-info badge-pill">Proses</span>
-                <?php elseif ($topup->status_bayar == "Cancel") : ?>
+                <?php elseif ($topup->status_bayar == "Decline") : ?>
                     <span class="badge badge-danger badge-pill">Batal</span>
                 <?php else : ?>
                     <span class="badge badge-success badge-pill">Selesai</span>
