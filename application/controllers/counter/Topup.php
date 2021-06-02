@@ -175,8 +175,8 @@ class Topup extends CI_Controller
                 // $config['new_image']        = './assets/img/struk/thumbs/' . $upload_data['uploads']['file_name'];
                 $config['create_thumb']     = TRUE;
                 $config['maintain_ratio']   = TRUE;
-                $config['width']            = 300;
-                $config['height']           = 300;
+                $config['width']            = 500;
+                $config['height']           = 500;
                 $config['thumb_marker']     = '';
 
                 $this->load->library('image_lib', $config);
