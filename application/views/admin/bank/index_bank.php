@@ -1,11 +1,6 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-
         <?php echo $title; ?>
-        <a href="<?php echo base_url('admin/bank/create'); ?>" class="btn btn-info text-white">Buat Data Bank</a>
-
-
-
     </div>
 
     <?php
@@ -43,8 +38,8 @@
                     <td><?php echo $bank->bank_account; ?></td>
                     <td><?php echo $bank->bank_branch; ?></td>
                     <td>
-                        <a href="<?php echo base_url('admin/bank/update/' . $bank->id); ?>" class="btn btn-info btn-sm text-white"><i class="ti-pencil-alt"></i> Edit</a>
-                        <?php include "delete_bank.php"; ?>
+                        <a href="<?php echo base_url('admin/bank/update/' . $bank->id); ?>" class="btn btn-info btn-sm text-white"><i class="ti-pencil-alt"></i> Update</a>
+
                     </td>
                 </tr>
 

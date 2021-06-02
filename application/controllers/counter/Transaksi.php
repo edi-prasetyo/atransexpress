@@ -496,6 +496,16 @@ class Transaksi extends CI_Controller
             redirect('counter/404');
         }
     }
+    // Cancel Transaksi
+    public function cancel($id)
+    {
+        $user = $this->session->userdata('id');
+        $transaksi = $this->transaksi_model->detail($id);
+        if ($transaksi->user_id == $user && $transaksi->stage == 1) {
+        } else {
+            redirect('counter/404');
+        }
+    }
     // Create Pelacakan
     public function create_lacak($insert_id, $nomor_resi)
     {

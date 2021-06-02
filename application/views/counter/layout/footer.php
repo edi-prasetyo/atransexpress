@@ -70,8 +70,6 @@ foreach ($alltransaksi_counter as $data) {
 }
 ?>
 
-<?php echo count($alltransaksi_counter); ?>
-
 <script>
   /* global Chart:false */
 

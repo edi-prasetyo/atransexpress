@@ -15,7 +15,7 @@ class Bank_model extends CI_Model
         $this->db->from('bank');
         $this->db->order_by('id', 'DESC');
         $query = $this->db->get();
-        return $query->result();
+        return $query->row();
     }
     public function get_bank($limit, $start)
     {

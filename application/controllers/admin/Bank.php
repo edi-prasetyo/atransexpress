@@ -173,8 +173,8 @@ class Bank extends CI_Controller
                     $config['source_image']     = './assets/img/bank/' . $upload_data['uploads']['file_name'];
                     $config['create_thumb']     = TRUE;
                     $config['maintain_ratio']   = TRUE;
-                    $config['width']            = 500;
-                    $config['height']           = 500;
+                    $config['width']            = 700;
+                    $config['height']           = 700;
                     $config['thumb_marker']     = '';
                     $this->load->library('image_lib', $config);
                     $this->image_lib->resize();
