@@ -39,9 +39,10 @@
                                     <i class="far fa-dot-circle text-danger"></i> <?php echo $transaksi->kota_from; ?> <br>
                                     <i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?><br>
                                     <?php if ($transaksi->stage == 9) : ?>
-                                        <div class="badge badge-success">Selesai</div>
+                                    <?php elseif ($transaksi->stage == 10) : ?>
+                                        <div class="badge badge-danger">Dibatalkan Counter</div>
                                     <?php else : ?>
-                                        <div class="badge badge-danger">Proses</div>
+                                        <div class="badge badge-warning">Proses</div>
 
                                     <?php endif; ?>
                                 </td>
