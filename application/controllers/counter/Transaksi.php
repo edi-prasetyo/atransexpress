@@ -502,6 +502,15 @@ class Transaksi extends CI_Controller
         $user = $this->session->userdata('id');
         $transaksi = $this->transaksi_model->detail($id);
         if ($transaksi->user_id == $user && $transaksi->stage == 1) {
+            //Proteksi delete
+            is_login();
+            $data = [
+                'id'                        => $id,
+                'stage'                     => 10,
+            ];
+            $this->transaksi_model->update($data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable fade show" > Data Telah di Batalkan <button class="close" data-dismiss="alert" aria-label="Close">×</button></div>');
+            redirect(base_url('counter/transaksi'), 'refresh');
         } else {
             redirect('counter/404');
         }

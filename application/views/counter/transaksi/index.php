@@ -7,7 +7,6 @@
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
                         <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                                 <i class="fas fa-search"></i>
@@ -42,15 +41,13 @@
 
                                 <!-- <td><img class="img-fluid" src="<?php echo base_url('assets/img/barcode/' . $transaksi->barcode); ?>"></td> -->
                                 <td>
-                                    <a href="<?php echo base_url('counter/transaksi/lacak/' . $transaksi->id); ?>" class="btn btn-info btn-sm btn-block">
-                                        <i class="fa fa-dog"></i> Lacak
-                                    </a>
                                     <a href="<?php echo base_url('counter/transaksi/detail/' . $transaksi->id); ?>" class="btn btn-primary btn-sm btn-block">
                                         <i class="fa fa-eye"></i> Lihat
                                     </a>
-                                    <a href="<?php echo base_url('counter/transaksi/update/' . $transaksi->id); ?>" class="btn btn-danger btn-sm btn-block">
+                                    <a href="<?php echo base_url('counter/transaksi/update/' . $transaksi->id); ?>" class="btn btn-success btn-sm btn-block">
                                         <i class="fa fa-edit"></i> Ubah
                                     </a>
+                                    <?php include "cancel.php"; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
