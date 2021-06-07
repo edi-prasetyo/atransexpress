@@ -58,7 +58,82 @@ class Transaksi_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-  public function get_transaksi($limit, $start, $resi)
+  // ------------------------------- Transaksi Belum di Ambil-----------------------------------//
+  public function get_transaksi($limit, $start, $resi, $kota_asal, $kota_tujuan)
+  {
+
+    $this->db->select('transaksi.*, user.name, user_code, kota.kota_name, provinsi.provinsi_name');
+    $this->db->from('transaksi');
+    // join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
+    // End Join
+    $this->db->where('transaksi.stage', 1);
+    $this->db->like('transaksi.nomor_resi', $resi);
+    $this->db->like('transaksi.kota_from', $kota_asal);
+    // $this->db->like('transaksi.kota_to', $kota_tujuan);
+    $this->db->order_by('id', 'DESC');
+    $this->db->limit($limit, $start);
+    $query = $this->db->get();
+    return $query->result();
+  }
+  //Total Row
+  public function total_row($resi, $kota_asal, $kota_tujuan)
+  {
+
+    $this->db->select('transaksi.*, user.name');
+    $this->db->from('transaksi');
+    // Join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    //End Join
+    $this->db->where('transaksi.stage', 1);
+    $this->db->like('transaksi.nomor_resi', $resi);
+    $this->db->like('transaksi.kota_from', $kota_asal);
+    // $this->db->like('transaksi.kota_to', $kota_tujuan);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  // ------------------------------- END Transaksi Belum di Ambil-----------------------------------//
+
+  // -------------------------------------Transaksi Proses------------------------------------------//
+  public function get_transaksi_proses($limit, $start, $resi)
+  {
+    $stage = array('2', '3', '4', '5', '6', '7', '8');
+    $this->db->select('transaksi.*, user.name, user_code, kota.kota_name, provinsi.provinsi_name');
+    $this->db->from('transaksi');
+    // join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
+    // End Join
+    $this->db->or_where_in('transaksi.stage', $stage);
+    $this->db->like('nomor_resi', $resi);
+    $this->db->order_by('id', 'DESC');
+    $this->db->limit($limit, $start);
+    $query = $this->db->get();
+    return $query->result();
+  }
+  //Total Row
+  public function total_row_proses($resi)
+  {
+    $stage = array('2', '3', '4', '5', '6', '7', '8');
+    $this->db->select('transaksi.*, user.name');
+    $this->db->from('transaksi');
+    // Join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    //End Join
+    $this->db->or_where_in('transaksi.stage', $stage);
+    $this->db->like('nomor_resi', $resi);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  // -------------------------------------End Transaksi Proses------------------------------------------//
+
+  // -------------------------------------Transaksi Selesai---------------------------------------------//
+  public function get_transaksi_selesai($limit, $start, $resi)
   {
     $this->db->select('transaksi.*, user.name, user_code, kota.kota_name, provinsi.provinsi_name');
     $this->db->from('transaksi');
@@ -67,13 +142,65 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     // End Join
+    $this->db->or_where_in('transaksi.stage', 9);
     $this->db->like('nomor_resi', $resi);
-    // $this->db->where('stage', 6);
     $this->db->order_by('id', 'DESC');
     $this->db->limit($limit, $start);
     $query = $this->db->get();
     return $query->result();
   }
+  //Total Row
+  public function total_row_selesai($resi)
+  {
+
+    $this->db->select('transaksi.*, user.name');
+    $this->db->from('transaksi');
+    // Join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    //End Join
+    $this->db->or_where_in('transaksi.stage', 9);
+    $this->db->like('nomor_resi', $resi);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  // ------------------------------------End Transaksi Selesai------------------------------------------//
+
+  // ------------------------------------=----Transaksi Batal-------------------------------------------//
+  public function get_transaksi_batal($limit, $start, $resi)
+  {
+    $stage = array('1', '2', '3', '4', '5', '6', '7', '8');
+    $this->db->select('transaksi.*, user.name, user_code, kota.kota_name, provinsi.provinsi_name');
+    $this->db->from('transaksi');
+    // join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
+    // End Join
+    $this->db->or_where_in('transaksi.stage', 10);
+    $this->db->like('nomor_resi', $resi);
+    $this->db->order_by('id', 'DESC');
+    $this->db->limit($limit, $start);
+    $query = $this->db->get();
+    return $query->result();
+  }
+  //Total Row
+  public function total_row_batal($resi)
+  {
+    $this->db->select('transaksi.*, user.name');
+    $this->db->from('transaksi');
+    // Join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    //End Join
+    $this->db->or_where_in('transaksi.stage', 10);
+    $this->db->like('nomor_resi', $resi);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  // ------------------------------------=-End Transaksi Batal-------------------------------------------//
+
+
   public function get_mytransaksi($id, $limit, $start)
   {
     $this->db->select('transaksi.*, user.name');
@@ -87,19 +214,7 @@ class Transaksi_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-  //Total Berita Main Page
-  public function total_row($resi)
-  {
-    $this->db->select('transaksi.*, user.name');
-    $this->db->from('transaksi');
-    // Join
-    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
-    //End Join
-    $this->db->like('nomor_resi', $resi);
-    $this->db->order_by('id', 'DESC');
-    $query = $this->db->get();
-    return $query->result();
-  }
+
   public function detail($id)
   {
     $this->db->select('transaksi.*, product.product_name, user.user_code, user.name, user.user_address, user.user_phone, kota.kota_name, provinsi.provinsi_name, category.category_name');

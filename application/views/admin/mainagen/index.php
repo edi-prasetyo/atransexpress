@@ -1,21 +1,45 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">
-            <?php echo form_open('admin/mainagen'); ?>
-            <div class="input-group mb-3">
-                <input type="text" name="search" class="form-control" placeholder="Masukan Nama / Email" value="<?php echo set_value('search'); ?>">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-info" type="submit" id="button-addon2">Cari</button>
+
+        <div class="row">
+            <div class="col-md-3">
+                <?php echo form_open('admin/mainagen'); ?>
+                <div class="input-group mb-3">
+                    <input type="text" name="search" class="form-control" placeholder="Masukan Nama" value="<?php echo set_value('search'); ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-info" type="submit" id="button-addon2"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_open('admin/mainagen'); ?>
+                <div class="input-group mb-3">
+                    <input type="text" name="search_email" class="form-control" placeholder="Masukan Email" value="<?php echo set_value('search_email'); ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-info" type="submit" id="button-addon2"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
+            <div class="col-md-3">
+                <?php echo form_open('admin/mainagen'); ?>
+                <div class="input-group mb-3">
+                    <input type="text" name="search_kota" class="form-control" placeholder="Masukan Nama Kota" value="<?php echo set_value('search_kota'); ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-info" type="submit" id="button-addon2"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-tools">
+                    <a href="<?php echo base_url(); ?>admin/mainagen/create" class="btn btn-info btn-block"><i class="fa fa-plus"></i> Add Mainagen</a>
                 </div>
             </div>
-            <?php echo form_close(); ?>
-        </h3>
-
-
-
-        <div class="card-tools">
-            <a href="<?php echo base_url(); ?>admin/mainagen/create" class="btn btn-info right"><i class="fa fa-plus"></i> Buat Main Agen</a>
         </div>
+
     </div>
     <div class="card-body">
         <?php

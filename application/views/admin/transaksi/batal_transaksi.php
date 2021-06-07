@@ -1,13 +1,14 @@
 <div class="card">
     <div class="card-header">
+
         <ul class="nav nav-pills ml-auto p-2">
-            <li class="nav-item"><a class="nav-link active" href="<?php echo base_url('admin/transaksi'); ?>">Belum di Ambil</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi'); ?>">Belum di Ambil</a></li>
             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi/proses'); ?>">Proses Kirim</a></li>
             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi/selesai'); ?>">Selesai</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi/batal'); ?>">Batal</a></li>
+            <li class="nav-item"><a class="nav-link active" href="<?php echo base_url('admin/transaksi/batal'); ?>">Batal</a></li>
         </ul>
-    </div>
-    <div class="card-body">
+
+        <div class="border mb-3"></div>
         <div class="row">
             <div class="col-md-4">
                 <?php echo form_open('admin/transaksi'); ?>
@@ -20,27 +21,12 @@
                 <?php echo form_close(); ?>
             </div>
             <div class="col-md-4">
-                <?php echo form_open('admin/transaksi'); ?>
+                <?php echo form_open('admin/transaksi/cari'); ?>
                 <div class="input-group mb-3" style="width: 100%;">
-                    <select class="form-control select2bs4" name="kota_asal">
-                        <option>Pilih Kota Asal</option>
-                        <?php foreach ($list_kota_asal as $kota) : ?>
-                            <option value='<?php echo $kota->kota_name; ?>'><?php echo $kota->kota_name; ?> </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <div class="input-group-append">
-                        <input type='submit' name='submit' value='Cari' class="btn btn-info">
-                    </div>
-                </div>
-                <?php echo form_close(); ?>
-            </div>
-            <div class="col-md-4">
-                <?php echo form_open('admin/transaksi'); ?>
-                <div class="input-group mb-3" style="width: 100%;">
-                    <select class="form-control select2bs4" name="kota_tujuan">
-                        <option>Pilih Kota Tujuan</option>
-                        <?php foreach ($list_kota_tujuan as $kota_tujuan) : ?>
-                            <option value='<?php echo $kota_tujuan->kota_name; ?>'><?php echo $kota_tujuan->kota_name; ?> </option>
+                    <select class="form-control select2bs4" name="search">
+                        <option>-- Pilih Kota --</option>
+                        <?php foreach ($main_agen as $main_agen) : ?>
+                            <option value='<?php echo $main_agen->kota_id; ?>'><?php echo $main_agen->kota_name; ?> - <?php echo $main_agen->name; ?> </option>
                         <?php endforeach; ?>
                     </select>
                     <div class="input-group-append">
@@ -85,7 +71,7 @@
                         <?php elseif ($transaksi->stage == 10) : ?>
                             <span class="badge badge-danger badge-pill">Dibatalkan Counter</span>
                         <?php else : ?>
-                            <span class="badge badge-warning badge-pill">Belum di Ambil</span>
+                            <span class="badge badge-warning badge-pill">Proses</span>
                         <?php endif; ?>
 
                     </td>

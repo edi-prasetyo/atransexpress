@@ -46,7 +46,7 @@ class User_model extends CI_Model
   }
 
   // Main Agen
-  public function get_mainagen($limit, $start, $search)
+  public function get_mainagen($limit, $start, $search, $search_email, $search_kota)
   {
     $this->db->select('user.*, user_role.role, kota.kota_name, provinsi_name');
     $this->db->from('user');
@@ -56,6 +56,8 @@ class User_model extends CI_Model
     $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
     // End Join
     $this->db->like('name', $search);
+    $this->db->like('email', $search_email);
+    $this->db->like('kota_name', $search_kota);
     // $this->db->like('name', $search);
     $this->db->where('role_id', 4);
     $this->db->limit($limit, $start);
@@ -63,11 +65,18 @@ class User_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-  public function total_row_mainagen($search)
+  public function total_row_mainagen($search, $search_email, $search_kota)
   {
-    $this->db->select('*');
+    $this->db->select('user.*, user_role.role, kota.kota_name, provinsi_name');
     $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
+    // End Join
     $this->db->like('name', $search);
+    $this->db->like('email', $search_email);
+    $this->db->like('kota_name', $search_kota);
     // $this->db->like('name', $search);
     $this->db->where('role_id', 4);
     $this->db->order_by('id', 'ASC');
@@ -140,7 +149,7 @@ class User_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-  public function get_counter($limit, $start, $search)
+  public function get_counter($limit, $start, $search, $search_email, $search_kota)
   {
     $this->db->select('user.*, user_role.role, kota.kota_name, provinsi_name');
     $this->db->from('user');
@@ -150,17 +159,26 @@ class User_model extends CI_Model
     $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
     // End Join
     $this->db->like('name', $search);
+    $this->db->like('email', $search_email);
+    $this->db->like('kota_name', $search_kota);
     $this->db->where('role_id', 5);
     $this->db->limit($limit, $start);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }
-  public function total_row_counter($search)
+  public function total_row_counter($search, $search_email, $search_kota)
   {
-    $this->db->select('*');
+    $this->db->select('user.*, user_role.role, kota.kota_name, provinsi_name');
     $this->db->from('user');
-    $this->db->like('name', $search);
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
+    // End Join
+    $this->db->like(['name', $search]);
+    $this->db->like('email', $search_email);
+    $this->db->like('kota_name', $search_kota);
     $this->db->where('role_id', 5);
     $this->db->order_by('id', 'ASC');
     $query = $this->db->get();

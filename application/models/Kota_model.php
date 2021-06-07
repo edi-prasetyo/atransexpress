@@ -13,7 +13,7 @@ class Kota_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('kota');
-        $this->db->order_by('id', 'DESC');
+        $this->db->order_by('kota_name', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }
@@ -37,11 +37,19 @@ class Kota_model extends CI_Model
         return $query->result();
     }
 
+    public function detail($kota_id)
+    {
+        $this->db->select('*');
+        $this->db->from('kota');
+        $this->db->where('id', $kota_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
     public function detail_kota($id)
     {
         $this->db->select('*');
         $this->db->from('kota');
-        $this->db->where(['id', $id]);
+        $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row();
     }

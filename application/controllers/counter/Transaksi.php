@@ -11,6 +11,7 @@ class Transaksi extends CI_Controller
         $this->load->library('pagination');
         $this->load->model('meta_model');
         $this->load->model('provinsi_model');
+        $this->load->model('kota_model');
         $this->load->model('main_model');
         $this->load->model('product_model');
         $this->load->model('category_model');
@@ -67,9 +68,6 @@ class Transaksi extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h5><i class="icon fas fa-exclamation-triangle"></i> Saldo Tidak Mencukupi!</h5>Maaf Anda tidak dapat mencetak E-Resi Karena saldo Anda tidak mencukupi, Silahkan Top Up Deposit, Untuk Melanjutkan</div>');
             redirect(base_url('counter/topup'), 'refresh');
         } else {
-
-
-
 
             $this->form_validation->set_rules(
                 'provinsi_id',
@@ -228,6 +226,14 @@ class Transaksi extends CI_Controller
 
                 $total_harga         = (int)$fix_harga + (int)$fix_nilai_asuransi;
 
+                $provinsi_id    = $this->input->post('provinsi_id');
+                $kota_id        = $this->input->post('kota_id');
+
+                $Getprovinsi = $this->provinsi_model->detail_provinsi($provinsi_id);
+                $Getkota = $this->kota_model->detail($kota_id);
+
+                $provinsi_to = $Getprovinsi->provinsi_name;
+                $kota_to = $Getkota->kota_name;
 
                 $data  = [
                     'user_id'                           => $this->session->userdata('id'),
@@ -235,13 +241,15 @@ class Transaksi extends CI_Controller
                     'counter_id'                        => $this->session->userdata('id'),
                     'category_id'                       => $this->input->post('category_id'),
                     'product_id'                        => $this->input->post('product_id'),
-                    'provinsi_id'                       => $this->input->post('provinsi_id'),
+                    'provinsi_id'                       => $provinsi_id,
                     'kota_id'                           => $this->input->post('kota_id'),
                     'kecamatan_id'                      => $this->input->post('kecamatan_id'),
                     'nomor_resi'                        => $nomor_resi,
                     'provinsi_from'                     => $this->input->post('provinsi_from'),
                     'mainagen_name'                     => $get_mainagen_name->name . '-' . $get_mainagen_name->kota_name . '-' . $get_mainagen_name->user_phone,
                     'kota_from'                         => $this->input->post('kota_from'),
+                    'provinsi_to'                       => $provinsi_to,
+                    'kota_to'                           => $kota_to,
                     'nama_pengirim'                     => $this->input->post('nama_pengirim'),
                     'telp_pengirim'                     => $this->input->post('telp_pengirim'),
                     'alamat_pengirim'                   => $this->input->post('alamat_pengirim'),
@@ -271,13 +279,29 @@ class Transaksi extends CI_Controller
                 ];
                 $insert_id = $this->transaksi_model->create($data);
                 //Update Status Lacak
-
                 $this->create_lacak($insert_id, $nomor_resi);
+                // Update kota_to
+                // $this->kota_tujuan($insert_id);
                 $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-                redirect(base_url('counter/transaksi'), 'refresh');
+                // redirect(base_url('counter/transaksi'), 'refresh');
             }
         }
     }
+    // public function kota_tujuan($insert_id)
+    // {
+    //     $id = $insert_id;
+    //     $transaksi      = $this->transaksi_model->detail($id);
+    //     $kota_id        = 1;
+    //     $getkota        = $this->kota_model->detail($kota_id);
+
+    //     var_dump($getkota);
+    //     die;
+    //     $data = [
+    //         'id'    => $id,
+    //         'kota_to' => $kota_to
+    //     ];
+    //     $this->transaksi_model->update($data);
+    // }
 
     // Update Transaksi
     public function update($id)
@@ -442,9 +466,6 @@ class Transaksi extends CI_Controller
                     $nilai_barang               = $this->input->post('nilai_barang');
                     $fix_nilai_barang           = preg_replace('/\D/', '', $nilai_barang);
                 }
-
-
-
 
 
                 $harga               = $this->input->post('harga');

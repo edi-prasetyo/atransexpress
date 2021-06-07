@@ -1,12 +1,15 @@
 <div class="card">
     <div class="card-header">
+
         <ul class="nav nav-pills ml-auto p-2">
-            <li class="nav-item"><a class="nav-link active" href="<?php echo base_url('admin/transaksi'); ?>">Belum di Ambil</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi/proses'); ?>">Proses Kirim</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi'); ?>">Belum di Ambil</a></li>
+            <li class="nav-item"><a class="nav-link active" href="<?php echo base_url('admin/transaksi/proses'); ?>">Proses Kirim</a></li>
             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi/selesai'); ?>">Selesai</a></li>
             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi/batal'); ?>">Batal</a></li>
         </ul>
     </div>
+
+
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">
@@ -39,8 +42,8 @@
                 <div class="input-group mb-3" style="width: 100%;">
                     <select class="form-control select2bs4" name="kota_tujuan">
                         <option>Pilih Kota Tujuan</option>
-                        <?php foreach ($list_kota_tujuan as $kota_tujuan) : ?>
-                            <option value='<?php echo $kota_tujuan->kota_name; ?>'><?php echo $kota_tujuan->kota_name; ?> </option>
+                        <?php foreach ($list_kota_tujuan as $kota) : ?>
+                            <option value='<?php echo $kota->id; ?>'><?php echo $kota->kota_name; ?> </option>
                         <?php endforeach; ?>
                     </select>
                     <div class="input-group-append">
@@ -51,6 +54,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="card-body table-responsive p-0">
         <table class="table">
@@ -85,7 +89,7 @@
                         <?php elseif ($transaksi->stage == 10) : ?>
                             <span class="badge badge-danger badge-pill">Dibatalkan Counter</span>
                         <?php else : ?>
-                            <span class="badge badge-warning badge-pill">Belum di Ambil</span>
+                            <span class="badge badge-warning badge-pill">Proses Kirim</span>
                         <?php endif; ?>
 
                     </td>

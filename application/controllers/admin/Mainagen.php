@@ -14,9 +14,11 @@ class Mainagen extends CI_Controller
   public function index()
   {
     $search = $this->input->post('search');
+    $search_email   = $this->input->post('search_email');
+    $search_kota   = $this->input->post('search_kota');
 
     $config['base_url']         = base_url('admin/mainagen/index/');
-    $config['total_rows']       = count($this->user_model->total_row_mainagen($search));
+    $config['total_rows']       = count($this->user_model->total_row_mainagen($search, $search_email, $search_kota));
     $config['per_page']         = 10;
     $config['uri_segment']      = 4;
 
@@ -44,7 +46,7 @@ class Mainagen extends CI_Controller
     $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
     //End Limit Start
     $this->pagination->initialize($config);
-    $main_agen = $this->user_model->get_mainagen($limit, $start, $search);
+    $main_agen = $this->user_model->get_mainagen($limit, $start, $search, $search_email, $search_kota);
     // var_dump($main_agen);
     // die;
 

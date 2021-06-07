@@ -13,7 +13,7 @@
             <div class="form-group row">
                 <label class="col-md-4 text-md-right">Provinsi</label>
                 <div class="col-md-8">
-                    <select class="form-control custom-select" id='sel_provinsi' name="provinsi_id" required>
+                    <select class="form-control select2bs4" id='sel_provinsi' name="provinsi_id" required>
                         <option value="">-- Pilih Provinsi --</option>
                         <?php
                         foreach ($provinsi as $provinsi) {
@@ -29,7 +29,7 @@
             <div class="form-group row">
                 <label class="col-md-4 text-md-right">Kota</label>
                 <div class="col-md-8">
-                    <select class="form-control custom-select" id='sel_kota' name="kota_id" required>
+                    <select class="form-control select2bs4" id='sel_kota' name="kota_id" required>
                         <option value="">-- Pilih Kota --</option>
                     </select>
                     <div class="invalid-feedback">Silahkan Pilih Kota.</div>
@@ -39,7 +39,7 @@
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Pilih main Agen</label>
                 <div class="col-md-8">
-                    <select class="form-control custom-select" name="id_agen" value="" required>
+                    <select class="form-control select2bs4" name="id_agen" value="" required>
                         <option value=''>-- Pilih Main Agen --</option>
                         <?php foreach ($main_agen as $main_agen) : ?>
                             <option value='<?php echo $main_agen->id; ?>'><?php echo $main_agen->kota_name; ?></option>

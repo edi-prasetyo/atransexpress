@@ -11,20 +11,27 @@ class transaksi extends CI_Controller
     $this->load->model('transaksi_model');
     $this->load->model('lacak_model');
     $this->load->model('provinsi_model');
+    $this->load->model('kota_model');
     $this->load->model('main_model');
   }
-  //listing data transaksi
+
+  //INDEX TRANSAKSI BELUM DI AMBIL ************************************************************************************/
   public function index()
   {
     $resi = $this->input->post('resi');
-    $main_agen = $this->user_model->get_allcounter();
+    $list_kota_asal   = $this->kota_model->get_allkota();
+    $list_kota_tujuan = $this->kota_model->get_allkota();
+
+    // Pencarian
+    $kota_asal    = $this->input->post('kota_asal');
+    $kota_tujuan  = $this->input->post('kota_tujuan');
+    // var_dump($kota_tujuan);
+    // die;
 
     $config['base_url']         = base_url('admin/transaksi/index/');
-    $config['total_rows']       = count($this->transaksi_model->total_row($resi));
+    $config['total_rows']       = count($this->transaksi_model->total_row($resi, $kota_asal, $kota_tujuan));
     $config['per_page']         = 10;
     $config['uri_segment']      = 4;
-
-    //Membuat Style pagination untuk BootStrap v4
     $config['first_link']       = 'First';
     $config['last_link']        = 'Last';
     $config['next_link']        = 'Next';
@@ -43,23 +50,149 @@ class transaksi extends CI_Controller
     $config['first_tagl_close'] = '</span></li>';
     $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
     $config['last_tagl_close']  = '</span></li>';
-    //Limit dan Start
     $limit                      = $config['per_page'];
     $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
-    //End Limit Start
     $this->pagination->initialize($config);
-    $transaksi = $this->transaksi_model->get_transaksi($limit, $start, $resi);
+    $transaksi = $this->transaksi_model->get_transaksi($limit, $start, $resi, $kota_asal, $kota_tujuan);
+    // var_dump($transaksi);
+    // die;
     $data = [
       'title'                 => 'Data Transaksi',
       'transaksi'             => $transaksi,
-      'main_agen'             => $main_agen,
+      'list_kota_asal'        => $list_kota_asal,
+      'list_kota_tujuan'      => $list_kota_tujuan,
       'pagination'            => $this->pagination->create_links(),
       'content'               => 'admin/transaksi/index_transaksi'
     ];
     $this->load->view('admin/layout/wrapp', $data, FALSE);
   }
+  //END INDEX TRANSAKSI BELUM DI AMBIL ************************************************************************************/
 
+  //INDEX TRANSAKSI PROSES ***********************************************************************************************/
+  public function proses()
+  {
+    $resi = $this->input->post('resi');
+    $kota = $this->kota_model->get_allkota();
+    $config['base_url']         = base_url('admin/transaksi/proses/index/');
+    $config['total_rows']       = count($this->transaksi_model->total_row_proses($resi));
+    $config['per_page']         = 10;
+    $config['uri_segment']      = 5;
+    $config['first_link']       = 'First';
+    $config['last_link']        = 'Last';
+    $config['next_link']        = 'Next';
+    $config['prev_link']        = 'Prev';
+    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+    $config['full_tag_close']   = '</ul></nav></div>';
+    $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+    $config['num_tag_close']    = '</span></li>';
+    $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+    $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+    $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+    $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['prev_tagl_close']  = '</span>Next</li>';
+    $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+    $config['first_tagl_close'] = '</span></li>';
+    $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['last_tagl_close']  = '</span></li>';
+    $limit                      = $config['per_page'];
+    $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
+    $this->pagination->initialize($config);
+    $transaksi = $this->transaksi_model->get_transaksi_proses($limit, $start, $resi);
+    $data = [
+      'title'                 => 'Data Transaksi',
+      'transaksi'             => $transaksi,
+      'kota'                  => $kota,
+      'pagination'            => $this->pagination->create_links(),
+      'content'               => 'admin/transaksi/proses_transaksi'
+    ];
+    $this->load->view('admin/layout/wrapp', $data, FALSE);
+  }
+  //END INDEX TRANSAKSI PROSES *******************************************************************************************/
 
+  //INDEX TRANSAKSI SELESAI ***********************************************************************************************/
+  public function selesai()
+  {
+    $resi = $this->input->post('resi');
+    $main_agen = $this->user_model->get_allcounter();
+    $config['base_url']         = base_url('admin/transaksi/selesai/index/');
+    $config['total_rows']       = count($this->transaksi_model->total_row_selesai($resi));
+    $config['per_page']         = 10;
+    $config['uri_segment']      = 5;
+    $config['first_link']       = 'First';
+    $config['last_link']        = 'Last';
+    $config['next_link']        = 'Next';
+    $config['prev_link']        = 'Prev';
+    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+    $config['full_tag_close']   = '</ul></nav></div>';
+    $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+    $config['num_tag_close']    = '</span></li>';
+    $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+    $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+    $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+    $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['prev_tagl_close']  = '</span>Next</li>';
+    $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+    $config['first_tagl_close'] = '</span></li>';
+    $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['last_tagl_close']  = '</span></li>';
+    $limit                      = $config['per_page'];
+    $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
+    $this->pagination->initialize($config);
+    $transaksi = $this->transaksi_model->get_transaksi_selesai($limit, $start, $resi);
+    $data = [
+      'title'                 => 'Data Transaksi',
+      'transaksi'             => $transaksi,
+      'main_agen'             => $main_agen,
+      'pagination'            => $this->pagination->create_links(),
+      'content'               => 'admin/transaksi/selesai_transaksi'
+    ];
+    $this->load->view('admin/layout/wrapp', $data, FALSE);
+  }
+  //END INDEX TRANSAKSI SELESAI *******************************************************************************************/
+
+  //INDEX TRANSAKSI BATAL ***********************************************************************************************/
+  public function batal()
+  {
+    $resi = $this->input->post('resi');
+    $main_agen = $this->user_model->get_allcounter();
+    $config['base_url']         = base_url('admin/transaksi/batal/index/');
+    $config['total_rows']       = count($this->transaksi_model->total_row_batal($resi));
+    $config['per_page']         = 10;
+    $config['uri_segment']      = 5;
+    $config['first_link']       = 'First';
+    $config['last_link']        = 'Last';
+    $config['next_link']        = 'Next';
+    $config['prev_link']        = 'Prev';
+    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+    $config['full_tag_close']   = '</ul></nav></div>';
+    $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+    $config['num_tag_close']    = '</span></li>';
+    $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+    $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+    $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+    $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['prev_tagl_close']  = '</span>Next</li>';
+    $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+    $config['first_tagl_close'] = '</span></li>';
+    $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['last_tagl_close']  = '</span></li>';
+    $limit                      = $config['per_page'];
+    $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
+    $this->pagination->initialize($config);
+    $transaksi = $this->transaksi_model->get_transaksi_batal($limit, $start, $resi);
+    $data = [
+      'title'                 => 'Data Transaksi',
+      'transaksi'             => $transaksi,
+      'main_agen'             => $main_agen,
+      'pagination'            => $this->pagination->create_links(),
+      'content'               => 'admin/transaksi/batal_transaksi'
+    ];
+    $this->load->view('admin/layout/wrapp', $data, FALSE);
+  }
+  //END INDEX TRANSAKSI BATAL *******************************************************************************************/
 
   public function cari($rowno = 0)
   {
