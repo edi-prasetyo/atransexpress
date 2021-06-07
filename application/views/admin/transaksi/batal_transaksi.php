@@ -7,11 +7,11 @@
             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/transaksi/selesai'); ?>">Selesai</a></li>
             <li class="nav-item"><a class="nav-link active" href="<?php echo base_url('admin/transaksi/batal'); ?>">Batal</a></li>
         </ul>
-
-        <div class="border mb-3"></div>
+    </div>
+    <div class="card-body">
         <div class="row">
             <div class="col-md-4">
-                <?php echo form_open('admin/transaksi'); ?>
+                <?php echo form_open('admin/transaksi/batal'); ?>
                 <div class="input-group mb-3">
                     <input type="text" name="resi" class="form-control" placeholder="Masukan Nomor Resi" value="<?php echo set_value('resi'); ?>">
                     <div class="input-group-append">
@@ -21,12 +21,27 @@
                 <?php echo form_close(); ?>
             </div>
             <div class="col-md-4">
-                <?php echo form_open('admin/transaksi/cari'); ?>
+                <?php echo form_open('admin/transaksi/batal'); ?>
                 <div class="input-group mb-3" style="width: 100%;">
-                    <select class="form-control select2bs4" name="search">
-                        <option>-- Pilih Kota --</option>
-                        <?php foreach ($main_agen as $main_agen) : ?>
-                            <option value='<?php echo $main_agen->kota_id; ?>'><?php echo $main_agen->kota_name; ?> - <?php echo $main_agen->name; ?> </option>
+                    <select class="form-control select2bs4" name="kota_asal">
+                        <option>Pilih Kota Asal</option>
+                        <?php foreach ($list_kota_asal as $kota) : ?>
+                            <option value='<?php echo $kota->kota_name; ?>'><?php echo $kota->kota_name; ?> </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="input-group-append">
+                        <input type='submit' name='submit' value='Cari' class="btn btn-info">
+                    </div>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_open('admin/transaksi/batal'); ?>
+                <div class="input-group mb-3" style="width: 100%;">
+                    <select class="form-control select2bs4" name="kota_tujuan">
+                        <option>Pilih Kota Tujuan</option>
+                        <?php foreach ($list_kota_tujuan as $kota) : ?>
+                            <option value='<?php echo $kota->kota_name; ?>'><?php echo $kota->kota_name; ?> </option>
                         <?php endforeach; ?>
                     </select>
                     <div class="input-group-append">

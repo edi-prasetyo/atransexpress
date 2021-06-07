@@ -9,11 +9,10 @@
         </ul>
     </div>
 
-
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">
-                <?php echo form_open('admin/transaksi'); ?>
+                <?php echo form_open('admin/transaksi/proses'); ?>
                 <div class="input-group mb-3">
                     <input type="text" name="resi" class="form-control" placeholder="Masukan Nomor Resi" value="<?php echo set_value('resi'); ?>">
                     <div class="input-group-append">
@@ -23,7 +22,7 @@
                 <?php echo form_close(); ?>
             </div>
             <div class="col-md-4">
-                <?php echo form_open('admin/transaksi'); ?>
+                <?php echo form_open('admin/transaksi/proses'); ?>
                 <div class="input-group mb-3" style="width: 100%;">
                     <select class="form-control select2bs4" name="kota_asal">
                         <option>Pilih Kota Asal</option>
@@ -38,12 +37,12 @@
                 <?php echo form_close(); ?>
             </div>
             <div class="col-md-4">
-                <?php echo form_open('admin/transaksi'); ?>
+                <?php echo form_open('admin/transaksi/proses'); ?>
                 <div class="input-group mb-3" style="width: 100%;">
                     <select class="form-control select2bs4" name="kota_tujuan">
                         <option>Pilih Kota Tujuan</option>
                         <?php foreach ($list_kota_tujuan as $kota) : ?>
-                            <option value='<?php echo $kota->id; ?>'><?php echo $kota->kota_name; ?> </option>
+                            <option value='<?php echo $kota->kota_name; ?>'><?php echo $kota->kota_name; ?> </option>
                         <?php endforeach; ?>
                     </select>
                     <div class="input-group-append">
@@ -89,7 +88,7 @@
                         <?php elseif ($transaksi->stage == 10) : ?>
                             <span class="badge badge-danger badge-pill">Dibatalkan Counter</span>
                         <?php else : ?>
-                            <span class="badge badge-warning badge-pill">Proses Kirim</span>
+                            <span class="badge badge-pill bg-pink">Proses Kirim</span>
                         <?php endif; ?>
 
                     </td>

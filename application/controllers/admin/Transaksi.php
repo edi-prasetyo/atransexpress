@@ -72,9 +72,16 @@ class transaksi extends CI_Controller
   public function proses()
   {
     $resi = $this->input->post('resi');
+    $list_kota_asal   = $this->kota_model->get_allkota();
+    $list_kota_tujuan = $this->kota_model->get_allkota();
+
+    // Pencarian
+    $kota_asal    = $this->input->post('kota_asal');
+    $kota_tujuan  = $this->input->post('kota_tujuan');
+
     $kota = $this->kota_model->get_allkota();
     $config['base_url']         = base_url('admin/transaksi/proses/index/');
-    $config['total_rows']       = count($this->transaksi_model->total_row_proses($resi));
+    $config['total_rows']       = count($this->transaksi_model->total_row_proses($resi, $kota_asal, $kota_tujuan));
     $config['per_page']         = 10;
     $config['uri_segment']      = 5;
     $config['first_link']       = 'First';
@@ -98,11 +105,13 @@ class transaksi extends CI_Controller
     $limit                      = $config['per_page'];
     $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
     $this->pagination->initialize($config);
-    $transaksi = $this->transaksi_model->get_transaksi_proses($limit, $start, $resi);
+    $transaksi = $this->transaksi_model->get_transaksi_proses($limit, $start, $resi, $kota_asal, $kota_tujuan);
     $data = [
       'title'                 => 'Data Transaksi',
       'transaksi'             => $transaksi,
       'kota'                  => $kota,
+      'list_kota_asal'        => $list_kota_asal,
+      'list_kota_tujuan'      => $list_kota_tujuan,
       'pagination'            => $this->pagination->create_links(),
       'content'               => 'admin/transaksi/proses_transaksi'
     ];
@@ -114,9 +123,16 @@ class transaksi extends CI_Controller
   public function selesai()
   {
     $resi = $this->input->post('resi');
+    $list_kota_asal   = $this->kota_model->get_allkota();
+    $list_kota_tujuan = $this->kota_model->get_allkota();
+
+    // Pencarian
+    $kota_asal    = $this->input->post('kota_asal');
+    $kota_tujuan  = $this->input->post('kota_tujuan');
+
     $main_agen = $this->user_model->get_allcounter();
     $config['base_url']         = base_url('admin/transaksi/selesai/index/');
-    $config['total_rows']       = count($this->transaksi_model->total_row_selesai($resi));
+    $config['total_rows']       = count($this->transaksi_model->total_row_selesai($resi, $kota_asal, $kota_tujuan));
     $config['per_page']         = 10;
     $config['uri_segment']      = 5;
     $config['first_link']       = 'First';
@@ -140,11 +156,13 @@ class transaksi extends CI_Controller
     $limit                      = $config['per_page'];
     $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
     $this->pagination->initialize($config);
-    $transaksi = $this->transaksi_model->get_transaksi_selesai($limit, $start, $resi);
+    $transaksi = $this->transaksi_model->get_transaksi_selesai($limit, $start, $resi, $kota_asal, $kota_tujuan);
     $data = [
       'title'                 => 'Data Transaksi',
       'transaksi'             => $transaksi,
       'main_agen'             => $main_agen,
+      'list_kota_asal'        => $list_kota_asal,
+      'list_kota_tujuan'      => $list_kota_tujuan,
       'pagination'            => $this->pagination->create_links(),
       'content'               => 'admin/transaksi/selesai_transaksi'
     ];
@@ -156,9 +174,16 @@ class transaksi extends CI_Controller
   public function batal()
   {
     $resi = $this->input->post('resi');
+    $list_kota_asal   = $this->kota_model->get_allkota();
+    $list_kota_tujuan = $this->kota_model->get_allkota();
+
+    // Pencarian
+    $kota_asal    = $this->input->post('kota_asal');
+    $kota_tujuan  = $this->input->post('kota_tujuan');
+
     $main_agen = $this->user_model->get_allcounter();
     $config['base_url']         = base_url('admin/transaksi/batal/index/');
-    $config['total_rows']       = count($this->transaksi_model->total_row_batal($resi));
+    $config['total_rows']       = count($this->transaksi_model->total_row_batal($resi, $kota_asal, $kota_tujuan));
     $config['per_page']         = 10;
     $config['uri_segment']      = 5;
     $config['first_link']       = 'First';
@@ -182,11 +207,13 @@ class transaksi extends CI_Controller
     $limit                      = $config['per_page'];
     $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
     $this->pagination->initialize($config);
-    $transaksi = $this->transaksi_model->get_transaksi_batal($limit, $start, $resi);
+    $transaksi = $this->transaksi_model->get_transaksi_batal($limit, $start, $resi, $kota_asal, $kota_tujuan);
     $data = [
       'title'                 => 'Data Transaksi',
       'transaksi'             => $transaksi,
       'main_agen'             => $main_agen,
+      'list_kota_asal'        => $list_kota_asal,
+      'list_kota_tujuan'      => $list_kota_tujuan,
       'pagination'            => $this->pagination->create_links(),
       'content'               => 'admin/transaksi/batal_transaksi'
     ];
