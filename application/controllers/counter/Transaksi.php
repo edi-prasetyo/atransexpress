@@ -474,6 +474,16 @@ class Transaksi extends CI_Controller
                 $total_harga         = (int)$fix_harga + (int)$fix_nilai_asuransi;
 
 
+                $provinsi_id    = $this->input->post('provinsi_id');
+                $kota_id        = $this->input->post('kota_id');
+
+                $Getprovinsi = $this->provinsi_model->detail_provinsi($provinsi_id);
+                $Getkota = $this->kota_model->detail($kota_id);
+
+                $provinsi_to = $Getprovinsi->provinsi_name;
+                $kota_to = $Getkota->kota_name;
+
+
                 $data  = [
                     'id'                                => $id,
                     'user_id'                           => $this->session->userdata('id'),
@@ -481,6 +491,8 @@ class Transaksi extends CI_Controller
                     'product_id'                        => $this->input->post('product_id'),
                     'provinsi_id'                       => $this->input->post('provinsi_id'),
                     'kota_id'                           => $this->input->post('kota_id'),
+                    'provinsi_to'                       => $provinsi_to,
+                    'kota_to'                           => $kota_to,
                     'nama_pengirim'                     => $this->input->post('nama_pengirim'),
                     'telp_pengirim'                     => $this->input->post('telp_pengirim'),
                     'alamat_pengirim'                   => $this->input->post('alamat_pengirim'),
