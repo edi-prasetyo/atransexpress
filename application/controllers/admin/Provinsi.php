@@ -67,6 +67,7 @@ class Provinsi extends CI_Controller
             $this->load->view('admin/layout/wrapp', $data, FALSE);
         } else {
             $data  = [
+                'user_id'                         => $this->session->userdata('id'),
                 'provinsi_name'                   => $this->input->post('provinsi_name'),
                 'date_created'                    => date('Y-m-d H:i:s')
             ];
@@ -99,6 +100,7 @@ class Provinsi extends CI_Controller
         } else {
             $data  = [
                 'id'                            => $id,
+                'user_id'                         => $this->session->userdata('id'),
                 'provinsi_name'                 => $this->input->post('provinsi_name'),
                 'date_updated'                  => date('Y-m-d H:i:s')
             ];
@@ -169,6 +171,7 @@ class Provinsi extends CI_Controller
         } else {
             $data  = array(
                 'provinsi_id'           => $provinsi_id,
+                'user_id'               => $this->session->userdata('id'),
                 'kota_name'             => $this->input->post('kota_name'),
                 'date_created'          => date('Y-m-d H:i:s')
             );
@@ -210,6 +213,7 @@ class Provinsi extends CI_Controller
         } else {
             $data  = [
                 'id'                            => $id,
+                'user_id'                       => $this->session->userdata('id'),
                 'kota_name'                     => $this->input->post('kota_name'),
                 'date_updated'                  => date('Y-m-d H:i:s')
             ];
