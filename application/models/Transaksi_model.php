@@ -72,7 +72,7 @@ class Transaksi_model extends CI_Model
     $this->db->where('transaksi.stage', 1);
     $this->db->like('transaksi.nomor_resi', $resi);
     $this->db->like('transaksi.kota_from', $kota_asal);
-    // $this->db->like('transaksi.kota_to', $kota_tujuan);
+    $this->db->like('transaksi.kota_to', $kota_tujuan);
     $this->db->order_by('id', 'DESC');
     $this->db->limit($limit, $start);
     $query = $this->db->get();
@@ -90,7 +90,7 @@ class Transaksi_model extends CI_Model
     $this->db->where('transaksi.stage', 1);
     $this->db->like('transaksi.nomor_resi', $resi);
     $this->db->like('transaksi.kota_from', $kota_asal);
-    // $this->db->like('transaksi.kota_to', $kota_tujuan);
+    $this->db->like('transaksi.kota_to', $kota_tujuan);
     $this->db->order_by('id', 'DESC');
     $query = $this->db->get();
     return $query->result();

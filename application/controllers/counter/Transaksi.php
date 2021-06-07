@@ -283,7 +283,7 @@ class Transaksi extends CI_Controller
                 // Update kota_to
                 // $this->kota_tujuan($insert_id);
                 $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-                // redirect(base_url('counter/transaksi'), 'refresh');
+                redirect(base_url('counter/transaksi'), 'refresh');
             }
         }
     }
