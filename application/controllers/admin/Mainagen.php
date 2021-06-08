@@ -9,13 +9,15 @@ class Mainagen extends CI_Controller
     $this->load->library('pagination');
     $this->load->model('user_model');
     $this->load->model('provinsi_model');
+    $this->load->model('kota_model');
     $this->load->model('main_model');
   }
   public function index()
   {
-    $search = $this->input->post('search');
-    $search_email   = $this->input->post('search_email');
-    $search_kota   = $this->input->post('search_kota');
+    $list_kota          = $this->kota_model->get_allkota();
+    $search             = $this->input->post('search');
+    $search_email       = $this->input->post('search_email');
+    $search_kota        = $this->input->post('search_kota');
 
     $config['base_url']         = base_url('admin/mainagen/index/');
     $config['total_rows']       = count($this->user_model->total_row_mainagen($search, $search_email, $search_kota));
@@ -53,6 +55,7 @@ class Mainagen extends CI_Controller
     $data = [
       'title'                 => 'Data Main Agen',
       'main_agen'             => $main_agen,
+      'list_kota'             => $list_kota,
       'pagination'            => $this->pagination->create_links(),
       'content'               => 'admin/mainagen/index'
     ];

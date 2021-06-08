@@ -85,7 +85,9 @@
                     <td><?php echo $no; ?></td>
                     <td><?php echo date('d/m/Y', strtotime($topup->date_created)); ?><br> <?php echo date('H:i:s', strtotime($topup->date_created)); ?></td>
                     <td><b><?php echo $topup->code_topup; ?></b></td>
-                    <td><?php echo $topup->name; ?></td>
+                    <td>
+                        <?php echo $topup->name; ?>
+                    </td>
                     <td><?php echo $topup->topup_reason; ?></td>
                     <td>Rp. <?php echo number_format($topup->nominal, 0, ",", "."); ?></td>
                     <td>

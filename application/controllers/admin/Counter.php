@@ -9,14 +9,17 @@ class Counter extends CI_Controller
         $this->load->library('pagination');
         $this->load->model('user_model');
         $this->load->model('provinsi_model');
+        $this->load->model('kota_model');
         $this->load->model('main_model');
         $this->load->model('saldo_model');
     }
     public function index()
     {
-        $search         = $this->input->post('search');
-        $search_email   = $this->input->post('search_email');
-        $search_kota   = $this->input->post('search_kota');
+
+        $list_kota          = $this->kota_model->get_allkota();
+        $search             = $this->input->post('search');
+        $search_email       = $this->input->post('search_email');
+        $search_kota        = $this->input->post('search_kota');
 
 
         $config['base_url']         = base_url('admin/counter/index/');
@@ -49,12 +52,13 @@ class Counter extends CI_Controller
         //End Limit Start
         $this->pagination->initialize($config);
         $counter = $this->user_model->get_counter($limit, $start, $search, $search_email, $search_kota);
-        // var_dump($main_agen);
+        // var_dump($counter);
         // die;
 
         $data = [
             'title'                 => 'Data Counter',
-            'counter'             => $counter,
+            'counter'               => $counter,
+            'list_kota'             => $list_kota,
             'pagination'            => $this->pagination->create_links(),
             'content'               => 'admin/counter/index'
         ];

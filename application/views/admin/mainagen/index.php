@@ -25,7 +25,12 @@
             <div class="col-md-3">
                 <?php echo form_open('admin/mainagen'); ?>
                 <div class="input-group mb-3">
-                    <input type="text" name="search_kota" class="form-control" placeholder="Masukan Nama Kota" value="<?php echo set_value('search_kota'); ?>">
+                    <select class="form-control select2bs4" name="search_kota">
+                        <option>Pilih Kota</option>
+                        <?php foreach ($list_kota as $kota) : ?>
+                            <option value='<?php echo $kota->kota_name; ?>'><?php echo $kota->kota_name; ?> </option>
+                        <?php endforeach; ?>
+                    </select>
                     <div class="input-group-append">
                         <button class="btn btn-info" type="submit" id="button-addon2"><i class="fa fa-search"></i></button>
                     </div>

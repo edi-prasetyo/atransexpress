@@ -158,12 +158,12 @@ class User_model extends CI_Model
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
     // End Join
+    $this->db->where('role_id', 5);
     $this->db->like('name', $search);
     $this->db->like('email', $search_email);
     $this->db->like('kota_name', $search_kota);
-    $this->db->where('role_id', 5);
     $this->db->limit($limit, $start);
-    $this->db->order_by('id', 'DESC');
+    $this->db->order_by('user.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }
@@ -176,11 +176,12 @@ class User_model extends CI_Model
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
     // End Join
-    $this->db->like(['name', $search]);
+    $this->db->where('user.role_id', 5);
+    $this->db->like('name', $search);
     $this->db->like('email', $search_email);
     $this->db->like('kota_name', $search_kota);
-    $this->db->where('role_id', 5);
-    $this->db->order_by('id', 'ASC');
+
+    $this->db->order_by('user.id', 'ASC');
     $query = $this->db->get();
     return $query->result();
   }

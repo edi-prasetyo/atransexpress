@@ -210,10 +210,13 @@ class Topup extends CI_Controller
     // Batalkan Order
     public function batal($id)
     {
-        $user                           = $this->session->userdata('id');
+        $user_id        = $this->session->userdata('id');
+        $user           = $this->user_model->user_detail($user_id);
+        $user_proccess  = $user->name;
+
         $topup                          = $this->topup_model->detail_topup($id);
 
-        if ($topup->user_id == $user) {
+        if ($topup->user_id == $user_id) {
 
             $this->form_validation->set_rules(
                 'topup_reason',
@@ -233,7 +236,7 @@ class Topup extends CI_Controller
             } else {
                 $data  = array(
                     'id'                    => $id,
-                    'user_proccess'         => $this->session->userdata('id'),
+                    'user_proccess'         => $user_proccess,
                     'topup_reason'          => $this->input->post('topup_reason'),
                     'status_bayar'          => 'Decline',
                     'date_updated'          => date('Y-m-d H:i:s')

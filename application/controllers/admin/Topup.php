@@ -211,7 +211,7 @@ class topup extends CI_Controller
             'id'                    => $id,
             'user_id'               => $counter_id,
             'user_proccess'         => $user_id,
-            'topup_reason'          => ' Aprove By ' . $nama_user,
+            'topup_reason'          => ' Aproved By ' . $nama_user,
             'status_bayar'          => 'Success',
             'date_updated'          => date('Y-m-d H:i:s')
         ];
@@ -220,7 +220,11 @@ class topup extends CI_Controller
     // Decline
     public function decline($id)
     {
-        $topup = $this->topup_model->detail_topup($id);
+        $topup          = $this->topup_model->detail_topup($id);
+        $user_id        = $this->session->userdata('id');
+        $user           = $this->user_model->user_detail($user_id);
+        $user_proccess  = $user->name;
+
         $this->form_validation->set_rules(
             'topup_reason',
             'Reason',
@@ -240,7 +244,7 @@ class topup extends CI_Controller
             $data = [
                 'id'                => $id,
                 'status_bayar'      => 'Decline',
-                'user_proccess'     => $this->session->userdata('id'),
+                'user_proccess'     => $user_proccess,
                 'topup_reason'      => $this->input->post('topup_reason'),
                 'date_updated'      => date('Y-m-d H:i:s')
             ];
