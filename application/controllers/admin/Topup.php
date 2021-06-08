@@ -85,6 +85,7 @@ class topup extends CI_Controller
         // die;
 
         $data = [
+            
             'id'                => $counter_id,
             'deposit_counter'   => $tambah_saldo,
 
@@ -129,6 +130,8 @@ class topup extends CI_Controller
         $data = [
             'id'                => $id,
             'status_bayar'      => 'Decline',
+            'user_proccess'     => $this->session->userdata('id'),
+            'topup_reason'      => $this->input->post('topup_reason'),
             'date_updated'      => date('Y-m-d H:i:s')
         ];
         $this->topup_model->update($data);
