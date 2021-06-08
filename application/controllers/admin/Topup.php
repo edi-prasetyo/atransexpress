@@ -85,7 +85,7 @@ class topup extends CI_Controller
         // die;
 
         $data = [
-            
+
             'id'                => $counter_id,
             'deposit_counter'   => $tambah_saldo,
 
@@ -127,15 +127,33 @@ class topup extends CI_Controller
     // Decline
     public function decline($id)
     {
-        $data = [
-            'id'                => $id,
-            'status_bayar'      => 'Decline',
-            'user_proccess'     => $this->session->userdata('id'),
-            'topup_reason'      => $this->input->post('topup_reason'),
-            'date_updated'      => date('Y-m-d H:i:s')
-        ];
-        $this->topup_model->update($data);
-        $this->session->set_flashdata('message', 'Top Up Decline');
-        redirect(base_url('admin/topup'), 'refresh');
+        $topup = $this->topup_model->detail_topup($id);
+        $this->form_validation->set_rules(
+            'topup_reason',
+            'Reason',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        if ($this->form_validation->run() === FALSE) {
+            $data = [
+                'title'                             => 'Top Up Detail',
+                'topup'                             => $topup,
+                'content'                           => 'admin/topup/decline'
+            ];
+            $this->load->view('admin/layout/wrapp', $data, FALSE);
+        } else {
+            $data = [
+                'id'                => $id,
+                'status_bayar'      => 'Decline',
+                'user_proccess'     => $this->session->userdata('id'),
+                'topup_reason'      => $this->input->post('topup_reason'),
+                'date_updated'      => date('Y-m-d H:i:s')
+            ];
+            $this->topup_model->update($data);
+            $this->session->set_flashdata('message', 'Top Up Decline');
+            redirect(base_url('admin/topup'), 'refresh');
+        }
     }
 }

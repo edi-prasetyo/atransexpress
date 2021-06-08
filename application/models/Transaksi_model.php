@@ -374,7 +374,7 @@ class Transaksi_model extends CI_Model
     // Join
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     // End Join
-    $this->db->where(['user_id' => $user_id, 'stage' => 1]);
+    $this->db->where(['transaksi.user_id' => $user_id, 'stage' => 1]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -392,7 +392,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('product', 'product.id = transaksi.product_id', 'LEFT');
     $this->db->join('category', 'category.id = transaksi.category_id', 'LEFT');
     //End Join
-    $this->db->where(['transaksi.id' => $id, 'user_id' => $user_id]);
+    $this->db->where(['transaksi.id' => $id, 'transaksi.user_id' => $user_id]);
     $query = $this->db->get();
     return $query->row();
   }
