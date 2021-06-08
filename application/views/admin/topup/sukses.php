@@ -1,16 +1,16 @@
 <div class="card">
     <div class="card-header">
         <ul class="nav nav-pills ml-auto p-2">
-            <li class="nav-item"><a class="nav-link active" href="<?php echo base_url('admin/topup'); ?>">Pending</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/topup/sukses'); ?>">Selesai</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/topup'); ?>">Pending</a></li>
+            <li class="nav-item"><a class="nav-link active" href="<?php echo base_url('admin/topup/sukses'); ?>">Selesai</a></li>
             <li class="nav-item"><a class="nav-link" href="<?php echo base_url('admin/topup/batal'); ?>">Batal</a></li>
         </ul>
     </div>
 
     <div class="card-body">
         <div class="row">
-            <!-- <div class="col-md-4">
-                <?php echo form_open('admin/topup'); ?>
+            <div class="col-md-4">
+                <?php echo form_open('admin/topup/sukses'); ?>
                 <div class="input-group mb-3">
                     <input type="text" name="code_topup" class="form-control" placeholder="Masukan Kode Topup" value="<?php echo set_value('code_topup'); ?>">
                     <div class="input-group-append">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <?php echo form_close(); ?>
-            </div> -->
+            </div>
             <!-- <div class="col-md-4">
                 <?php echo form_open('admin/transaksi'); ?>
                 <div class="input-group mb-3" style="width: 100%;">
@@ -73,6 +73,7 @@
                     <th>Tanggal</th>
                     <th>Kode Top Up</th>
                     <th>Counter</th>
+                    <th>Reason</th>
                     <th>Nominal</th>
                     <th>Status</th>
                     <th width="15%">Action</th>
@@ -85,6 +86,7 @@
                     <td><?php echo date('d/m/Y', strtotime($topup->date_created)); ?><br> <?php echo date('H:i:s', strtotime($topup->date_created)); ?></td>
                     <td><b><?php echo $topup->code_topup; ?></b></td>
                     <td><?php echo $topup->name; ?></td>
+                    <td><?php echo $topup->topup_reason; ?></td>
                     <td>Rp. <?php echo number_format($topup->nominal, 0, ",", "."); ?></td>
                     <td>
                         <?php if ($topup->status_bayar == "Pending") : ?>

@@ -214,14 +214,34 @@ class Topup extends CI_Controller
         $topup                          = $this->topup_model->detail_topup($id);
 
         if ($topup->user_id == $user) {
-            $data  = array(
-                'id'                    => $id,
-                'status_bayar'          => 'Decline',
-                'date_updated'          => date('Y-m-d H:i:s')
+
+            $this->form_validation->set_rules(
+                'topup_reason',
+                'Reason',
+                'required',
+                array(
+                    'required'                        => '%s Harus Diisi'
+                )
             );
-            $this->topup_model->update($data);
-            $this->session->set_flashdata('sukses', 'Transaksi Telah di batalkan');
-            redirect(base_url('counter/topup'), 'refresh');
+            if ($this->form_validation->run() === FALSE) {
+                $data = [
+                    'title'                             => 'Top Up Decline',
+                    'topup'                             => $topup,
+                    'content'                           => 'counter/topup/batal'
+                ];
+                $this->load->view('counter/layout/wrapp', $data, FALSE);
+            } else {
+                $data  = array(
+                    'id'                    => $id,
+                    'user_proccess'         => $this->session->userdata('id'),
+                    'topup_reason'          => $this->input->post('topup_reason'),
+                    'status_bayar'          => 'Decline',
+                    'date_updated'          => date('Y-m-d H:i:s')
+                );
+                $this->topup_model->update($data);
+                $this->session->set_flashdata('sukses', 'Transaksi Telah di batalkan');
+                redirect(base_url('counter/topup'), 'refresh');
+            }
         } else {
             redirect(base_url('counter/404'), 'refresh');
         }

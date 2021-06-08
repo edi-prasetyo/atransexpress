@@ -46,6 +46,7 @@ class Topup_model extends CI_Model
         return $query->result();
     }
 
+    // ------------------ Top Up Pending ----------------//
     public function get_topup($limit, $start)
     {
         $this->db->select('topup.*, user.name, user_code');
@@ -53,11 +54,95 @@ class Topup_model extends CI_Model
         // join
         $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
         // End Join
-        $this->db->order_by('id', 'DESC');
+        $this->db->where('topup.status_bayar', 'Pending');
+        $this->db->order_by('topup.id', 'DESC');
         $this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result();
     }
+
+    //Total
+    public function total_row()
+    {
+        $this->db->select('topup.*, user.name');
+        $this->db->from('topup');
+        // Join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        //End Join
+        $this->db->where('topup.status_bayar', 'Pending');
+        $this->db->order_by('topup.id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    // ---------------- End Top Up Pending ----------------//
+
+    // ------------------ Top Up Sukses ----------------//
+    public function get_topup_sukses($limit, $start, $code_topup)
+    {
+        $this->db->select('topup.*, user.name, user_code');
+        $this->db->from('topup');
+        // join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        // End Join
+        $this->db->where('topup.status_bayar', 'Success');
+        $this->db->like('code_topup', $code_topup);
+        $this->db->order_by('topup.id', 'DESC');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    //Total
+    public function total_row_sukses($code_topup)
+    {
+        $this->db->select('topup.*, user.name');
+        $this->db->from('topup');
+        // Join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        //End Join
+        $this->db->where('topup.status_bayar', 'Success');
+        $this->db->like('code_topup', $code_topup);
+        $this->db->order_by('topup.id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    // ---------------- End Top Up Sukses ----------------//
+
+    // ------------------ Top Up Batal ----------------//
+    public function get_topup_batal($limit, $start, $code_topup)
+    {
+        $this->db->select('topup.*, user.name, user_code');
+        $this->db->from('topup');
+        // join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        // End Join
+        $this->db->where('topup.status_bayar', 'Decline');
+        $this->db->like('code_topup', $code_topup);
+        $this->db->order_by('topup.id', 'DESC');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    //Total
+    public function total_row_batal($code_topup)
+    {
+        $this->db->select('topup.*, user.name');
+        $this->db->from('topup');
+        // Join
+        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
+        //End Join
+        $this->db->where('topup.status_bayar', 'Decline');
+        $this->db->like('code_topup', $code_topup);
+        $this->db->order_by('topup.id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    // ---------------- End Top Up Batal ----------------//
+
     // Riwayat Top up Counter
     public function get_riwayat_topup_counter($limit, $start, $user_id)
     {
@@ -73,18 +158,7 @@ class Topup_model extends CI_Model
         return $query->result();
     }
 
-    //Total Berita Main Page
-    public function total_row()
-    {
-        $this->db->select('topup.*, user.name');
-        $this->db->from('topup');
-        // Join
-        $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
-        //End Join
-        $this->db->order_by('id', 'DESC');
-        $query = $this->db->get();
-        return $query->result();
-    }
+
     //Total Top Up Counter
     public function get_row_counter($user_id)
     {

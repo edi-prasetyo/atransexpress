@@ -53,6 +53,7 @@
                         </div>
                         <div class="col-6">
                             <a href="<?php echo base_url('admin/topup/decline/' . $topup->id); ?>" class="btn btn-lg btn-block btn-danger"><i class="fa fa-times"></i> Decline</a>
+
                         </div>
                     <?php endif; ?>
                 </div>

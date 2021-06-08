@@ -220,7 +220,7 @@ class Transaksi_model extends CI_Model
     // Join
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     //End Join
-    $this->db->where('user_id', $id);
+    $this->db->where('transaksi.user_id', $id);
     $this->db->order_by('transaksi.id', 'DESC');
     $this->db->limit($limit, $start);
     $query = $this->db->get();
@@ -302,7 +302,7 @@ class Transaksi_model extends CI_Model
     // Join
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     //End Join
-    $this->db->where(['transaksi_status'     =>  'Aktif']);
+    $this->db->where(['transaksi.transaksi_status'     =>  'Aktif']);
     $this->db->order_by('transaksi.id', 'DESC');
     $this->db->limit($limit, $start);
     $query = $this->db->get();
@@ -374,7 +374,7 @@ class Transaksi_model extends CI_Model
     // Join
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     // End Join
-    $this->db->where(['transaksi.user_id' => $user_id, 'stage' => 1]);
+    $this->db->where(['transaksi.user_id' => $user_id, 'transaksi.stage' => 1]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -407,7 +407,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['transaksi.id' => $id, 'mainagen_id' => $user_id]);
+    $this->db->where(['transaksi.id' => $id, 'transaksi.mainagen_id' => $user_id]);
     // $this->db->or_where(['mainagen_to_id' => $user_id]);
     $query = $this->db->get();
     return $query->row();
@@ -424,7 +424,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     //End Join
-    $this->db->where(['user_agen' => $user_id, 'stage' => 1]);
+    $this->db->where(['transaksi.user_agen' => $user_id, 'transaksi.stage' => 1]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -441,7 +441,7 @@ class Transaksi_model extends CI_Model
 
     //End Join
     $this->db->like('nomor_resi', $resi);
-    $this->db->where(['user_stage' => $user_id]);
+    $this->db->where(['transaksi.user_stage' => $user_id]);
     // $this->db->or_where(['user_agen' => $user_id, 'stage' => 3]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -459,7 +459,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     //End Join
-    $this->db->where(['user_agen' => $user_id, 'id' => $id]);
+    $this->db->where(['transaksi.user_agen' => $user_id, 'transaksi.id' => $id]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -475,7 +475,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('user', 'user.id = transaksi.kurir', 'LEFT');
     //End Join
     $this->db->like('nomor_resi', $resi);
-    $this->db->where(['to_agen' => $user_id, 'stage' => 5]);
+    $this->db->where(['transaksi.to_agen' => $user_id, 'transaksi.stage' => 5]);
     // $this->db->or_where(['user_stage' => $user_id]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -491,7 +491,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['kurir' => $user_id, 'stage' => 7]);
+    $this->db->where(['transaksi.kurir' => $user_id, 'transaksi.stage' => 7]);
 
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -507,7 +507,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['kurir' => $user_id, 'stage' => 8]);
+    $this->db->where(['transaksi.kurir' => $user_id, 'transaksi.stage' => 8]);
 
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -525,8 +525,8 @@ class Transaksi_model extends CI_Model
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     $this->db->like('nomor_resi', $search);
     //End Join
-    $this->db->where(['mainagen_id' => $user_id]);
-    $this->db->or_where(['mainagen_to_id' => $user_id]);
+    $this->db->where(['transaksi.mainagen_id' => $user_id]);
+    $this->db->or_where(['transaksi.mainagen_to_id' => $user_id]);
     $this->db->limit($limit, $start);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -538,8 +538,8 @@ class Transaksi_model extends CI_Model
   {
     $this->db->select('transaksi.*, COUNT(transaksi.id) AS total');
     $this->db->from('transaksi');
-    $this->db->where(['mainagen_id' => $user_id]);
-    $this->db->or_where(['mainagen_to_id' => $user_id]);
+    $this->db->where(['transaksi.mainagen_id' => $user_id]);
+    $this->db->or_where(['transaksi.mainagen_to_id' => $user_id]);
     $this->db->group_by('DATE(date_created)');
     $this->db->order_by('DATE(date_created)', 'DESC');
     $this->db->limit(12);
@@ -551,8 +551,8 @@ class Transaksi_model extends CI_Model
   {
     $this->db->select('*');
     $this->db->from('transaksi');
-    $this->db->where(['mainagen_id' => $user_id]);
-    $this->db->or_where(['mainagen_to_id' => $user_id]);
+    $this->db->where(['transaksi.mainagen_id' => $user_id]);
+    $this->db->or_where(['transaksi.mainagen_to_id' => $user_id]);
     $query = $this->db->get();
     return $query->result();
   }
@@ -567,7 +567,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
     $this->db->like('nomor_resi', $search);
-    $this->db->where(['mainagen_id' => $user_id]);
+    $this->db->where(['transaksi.mainagen_id' => $user_id]);
 
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -584,7 +584,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
     $this->db->like('nomor_resi', $search);
-    $this->db->where(['counter_id' => $user_id]);
+    $this->db->where(['transaksi.counter_id' => $user_id]);
     $this->db->limit($limit, $start);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -607,7 +607,7 @@ class Transaksi_model extends CI_Model
   {
     $this->db->select('transaksi.*, COUNT(transaksi.id) AS total');
     $this->db->from('transaksi');
-    $this->db->where(['counter_id' => $user_id]);
+    $this->db->where(['transaksi.counter_id' => $user_id]);
     $this->db->group_by('DATE(date_created)');
     $this->db->order_by('DATE(date_created)', 'DESC');
     $this->db->limit(12);
@@ -632,8 +632,8 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->like('nomor_resi', $search);
-    $this->db->where(['counter_id' => $user_id]);
+    $this->db->like('transaksi.nomor_resi', $search);
+    $this->db->where(['transaksi.counter_id' => $user_id]);
 
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -650,7 +650,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['kurirpusat_id' => $user_id]);
+    $this->db->where(['transaksi.kurirpusat_id' => $user_id]);
     $this->db->limit($limit, $start);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -662,7 +662,7 @@ class Transaksi_model extends CI_Model
   {
     $this->db->select('transaksi.*, COUNT(transaksi.id) AS total');
     $this->db->from('transaksi');
-    $this->db->where(['kurirpusat_id' => $user_id]);
+    $this->db->where(['transaksi.kurirpusat_id' => $user_id]);
     $this->db->group_by('DATE(date_created)');
     $this->db->order_by('DATE(date_created)', 'ASC');
     $this->db->limit(12);
@@ -673,7 +673,7 @@ class Transaksi_model extends CI_Model
   {
     $this->db->select('*');
     $this->db->from('transaksi');
-    $this->db->where(['kurirpusat_id' => $user_id]);
+    $this->db->where(['transaksi.kurirpusat_id' => $user_id]);
     $query = $this->db->get();
     return $query->result();
   }
@@ -687,7 +687,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['kurirpusat_id' => $user_id]);
+    $this->db->where(['transaksi.kurirpusat_id' => $user_id]);
 
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -704,7 +704,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     //End Join
-    $this->db->where(['kurir_id' => $user_id]);
+    $this->db->where(['transaksi.kurir_id' => $user_id]);
     $this->db->limit($limit, $start);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
@@ -716,7 +716,7 @@ class Transaksi_model extends CI_Model
   {
     $this->db->select('transaksi.*, COUNT(transaksi.id) AS total');
     $this->db->from('transaksi');
-    $this->db->where(['kurir_id' => $user_id]);
+    $this->db->where(['transaksi.kurir_id' => $user_id]);
     $this->db->group_by('DATE(date_created)');
     $this->db->order_by('DATE(date_created)', 'ASC');
     $this->db->limit(12);
@@ -727,7 +727,7 @@ class Transaksi_model extends CI_Model
   {
     $this->db->select('*');
     $this->db->from('transaksi');
-    $this->db->where(['kurir_id' => $user_id]);
+    $this->db->where(['transaksi.kurir_id' => $user_id]);
     $query = $this->db->get();
     return $query->result();
   }
@@ -740,7 +740,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['kurir_id' => $user_id]);
+    $this->db->where(['transaksi.kurir_id' => $user_id]);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -757,7 +757,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     // End Join
-    $this->db->where('stage', 6);
+    $this->db->where('transaksi.stage', 6);
     $this->db->order_by('transaksi.id', 'DESC');
     $this->db->limit($limit, $start);
     $query = $this->db->get();
@@ -773,7 +773,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['user_stage' => $user_id]);
+    $this->db->where(['transaksi.user_stage' => $user_id]);
     // $this->db->or_where(['stage' => 5, 'kurirpusat_id' => $user_id]);
     $this->db->order_by('transaksi.id', 'DESC');
     $this->db->limit($limit, $start);
@@ -803,7 +803,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     // End Join
-    $this->db->where('stage', 9);
+    $this->db->where('transaksi.stage', 9);
     $this->db->order_by('transaksi.id', 'DESC');
     $this->db->limit($limit, $start);
     $query = $this->db->get();
@@ -820,7 +820,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     // End Join
-    $this->db->where(['stage' => 3, 'kurir_pusat' => $user_id]);
+    $this->db->where(['transaksi.stage' => 3, 'transaksi.kurir_pusat' => $user_id]);
     $this->db->order_by('transaksi.id', 'DESC');
     $this->db->limit($limit, $start, $user_id);
     $query = $this->db->get();
@@ -835,7 +835,7 @@ class Transaksi_model extends CI_Model
     // Join
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     //End Join
-    $this->db->like('kurir_pusat', $user_id);
+    $this->db->like('transaksi.kurir_pusat', $user_id);
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
@@ -868,7 +868,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('user', 'user.id = transaksi.user_agen', 'LEFT');
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     //End Join
-    $this->db->where(['stage' => 3, 'kurir_pusat' => $user_id]);
+    $this->db->where(['transaksi.stage' => 3, 'transaksi.kurir_pusat' => $user_id]);
     $this->db->order_by('transaksi.id', 'DESC');
 
     if ($search != '') {
@@ -887,7 +887,7 @@ class Transaksi_model extends CI_Model
 
     $this->db->select('count(*) as allcount');
     $this->db->from('transaksi');
-    $this->db->where(['stage' => 3, 'kurir_pusat' => $user_id]);
+    $this->db->where(['transaksi.stage' => 3, 'transaksi.kurir_pusat' => $user_id]);
 
     if ($search != '') {
       $this->db->like('kota_from', $search);
@@ -912,7 +912,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['user_stage' => $user_id]);
+    $this->db->where(['transaksi.user_stage' => $user_id]);
     // $this->db->or_where(['stage' => 5, 'kurirpusat_id' => $user_id]);
 
     $this->db->order_by('transaksi.id', 'DESC');
@@ -956,7 +956,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('kota', 'kota.id = transaksi.kota_id', 'LEFT');
     $this->db->join('provinsi', 'provinsi.id = transaksi.provinsi_id', 'LEFT');
     //End Join
-    $this->db->where(['nomor_resi' => $nomor_resi]);
+    $this->db->where(['transaksi.nomor_resi' => $nomor_resi]);
 
     $this->db->order_by('transaksi.id', 'DESC');
     $query = $this->db->get();
