@@ -166,7 +166,24 @@ foreach ($alltransaksi as $data) {
 </script>
 
 <script>
+  $(document).ready(function() {
+    $("#from-datepicker").datepicker({
+      format: 'yyyy-mm-dd'
+    });
+    $("#from-datepicker").on("change", function() {
+      var fromdate = $(this).val();
+      alert(fromdate);
+    });
+  });
+</script>
+
+<script>
   $(function() {
+    $('#reservationdate').datetimepicker({
+      format: 'L',
+
+
+    })
     //Initialize Select2 Elements
     $('.select2').select2()
 

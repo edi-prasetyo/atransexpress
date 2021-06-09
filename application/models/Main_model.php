@@ -11,7 +11,9 @@ class Main_model extends CI_Model
 
         // Select record
         $this->db->select('*');
+        $this->db->order_by('provinsi_name', 'ASC');
         $q = $this->db->get('provinsi');
+
         $response = $q->result_array();
 
         return $response;
@@ -33,6 +35,7 @@ class Main_model extends CI_Model
         // Select record
         $this->db->select('id,kota_name');
         $this->db->where('provinsi_id', $postData['provinsi']);
+        $this->db->order_by('kota_name', 'ASC');
         $q = $this->db->get('kota');
         $response = $q->result_array();
 

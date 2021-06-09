@@ -57,10 +57,14 @@ class topup extends CI_Controller
     //listing data topup Sukses
     public function sukses()
     {
+        $list_counter = $this->user_model->get_allcounter_active();
         $code_topup = $this->input->post('code_topup');
+        $date_created = $this->input->post('date_created');
+        $nama_counter = $this->input->post('nama_counter');
+
 
         $config['base_url']         = base_url('admin/topup/sukses/index/');
-        $config['total_rows']       = count($this->topup_model->total_row_sukses($code_topup));
+        $config['total_rows']       = count($this->topup_model->total_row_sukses($code_topup, $date_created, $nama_counter));
         $config['per_page']         = 10;
         $config['uri_segment']      = 5;
 
@@ -88,10 +92,11 @@ class topup extends CI_Controller
         $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $topup = $this->topup_model->get_topup_sukses($limit, $start, $code_topup);
+        $topup = $this->topup_model->get_topup_sukses($limit, $start, $code_topup, $date_created, $nama_counter);
         $data = [
             'title'                 => 'Data Topup',
             'topup'                 => $topup,
+            'list_counter'          => $list_counter,
             'pagination'            => $this->pagination->create_links(),
             'content'               => 'admin/topup/sukses'
         ];
@@ -101,10 +106,13 @@ class topup extends CI_Controller
     //listing data topup Batal
     public function batal()
     {
+        $list_counter = $this->user_model->get_allcounter_active();
         $code_topup = $this->input->post('code_topup');
+        $date_created = $this->input->post('date_created');
+        $nama_counter = $this->input->post('nama_counter');
 
         $config['base_url']         = base_url('admin/topup/batal/index/');
-        $config['total_rows']       = count($this->topup_model->total_row_batal($code_topup));
+        $config['total_rows']       = count($this->topup_model->total_row_batal($code_topup, $date_created, $nama_counter));
         $config['per_page']         = 10;
         $config['uri_segment']      = 5;
 
@@ -132,17 +140,16 @@ class topup extends CI_Controller
         $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $topup = $this->topup_model->get_topup_batal($limit, $start, $code_topup);
+        $topup = $this->topup_model->get_topup_batal($limit, $start, $code_topup, $date_created, $nama_counter);
         $data = [
             'title'                 => 'Data Topup',
             'topup'                 => $topup,
+            'list_counter'          => $list_counter,
             'pagination'            => $this->pagination->create_links(),
             'content'               => 'admin/topup/batal'
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
     }
-
-
 
     public function detail($id)
     {

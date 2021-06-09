@@ -78,7 +78,7 @@ class Topup_model extends CI_Model
     // ---------------- End Top Up Pending ----------------//
 
     // ------------------ Top Up Sukses ----------------//
-    public function get_topup_sukses($limit, $start, $code_topup)
+    public function get_topup_sukses($limit, $start, $code_topup, $date_created, $nama_counter)
     {
         $this->db->select('topup.*, user.name, user_code');
         $this->db->from('topup');
@@ -86,7 +86,9 @@ class Topup_model extends CI_Model
         $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
         // End Join
         $this->db->where('topup.status_bayar', 'Success');
-        $this->db->like('code_topup', $code_topup);
+        $this->db->like('topup.code_topup', $code_topup);
+        $this->db->like('topup.date_created', $date_created);
+        $this->db->like('name', $nama_counter);
         $this->db->order_by('topup.id', 'DESC');
         $this->db->limit($limit, $start);
         $query = $this->db->get();
@@ -94,7 +96,7 @@ class Topup_model extends CI_Model
     }
 
     //Total
-    public function total_row_sukses($code_topup)
+    public function total_row_sukses($code_topup, $date_created, $nama_counter)
     {
         $this->db->select('topup.*, user.name');
         $this->db->from('topup');
@@ -102,7 +104,9 @@ class Topup_model extends CI_Model
         $this->db->join('user', 'user.id = topup.user_id', 'LEFT');
         //End Join
         $this->db->where('topup.status_bayar', 'Success');
-        $this->db->like('code_topup', $code_topup);
+        $this->db->like('topup.code_topup', $code_topup);
+        $this->db->like('topup.date_created', $date_created);
+        $this->db->like('name', $nama_counter);
         $this->db->order_by('topup.id', 'DESC');
         $query = $this->db->get();
         return $query->result();
@@ -111,7 +115,7 @@ class Topup_model extends CI_Model
     // ---------------- End Top Up Sukses ----------------//
 
     // ------------------ Top Up Batal ----------------//
-    public function get_topup_batal($limit, $start, $code_topup)
+    public function get_topup_batal($limit, $start, $code_topup,  $date_created, $nama_counter)
     {
         $this->db->select('topup.*, user.name, user_code');
         $this->db->from('topup');
@@ -120,6 +124,9 @@ class Topup_model extends CI_Model
         // End Join
         $this->db->where('topup.status_bayar', 'Decline');
         $this->db->like('code_topup', $code_topup);
+        $this->db->like('topup.code_topup', $code_topup);
+        $this->db->like('topup.date_created', $date_created);
+        $this->db->like('name', $nama_counter);
         $this->db->order_by('topup.id', 'DESC');
         $this->db->limit($limit, $start);
         $query = $this->db->get();
@@ -127,7 +134,7 @@ class Topup_model extends CI_Model
     }
 
     //Total
-    public function total_row_batal($code_topup)
+    public function total_row_batal($code_topup, $date_created, $nama_counter)
     {
         $this->db->select('topup.*, user.name');
         $this->db->from('topup');
@@ -136,12 +143,29 @@ class Topup_model extends CI_Model
         //End Join
         $this->db->where('topup.status_bayar', 'Decline');
         $this->db->like('code_topup', $code_topup);
+        $this->db->like('topup.code_topup', $code_topup);
+        $this->db->like('topup.date_created', $date_created);
+        $this->db->like('name', $nama_counter);
         $this->db->order_by('topup.id', 'DESC');
         $query = $this->db->get();
         return $query->result();
     }
 
     // ---------------- End Top Up Batal ----------------//
+
+    // PENJUMLAHAN
+    //Total Top Up Masuk
+    public function total_topup()
+    {
+        $this->db->select_sum('nominal');
+        $this->db->where('status_bayar', 'Success');
+        $query = $this->db->get('topup');
+        if ($query->num_rows() > 0) {
+            return $query->row()->nominal;
+        } else {
+            return 0;
+        }
+    }
 
     // Riwayat Top up Counter
     public function get_riwayat_topup_counter($limit, $start, $user_id)

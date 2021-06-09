@@ -139,7 +139,7 @@ $meta = $this->meta_model->get_meta();
         </li>
 
         <li class="nav-item">
-          <a href="<?php echo base_url(); ?>admin/report" class="nav-link">
+          <a href="<?php echo base_url(); ?>admin/laporan" class="nav-link">
             <i class="nav-icon fas fa-vote-yea"></i>
             <p>
               Laporan

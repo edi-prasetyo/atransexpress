@@ -64,6 +64,7 @@ class Transaksi extends CI_Controller
                 'status'                            => $status,
                 'stage'                             => 2,
                 'user_stage'                        => $this->session->userdata('id'),
+                'status_transaksi'                  => 1,
                 'date_updated'                      => date('Y-m-d H:i:s')
             ];
             $this->transaksi_model->update($data);

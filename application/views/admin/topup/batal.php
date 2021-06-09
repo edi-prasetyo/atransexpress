@@ -19,36 +19,37 @@
                 </div>
                 <?php echo form_close(); ?>
             </div>
-            <!-- <div class="col-md-4">
-                <?php echo form_open('admin/transaksi'); ?>
-                <div class="input-group mb-3" style="width: 100%;">
-                    <select class="form-control select2bs4" name="kota_asal">
-                        <option>Pilih Kota Asal</option>
-                        <?php foreach ($list_kota_asal as $kota) : ?>
-                            <option value='<?php echo $kota->kota_name; ?>'><?php echo $kota->kota_name; ?> </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <div class="input-group-append">
-                        <input type='submit' name='submit' value='Cari' class="btn btn-info">
+            <div class="col-md-4">
+                <?php echo form_open('admin/topup/batal'); ?>
+                <div class="form-group">
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <div class=" input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                        <input type="date" name="date_created" class="form-control" />
+                        <div class="input-group-append">
+                            <button class="btn btn-info" type="submit" id="button-addon2">Cari</button>
+                        </div>
                     </div>
                 </div>
                 <?php echo form_close(); ?>
-            </div> -->
-            <!-- <div class="col-md-4">
-                <?php echo form_open('admin/transaksi'); ?>
-                <div class="input-group mb-3" style="width: 100%;">
-                    <select class="form-control select2bs4" name="kota_tujuan">
-                        <option>Pilih Kota Tujuan</option>
-                        <?php foreach ($list_kota_tujuan as $kota_tujuan) : ?>
-                            <option value='<?php echo $kota_tujuan->kota_name; ?>'><?php echo $kota_tujuan->kota_name; ?> </option>
+            </div>
+            <div class="col-md-4">
+                <?php echo form_open('admin/topup/batal'); ?>
+                <div class="input-group mb-3">
+                    <select class="form-control select2bs4" name="nama_counter">
+                        <option>Cari Counter</option>
+                        <?php foreach ($list_counter as $list_counter) : ?>
+                            <option value='<?php echo $list_counter->name; ?>'><?php echo $list_counter->name; ?> </option>
                         <?php endforeach; ?>
                     </select>
                     <div class="input-group-append">
-                        <input type='submit' name='submit' value='Cari' class="btn btn-info">
+                        <button class="btn btn-info" type="submit" id="button-addon2">Cari</button>
                     </div>
+
                 </div>
                 <?php echo form_close(); ?>
-            </div> -->
+            </div>
         </div>
     </div>
 

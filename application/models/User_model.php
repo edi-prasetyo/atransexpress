@@ -40,7 +40,7 @@ class User_model extends CI_Model
     $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
     // End Join
     $this->db->where('role_id', 4);
-    $this->db->order_by('id', 'DESC');
+    $this->db->order_by('kota.kota_name', 'ASC');
     $query = $this->db->get();
     return $query->result();
   }
@@ -146,6 +146,20 @@ class User_model extends CI_Model
     // End Join
     $this->db->where('role_id', 5);
     $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+  // Counter Aktif
+  public function get_allcounter_active()
+  {
+    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    // End Join
+    $this->db->where(['role_id' => 5, 'is_active' => 1, 'is_locked' => 1]);
+    $this->db->order_by('user.id', 'DESC');
     $query = $this->db->get();
     return $query->result();
   }
