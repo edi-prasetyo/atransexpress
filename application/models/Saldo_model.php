@@ -52,6 +52,18 @@ class Saldo_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_row_mysaldo_mainagen($user_id)
+    {
+        $this->db->select('saldo.*, user.name, user_code');
+        $this->db->from('saldo');
+        // join
+        $this->db->join('user', 'user.id = saldo.user_id', 'LEFT');
+        // End Join
+        $this->db->where('user_id', $user_id);
+        $this->db->order_by('id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     //Total Berita Main Page
     public function total_row()

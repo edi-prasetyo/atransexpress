@@ -73,7 +73,7 @@ class Transaksi extends CI_Controller
             // Fungsi Pemotongan
             $this->potong_saldo_counter($harga, $nilai_asuransi, $counter_id, $nomor_resi);
             // End Fungsi Potongan
-            $this->tambah_saldo_mainagen($harga, $user, $nomor_resi);
+            $this->tambah_saldo_mainagen($harga, $user, $nomor_resi, $harga);
             $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
             redirect(base_url('mainagen/transaksi'), 'refresh');
         } else {
@@ -120,7 +120,7 @@ class Transaksi extends CI_Controller
         $this->saldo_model->create($data);
     }
     // Tambah Saldo Mainagen
-    public function tambah_saldo_mainagen($total_harga, $user, $nomor_resi)
+    public function tambah_saldo_mainagen($total_harga, $user, $nomor_resi, $harga)
     {
         $mainagen_id = $this->session->userdata('id');
         $persentase = $this->persentase_model->get_persentase();
@@ -137,15 +137,15 @@ class Transaksi extends CI_Controller
             'saldo_mainagen'   => $saldo_mainagen,
         ];
         $this->user_model->update($data);
-        $this->create_saldo_mainagen($fee_mainagen, $saldo_mainagen, $nomor_resi);
+        $this->create_saldo_mainagen($fee_mainagen, $saldo_mainagen, $nomor_resi, $harga);
     }
-    public function create_saldo_mainagen($fee_mainagen, $saldo_mainagen, $nomor_resi)
+    public function create_saldo_mainagen($fee_mainagen, $saldo_mainagen, $nomor_resi, $harga)
     {
         $user_id = $this->session->userdata('id');
         $data = [
             'user_id'       => $user_id,
             'pemasukan'     => $fee_mainagen,
-            'transaksi'     => 0,
+            'transaksi'     => $harga,
             'asuransi'      => 0,
             'pengeluaran'   => 0,
             'total_saldo'   => $saldo_mainagen,

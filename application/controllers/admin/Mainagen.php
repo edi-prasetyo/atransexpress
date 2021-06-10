@@ -192,6 +192,7 @@ class Mainagen extends CI_Controller
         'name'          => htmlspecialchars($this->input->post('name', true)),
         'user_phone'    => $this->input->post('user_phone'),
         'user_address'  => $this->input->post('user_address'),
+        'email'         => $this->input->post('email'),
         'date_updated'  => date('Y-m-d H:i:s')
       ];
       $this->user_model->update($data);

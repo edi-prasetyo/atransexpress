@@ -962,4 +962,18 @@ class Transaksi_model extends CI_Model
     $query = $this->db->get();
     return $query->row();
   }
+
+  // PENJUMLAHAN
+  //Total Top Up Masuk
+  public function get_total_omset_transaksi()
+  {
+    $this->db->select_sum('total_harga');
+    $this->db->where('status_transaksi', 1);
+    $query = $this->db->get('transaksi');
+    if ($query->num_rows() > 0) {
+      return $query->row()->total_harga;
+    } else {
+      return 0;
+    }
+  }
 }

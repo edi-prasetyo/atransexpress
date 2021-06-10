@@ -1,7 +1,20 @@
 <?php
 $user_id = $this->session->userdata('id');
 $user = $this->user_model->user_detail($user_id);
+
+//Notifikasi
+if ($this->session->flashdata('message')) {
+    echo $this->session->flashdata('message');
+    unset($_SESSION['message']);
+}
+echo validation_errors('<div class="alert alert-warning">', '</div>');
+
+if (isset($error_upload)) {
+    echo '<div class="alert alert-warning">' . $error_upload . '</div>';
+}
 ?>
+
+
 
 <div class="col-md-6 mx-auto">
     <div class="card">

@@ -1,11 +1,7 @@
 <div class="row">
 
 
-
-
-
-
-  <!-- <div class="col-lg-6 col-6">
+  <!-- <div class="col-lg-6">
     <div class="small-box bg-purple">
       <div class="inner">
         <h3>Rp. <?php echo number_format($total_topup, "0", ",", "."); ?></h3>
@@ -15,26 +11,22 @@
       <div class="icon">
         <i class="fa fa-wallet"></i>
       </div>
-      <a href="<?php echo base_url('admin/topup'); ?>" class="small-box-footer">Lihat Semua <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
 
 
-  <div class="col-lg-6 col-6">
+  <div class="col-lg-6">
     <div class="small-box bg-olive">
       <div class="inner">
-        <h3>Rp. 25,570,000</h3>
+        <h3>Rp. <?php echo number_format($total_omset_transaksi, "0", ",", "."); ?></h3>
 
-        <p>Transaksi</p>
+        <p>Omset Transaksi</p>
       </div>
       <div class="icon">
         <i class="fa fa-credit-card"></i>
       </div>
-      <a href="<?php echo base_url('admin/transaksi'); ?>" class="small-box-footer">Lihat Semua <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div> -->
-
-
 
 
   <div class="col-lg-3 col-6">
@@ -125,7 +117,6 @@
       <span class="mr-2">
         <i class="fas fa-square text-primary"></i> Data Per Hari
       </span>
-
 
     </div>
   </div>

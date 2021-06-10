@@ -15,6 +15,8 @@ class Dashboard extends CI_Controller
   {
 
     $total_topup                  = $this->topup_model->total_topup();
+    $total_omset_transaksi        = $this->transaksi_model->get_total_omset_transaksi();
+
 
     $count_transaksi              = $this->transaksi_model->get_alltransaksi();
     $count_agen                   = $this->user_model->get_all_mainagen();
@@ -36,6 +38,7 @@ class Dashboard extends CI_Controller
       'alltransaksi'              => $alltransaksi,
       'count_alltransaksi'        => $count_alltransaksi,
       'total_topup'               => $total_topup,
+      'total_omset_transaksi'     => $total_omset_transaksi,
       'content'                   => 'admin/dashboard/dashboard'
     ];
     $this->load->view('admin/layout/wrapp', $data, FALSE);

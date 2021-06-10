@@ -6,6 +6,7 @@ class Kurir extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('upload');
         $this->load->model('user_model');
         $this->load->model('provinsi_model');
         $this->load->model('main_model');
@@ -60,12 +61,14 @@ class Kurir extends CI_Controller
             $config['max_width']                = 500000; //Lebar (pixel)
             $config['max_height']               = 500000; //tinggi (pixel)
             $this->load->library('upload', $config);
+            $this->upload->initialize($config);
             if (!$this->upload->do_upload('user_image')) {
                 //End Validasi
                 $data = [
-                    'title'         => 'Tambah Kurir',
-                    'provinsi'      => $provinsi,
-                    'content'       => 'mainagen/kurir/create'
+                    'title'                 => 'Tambah Kurir',
+                    'provinsi'              => $provinsi,
+                    'error_upload'          => $this->upload->display_errors(),
+                    'content'               => 'mainagen/kurir/create'
                 ];
                 $this->load->view('mainagen/layout/wrapp', $data, FALSE);
                 //Masuk Database
@@ -110,9 +113,10 @@ class Kurir extends CI_Controller
             }
         }
         $data = [
-            'title'         => 'Tambah Kurir',
-            'provinsi'      => $provinsi,
-            'content'       => 'mainagen/kurir/create'
+            'title'                 => 'Tambah Kurir',
+            'provinsi'              => $provinsi,
+            'error_upload'          => $this->upload->display_errors(),
+            'content'               => 'mainagen/kurir/create'
         ];
         $this->load->view('mainagen/layout/wrapp', $data, FALSE);
     }
