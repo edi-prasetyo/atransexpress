@@ -9,9 +9,7 @@ if ($this->session->flashdata('message')) {
 }
 echo validation_errors('<div class="alert alert-warning">', '</div>');
 
-if (isset($error_upload)) {
-    echo '<div class="alert alert-warning">' . $error_upload . '</div>';
-}
+
 ?>
 
 
