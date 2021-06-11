@@ -32,10 +32,6 @@ echo validation_errors('<div class="alert alert-warning">', '</div>');
                 </div>
             </div>
 
-
-            <input type="hidden" name="provinsi_id" value="<?php echo $user->provinsi_id; ?>">
-            <input type="hidden" name="kota_id" value="<?php echo $user->kota_id; ?>">
-
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Title</label>
                 <div class="col-md-8">

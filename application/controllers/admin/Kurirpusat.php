@@ -101,8 +101,6 @@ class Kurirpusat extends CI_Controller
             $data = [
                 'user_create'   => $this->session->userdata('id'),
                 'user_title'    => $this->input->post('user_title'),
-                'provinsi_id'   => $this->input->post('provinsi_id'),
-                'kota_id'       => $this->input->post('kota_id'),
                 'name'          => htmlspecialchars($this->input->post('name', true)),
                 'email'         => htmlspecialchars($email),
                 'user_phone'    => $this->input->post('user_phone'),

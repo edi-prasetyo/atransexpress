@@ -23,32 +23,7 @@
             echo form_open('admin/kurirpusat/create',  array('class' => 'needs-validation', 'novalidate' => 'novalidate'))
             ?>
 
-            <!-- Provinsi -->
-            <div class="form-group row">
-                <label class="col-md-4 text-md-right">Provinsi</label>
-                <div class="col-md-8">
-                    <select class="form-control custom-select" id='sel_provinsi' name="provinsi_id" required>
-                        <option value="">-- Pilih Provinsi --</option>
-                        <?php
-                        foreach ($provinsi as $provinsi) {
-                            echo "<option value='" . $provinsi['id'] . "'>" . $provinsi['provinsi_name'] . "</option>";
-                        }
-                        ?>
-                    </select>
-                    <div class="invalid-feedback">Silahkan Pilih Provinsi.</div>
-                </div>
-            </div>
 
-            <!-- Kota -->
-            <div class="form-group row">
-                <label class="col-md-4 text-md-right">Kota</label>
-                <div class="col-md-8">
-                    <select class="form-control custom-select" id='sel_kota' name="kota_id" required>
-                        <option value="">-- Pilih Kota --</option>
-                    </select>
-                    <div class="invalid-feedback">Silahkan Pilih Kota.</div>
-                </div>
-            </div>
 
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Title</label>
