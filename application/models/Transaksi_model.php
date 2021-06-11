@@ -525,7 +525,7 @@ class Transaksi_model extends CI_Model
     $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
     $this->db->like('nomor_resi', $search);
     //End Join
-    $this->db->where(['transaksi.mainagen_id' => $user_id]);
+    $this->db->where(['transaksi.mainagen_id'       => $user_id]);
     $this->db->or_where(['transaksi.mainagen_to_id' => $user_id]);
     $this->db->limit($limit, $start);
     $this->db->order_by('transaksi.id', 'DESC');

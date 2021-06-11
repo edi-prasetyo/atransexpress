@@ -14,15 +14,16 @@
         <!-- info row -->
         <div class="row invoice-info">
             <div class="col-sm-6 invoice-col">
-                Info Agen <br>
-                <b>Nama Counter Agen :</b> <?php echo $withdraw->name; ?><br>
-                <b>ID Counter Agen :</b> <?php echo $withdraw->user_code; ?><br>
-                <b>Telp Counter Agen :</b> <?php echo $withdraw->user_phone; ?><br>
+                Info Main Agen <br>
+                <b>Nama Main Agen :</b> <?php echo $withdraw->name; ?><br>
+                <b>Region :</b> <?php echo $withdraw->kota_name; ?><br>
+                <b>ID Main Agen :</b> <?php echo $withdraw->user_code; ?><br>
+                <b>Telp Main Agen :</b> <?php echo $withdraw->user_phone; ?><br>
             </div>
             <!-- /.col -->
             <div class="col-sm-6 invoice-col">
                 Info Top Up <br>
-                <b>Kode Top Up :</b> <?php echo $withdraw->code_withdraw; ?><br>
+                <b>Kode Withdraw :</b> <?php echo $withdraw->code_withdraw; ?><br>
                 <b>Status Transfer :</b>
                 <?php if ($withdraw->status_withdraw == "Pending") : ?>
                     <span class="badge badge-warning badge-pill">Pending</span>
@@ -85,27 +86,14 @@
 
                     <?php echo form_close(); ?>
 
-
-
                 <?php else : ?>
 
                     <img src="<?php echo base_url('assets/img/struk/' . $withdraw->foto_struk); ?>">
 
                 <?php endif; ?>
-
-
-
             </div>
-
-
-
         </div>
-
     </div>
-
-
-
-
 </div>
 
 

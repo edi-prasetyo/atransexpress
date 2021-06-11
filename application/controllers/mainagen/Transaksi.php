@@ -104,7 +104,7 @@ class Transaksi extends CI_Controller
     }
     public function create_saldo_counter($counter_id, $fee_counter, $nomor_resi, $deposit_counter, $harga, $nilai_asuransi)
     {
-        $pengeluaran = $fee_counter + $nilai_asuransi;
+
 
         $data = [
             'user_id'       => $counter_id,
@@ -151,6 +151,7 @@ class Transaksi extends CI_Controller
             'total_saldo'   => $saldo_mainagen,
             'keterangan'    => $nomor_resi,
             'user_type'     => $user_id,
+            'reason'        => 'Pengambilan',
             'date_created'  => date('Y-m-d H:i:s')
         ];
         $this->saldo_model->create($data);
@@ -209,7 +210,7 @@ class Transaksi extends CI_Controller
         $nomor_resi = $transaksi->nomor_resi;
 
         // Fungsi Untuk Fee Main Agen Tujuan
-        $total_harga = $transaksi->total_harga;
+        // $total_harga = $transaksi->total_harga;
         // End Fungsi Untuk Fee Main Agen Tujuan
 
         $status = 'Paket telah di terima Oleh Main Agen ' . $user->kota_name;
@@ -228,7 +229,7 @@ class Transaksi extends CI_Controller
             //Update Status Lacak
             $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
             // Tambah Saldo Mainagen Tujuan
-            $this->tambah_saldo_mainagen_tujuan($total_harga, $user);
+            // $this->tambah_saldo_mainagen_tujuan($total_harga, $user);
             $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
             redirect(base_url('mainagen/transaksi/from_agen'), 'refresh');
         } else {
@@ -276,14 +277,17 @@ class Transaksi extends CI_Controller
         $this->load->view('mainagen/layout/wrapp', $data, FALSE);
     }
 
+    // Tambah Fee Main Agen
     public function kurir($id)
     {
+        $user_id        = $this->session->userdata('id');
+        $transaksi      = $this->transaksi_model->detail($id);
 
-        $user_id = $this->session->userdata('id');
-        $transaksi = $this->transaksi_model->detail($id);
-        $kota_id = $transaksi->kota_id;
-        $kurir = $this->user_model->get_kurir($user_id, $kota_id);
-        $kurir_agen = $this->user_model->get_kurir_agen($user_id);
+        $kota_id        = $transaksi->kota_id;
+        $kurir          = $this->user_model->get_kurir($user_id, $kota_id);
+        $kurir_agen     = $this->user_model->get_kurir_agen($user_id);
+
+
 
         if ($transaksi->user_stage == $user_id) {
 
@@ -316,6 +320,7 @@ class Transaksi extends CI_Controller
                     'date_updated'                      => date('Y-m-d H:i:s')
                 ];
                 $this->transaksi_model->update($data);
+
                 //Update Status Lacak
                 $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
                 redirect(base_url('mainagen/transaksi/kirim'), 'refresh');
@@ -399,7 +404,6 @@ class Transaksi extends CI_Controller
         }
     }
 
-
     public function update_lacak($id, $status, $provinsi_id, $user, $nomor_resi)
     {
         $data  = [
@@ -422,7 +426,6 @@ class Transaksi extends CI_Controller
         $config['total_rows']       = count($this->transaksi_model->get_row_mainagen($user_id, $search));
         $config['per_page']         = 10;
         $config['uri_segment']      = 5;
-
         //Membuat Style pagination untuk BootStrap v4
         $config['first_link']       = 'First';
         $config['last_link']        = 'Last';
@@ -451,7 +454,7 @@ class Transaksi extends CI_Controller
         $data = [
             'title'                 => 'Riwayat Transaksi',
             'transaksi'             => $transaksi,
-            'search'     => '',
+            'search'                => '',
             'pagination'            => $this->pagination->create_links(),
             'content'               => 'mainagen/transaksi/riwayat'
         ];

@@ -78,7 +78,7 @@ class Mainagen extends CI_Controller
       'required|is_unique[user.kota_id]',
       [
         'required'     => 'Kota Harus diisi',
-        'is_unique'    => 'Kota Sudah ada, Gunakan Kota lain'
+        'is_unique'    => 'Main Agen di Kota ini Sudah ada, Gunakan Kota lain'
       ]
     );
     $this->form_validation->set_rules(

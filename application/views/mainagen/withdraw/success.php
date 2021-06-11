@@ -11,16 +11,21 @@
 
             <div class="col-sm-6">
                 <address>
-                    <strong><?php echo $last_topup->name; ?> </strong> <br>
+                    <strong><?php echo $last_withdraw->name; ?> </strong> <br>
 
-                    Phone : <?php echo $last_topup->user_phone; ?> <br>
-                    Email : <?php echo $last_topup->email; ?>
+                    Phone : <?php echo $last_withdraw->user_phone; ?> <br>
+                    Email : <?php echo $last_withdraw->email; ?>
                 </address>
             </div><!-- /.col -->
             <div class="col-sm-6">
-                <b>Invoice #<?php echo $last_topup->code_topup; ?></b><br>
+                <b>Invoice #<?php echo $last_withdraw->code_withdraw; ?></b><br>
                 <br>
-                <b>Status Pembayaran :</b> <?php echo $last_topup->status_bayar; ?>
+                <b>Status Pembayaran :</b>
+                <?php if ($last_withdraw->status_withdraw == 'Pending') : ?>
+                    <span class="badge badge-warning badge-pill"> <?php echo $last_withdraw->status_withdraw; ?></span>
+                <?php else : ?>
+                    <span class="badge badge-success badge-pill"> <?php echo $last_withdraw->status_withdraw; ?></span>
+                <?php endif; ?>
             </div><!-- /.col -->
         </div><!-- /.row -->
 
@@ -39,8 +44,8 @@
 
 
                         <tr>
-                            <td><strong><?php echo $last_topup->code_topup; ?></strong></td>
-                            <td> <strong> Rp. <?php echo number_format($last_topup->nominal, 0, ",", "."); ?></strong></td>
+                            <td><strong><?php echo $last_withdraw->code_withdraw; ?></strong></td>
+                            <td> <strong> Rp. <?php echo number_format($last_withdraw->nominal_withdraw, 0, ",", "."); ?></strong></td>
                         </tr>
 
                     </tbody>
@@ -48,10 +53,7 @@
             </div>
             <!-- /.col -->
 
-            <div class="col-md-6">
-                <a href="<?php echo base_url('counter/topup/konfirmasi/' . $last_topup->id); ?>" class="btn btn-success pull-right"><i class="fa fa-check"></i> Konfirmasi</a>
-                <a href="<?php echo base_url('counter/topup/batal/' . $last_topup->id); ?>" class="btn btn-danger pull-right"><i class="fa fa-times"></i> Batalkan</a>
-            </div>
+
 
             <div class="col-md-6">
             </div>

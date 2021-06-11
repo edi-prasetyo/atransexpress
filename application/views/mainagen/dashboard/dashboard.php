@@ -31,7 +31,7 @@ $user = $this->user_model->user_detail($user_id);
             <div class="icon">
                 <i class="fas fa-coins"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="<?php echo base_url('mainagen/saldo'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 

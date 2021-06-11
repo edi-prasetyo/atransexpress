@@ -23,7 +23,15 @@ $meta = $this->meta_model->get_meta();
                 <div class="col-sm-6">
                     <b>Kode Topup #<?php echo $topup->code_topup; ?></b><br>
                     <br>
-                    <b>Status :</b> <span class="badge badge-danger badge-pill"> <?php echo $topup->status_bayar; ?></span>
+                    <b>Status :</b>
+                    <?php if ($topup->status_bayar == "Pending") : ?>
+                        <span class="badge badge-warning badge-pill"> <?php echo $topup->status_bayar; ?></span>
+                    <?php elseif ($topup->status_bayar == "Decline") : ?>
+                        <span class="badge badge-danger badge-pill"> <?php echo $topup->status_bayar; ?></span>
+                    <?php else : ?>
+                        <span class="badge badge-success badge-pill"> <?php echo $topup->status_bayar; ?></span>
+                    <?php endif; ?>
+
                 </div><!-- /.col -->
             </div><!-- /.row -->
 

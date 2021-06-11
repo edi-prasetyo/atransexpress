@@ -60,6 +60,8 @@ class Kurir extends CI_Controller
             $config['max_size']                 = 500000; //Dalam Kilobyte
             $config['max_width']                = 500000; //Lebar (pixel)
             $config['max_height']               = 500000; //tinggi (pixel)
+            $config['remove_spaces']            = TRUE;
+            $config['encrypt_name']             = TRUE;
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
             if (!$this->upload->do_upload('user_image')) {

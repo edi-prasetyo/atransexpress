@@ -92,9 +92,9 @@ $meta = $this->meta_model->get_meta();
 
         <li class="nav-item">
           <a href="<?php echo base_url(); ?>mainagen/withdraw" class="nav-link">
-            <i class="nav-icon fas fa-wallet"></i>
+            <i class="nav-icon fas fa-coins"></i>
             <p>
-              Wallet
+              Withdraw
             </p>
           </a>
         </li>
@@ -103,7 +103,7 @@ $meta = $this->meta_model->get_meta();
           <a href="<?php echo base_url(); ?>mainagen/saldo" class="nav-link">
             <i class="nav-icon fas fa-wallet"></i>
             <p>
-              Laporan
+              Laporan Saldo
             </p>
           </a>
         </li>

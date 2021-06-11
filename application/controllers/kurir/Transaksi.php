@@ -16,6 +16,9 @@ class Transaksi extends CI_Controller
         $this->load->model('category_model');
         $this->load->model('transaksi_model');
         $this->load->model('lacak_model');
+        $this->load->model('persentase_model');
+        $this->load->model('user_model');
+        $this->load->model('saldo_model');
     }
     //Index
     public function index()
@@ -70,6 +73,13 @@ class Transaksi extends CI_Controller
     public function kirim()
     {
         $user_id = $this->session->userdata('id');
+
+
+
+
+
+
+
         // var_dump($user_id);
         // die;
         $transaksi  = $this->transaksi_model->get_transaksi_kirim($user_id);
@@ -90,6 +100,8 @@ class Transaksi extends CI_Controller
         $transaksi  = $this->transaksi_model->detail($id);
         $nomor_resi = $transaksi->nomor_resi;
 
+        $harga      = $transaksi->harga;
+
         $user_id = $this->session->userdata('id');
         if ($transaksi->kurir == $user_id && $transaksi->stage == 8) {
 
@@ -108,6 +120,8 @@ class Transaksi extends CI_Controller
                 $config['max_size']                 = 500000; //Dalam Kilobyte
                 $config['max_width']                = 500000; //Lebar (pixel)
                 $config['max_height']               = 500000; //tinggi (pixel)
+                $config['remove_spaces']            = TRUE;
+                $config['encrypt_name']             = TRUE;
                 $this->load->library('upload', $config);
                 if (!$this->upload->do_upload('foto')) {
                     //End Validasi
@@ -153,6 +167,13 @@ class Transaksi extends CI_Controller
                         'date_updated'                  => date('Y-m-d H:i:s')
                     ];
                     $this->transaksi_model->update($data);
+
+
+
+                    // Tambah Saldo Mainagen Tujuan
+                    $this->tambah_saldo_mainagen($harga,  $nomor_resi, $harga);
+
+
                     $this->update_lacak($id, $status, $provinsi_id, $user, $nomor_resi);
                     $this->session->set_flashdata('message', 'Paket Telah Selesai');
                     redirect(base_url('kurir/transaksi/kirim'), 'refresh');
@@ -168,6 +189,54 @@ class Transaksi extends CI_Controller
         } else {
             redirect(base_url('kurir/404'));
         }
+    }
+
+
+    // Tambah Saldo Mainagen
+    public function tambah_saldo_mainagen($total_harga, $nomor_resi, $harga)
+    {
+        $user_id = $this->session->userdata('id');
+        $kurir      = $this->user_model->user_detail($user_id);
+        $mainagen_id = $kurir->id_agen;
+        $mainagen = $this->user_model->detail_mainagen($mainagen_id);
+
+
+        $persentase = $this->persentase_model->get_persentase();
+        $fee_mainagen = $persentase->fee_from_counter;
+        // var_dump($pemotongan);
+        // die;
+        // $deposit_counter = $user_id->deposit_counter - $pemotongan;
+
+        $fee_mainagen = ($fee_mainagen / 100) * $total_harga;
+        $saldo_mainagen = $mainagen->saldo_mainagen + $fee_mainagen;
+
+        $data = [
+            'id'                => $mainagen_id,
+            'saldo_mainagen'    => $saldo_mainagen,
+        ];
+        $this->user_model->update($data);
+        $this->create_saldo_mainagen($fee_mainagen, $saldo_mainagen, $nomor_resi, $harga);
+    }
+
+    public function create_saldo_mainagen($fee_mainagen, $saldo_mainagen, $nomor_resi, $harga)
+    {
+        $user_id = $this->session->userdata('id');
+        $kurir      = $this->user_model->user_detail($user_id);
+        $mainagen_id = $kurir->id_agen;
+
+        $data = [
+            'user_id'       => $mainagen_id,
+            'pemasukan'     => $fee_mainagen,
+            'transaksi'     => $harga,
+            'asuransi'      => 0,
+            'pengeluaran'   => 0,
+            'total_saldo'   => $saldo_mainagen,
+            'keterangan'    => $nomor_resi,
+            'user_type'     => $mainagen_id,
+            'reason'        => 'Pengiriman',
+            'date_created'  => date('Y-m-d H:i:s')
+        ];
+        $this->saldo_model->create($data);
     }
 
     // Update Pelacakan

@@ -44,6 +44,19 @@ class User_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
+  public function get_all_mainagen_active()
+  {
+    $this->db->select('user.*, user_role.role, kota.kota_name');
+    $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    // End Join
+    $this->db->where(['role_id' => 4, 'is_active' => 1]);
+    $this->db->order_by('kota.kota_name', 'ASC');
+    $query = $this->db->get();
+    return $query->result();
+  }
 
   // Main Agen
   public function get_mainagen($limit, $start, $search, $search_email, $search_kota)
@@ -82,6 +95,21 @@ class User_model extends CI_Model
     $this->db->order_by('id', 'ASC');
     $query = $this->db->get();
     return $query->result();
+  }
+  public function detail_mainagen($mainagen_id)
+  {
+    $this->db->select('user.*, user.name, user_role.role, kota.kota_name, provinsi.provinsi_name');
+    $this->db->from('user');
+    // join
+    $this->db->join('user_role', 'user_role.id = user.role_id', 'LEFT');
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    $this->db->join('provinsi', 'provinsi.id = user.provinsi_id', 'LEFT');
+    // End Join
+    $this->db->where(
+      ['user.id'    => $mainagen_id]
+    );
+    $query = $this->db->get();
+    return $query->row();
   }
   // Kurir Pusat
   public function get_kurirpusat($limit, $start, $search)
@@ -328,5 +356,14 @@ class User_model extends CI_Model
     $this->db->where('user.id', $counter_id);
     $query = $this->db->get();
     return $query->row();
+  }
+  public function counter_saya($user_id)
+  {
+    $this->db->select('*');
+    $this->db->from('user');
+    $this->db->where(['id_agen' => $user_id]);
+    $this->db->order_by('id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
   }
 }

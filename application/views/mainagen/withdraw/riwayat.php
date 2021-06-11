@@ -21,8 +21,8 @@
                     <thead>
                         <tr>
                             <th>Tanggal/Code</th>
-                            <th>Status</th>
                             <th>Nominal</th>
+                            <th></th>
 
                         </tr>
                     </thead>
@@ -37,6 +37,8 @@
 
                                 <td>
 
+                                    <b>Rp. <?php echo number_format($my_withdraw->nominal_withdraw, 0, ",", "."); ?></b>
+                                    <br>
                                     <?php if ($my_withdraw->status_withdraw == 'Pending') : ?>
                                         <div class="badge badge-warning">Pending</div>
                                     <?php elseif ($my_withdraw->status_withdraw == 'Process') : ?>
@@ -47,14 +49,10 @@
                                         <div class="badge badge-success">Selesai</div>
 
                                     <?php endif; ?>
+
                                 </td>
                                 <td>
-
-                                    Rp. <?php echo number_format($my_withdraw->nominal_withdraw, 0, ",", "."); ?>
-
-
-
-
+                                    <a class="btn btn-success btn-sm" href="<?php echo base_url('mainagen/withdraw/detail/' . $my_withdraw->id); ?>">Detail</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

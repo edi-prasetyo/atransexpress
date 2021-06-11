@@ -12,7 +12,7 @@ class withdraw extends CI_Controller
         $this->load->model('user_model');
         $this->load->model('saldo_model');
     }
-    //listing data withdraw
+    //listing data withdraw Pending
     public function index()
     {
 
@@ -54,19 +54,54 @@ class withdraw extends CI_Controller
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
     }
+    //listing data withdraw Sukses
+    public function sukses()
+    {
 
+        $list_mainagen = $this->user_model->get_all_mainagen_active();
+        $nama_mainagen = $this->input->post('nama_mainagen');
+        $date_created   = $this->input->post('date_created');
+        $code_withdraw  = $this->input->post('code_withdraw');
 
+        $config['base_url']         = base_url('admin/withdraw/sukses/index/');
+        $config['total_rows']       = count($this->withdraw_model->total_row_sukses($nama_mainagen, $date_created, $code_withdraw));
+        $config['per_page']         = 10;
+        $config['uri_segment']      = 5;
 
-    // public function detail($id)
-    // {
-    //     $withdraw = $this->withdraw_model->detail_withdraw($id);
-    //     $data = [
-    //         'title'                 => 'Detail Withdraw',
-    //         'withdraw'              => $withdraw,
-    //         'content'               => 'admin/withdraw/detail'
-    //     ];
-    //     $this->load->view('admin/layout/wrapp', $data, FALSE);
-    // }
+        //Membuat Style pagination untuk BootStrap v4
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+        //Limit dan Start
+        $limit                      = $config['per_page'];
+        $start                      = ($this->uri->segment(5)) ? ($this->uri->segment(5)) : 0;
+        //End Limit Start
+        $this->pagination->initialize($config);
+        $withdraw = $this->withdraw_model->get_withdraw_sukses($limit, $start, $nama_mainagen, $date_created, $code_withdraw);
+        $data = [
+            'title'                 => 'Data Withdraw',
+            'withdraw'              => $withdraw,
+            'list_mainagen'         => $list_mainagen,
+            'pagination'            => $this->pagination->create_links(),
+            'content'               => 'admin/withdraw/sukses'
+        ];
+        $this->load->view('admin/layout/wrapp', $data, FALSE);
+    }
 
     // Aprove
     public function detail($id)
@@ -88,6 +123,8 @@ class withdraw extends CI_Controller
             $config['max_size']                 = 500000; //Dalam Kilobyte
             $config['max_width']                = 500000; //Lebar (pixel)
             $config['max_height']               = 500000; //tinggi (pixel)
+            $config['remove_spaces']            = TRUE;
+            $config['encrypt_name']             = TRUE;
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('foto_struk')) {
                 //End Validasi
@@ -109,8 +146,8 @@ class withdraw extends CI_Controller
                 // $config['new_image']        = './assets/img/transaksi/thumbs/' . $upload_data['uploads']['file_name'];
                 $config['create_thumb']     = TRUE;
                 $config['maintain_ratio']   = TRUE;
-                $config['width']            = 200;
-                $config['height']           = 200;
+                $config['width']            = 500;
+                $config['height']           = 500;
                 $config['thumb_marker']     = '';
 
                 $this->load->library('image_lib', $config);
