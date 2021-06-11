@@ -7,14 +7,22 @@
             <!-- Nested Row within Card Body -->
 
             <?php
-            echo form_open('admin/counter/update/' . $user->id)
+            echo form_open('admin/counter/update/' . $user->id,  array('class' => 'needs-validation', 'novalidate' => 'novalidate'))
             ?>
 
             <!-- Provinsi -->
             <div class="form-group row">
                 <label class="col-md-4 text-md-right">Provinsi</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="provinsi_name" value="<?php echo $user->provinsi_name; ?>" readonly>
+                    <select class="form-control select2bs4" id='sel_provinsi' name="provinsi_id" required>
+                        <option value="">-- Pilih Provinsi --</option>
+                        <?php
+                        foreach ($provinsi as $provinsi) {
+                            echo "<option value='" . $provinsi['id'] . "'>" . $provinsi['provinsi_name'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <div class="invalid-feedback">Silahkan Pilih Provinsi.</div>
                 </div>
             </div>
 
@@ -22,7 +30,10 @@
             <div class="form-group row">
                 <label class="col-md-4 text-md-right">Kota</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" name="kota_name" value="<?php echo $user->kota_name; ?>" readonly>
+                    <select class="form-control select2bs4" id='sel_kota' name="kota_id" required>
+                        <option value="">-- Pilih Kota --</option>
+                    </select>
+                    <div class="invalid-feedback">Silahkan Pilih Kota.</div>
                 </div>
             </div>
 
@@ -87,3 +98,46 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Script -->
+    <script src="<?php echo base_url(); ?>assets/template/admin/plugins/jquery/jquery.min.js"></script>
+
+    <script type='text/javascript'>
+        // baseURL variable
+        var baseURL = "<?php echo base_url(); ?>";
+
+        $(document).ready(function() {
+
+            // Provinsi change
+            $('#sel_provinsi').change(function() {
+                var provinsi = $(this).val();
+
+                // AJAX request
+                $.ajax({
+                    url: '<?= base_url() ?>admin/wilayah/getKota',
+                    method: 'post',
+                    data: {
+                        <?= $this->security->get_csrf_token_name(); ?>: "<?= $this->security->get_csrf_hash(); ?>",
+                        provinsi: provinsi
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+
+                        // Remove options 
+                        // $('#sel_kecamatan').find('option').not(':first').remove();
+                        $('#sel_kota').find('option').not(':first').remove();
+
+                        // Add options
+                        $.each(response, function(index, data) {
+                            $('#sel_kota').append('<option value="' + data['id'] + '">' + data['kota_name'] + '</option>');
+                        });
+                    }
+                });
+            });
+
+            // Kota change
+
+
+        });
+    </script>

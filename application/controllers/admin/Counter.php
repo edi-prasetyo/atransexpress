@@ -156,6 +156,8 @@ class Counter extends CI_Controller
             $data = [
                 'id'            => $id,
                 'name'          => htmlspecialchars($this->input->post('name', true)),
+                'provinsi_id'   => $this->input->post('provinsi_id'),
+                'kota_id'       => $this->input->post('kota_id'),
                 'id_agen'       => $this->input->post('id_agen'),
                 'user_phone'    => $this->input->post('user_phone'),
                 'user_address'  => $this->input->post('user_address'),
