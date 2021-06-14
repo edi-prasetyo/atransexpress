@@ -9,11 +9,14 @@ class Kota extends CI_Controller
         parent::__construct();
         $this->load->library('pagination');
         $this->load->model('kota_model');
+        $this->load->model('destinasi_model');
+        $this->load->model('product_model');
+        $this->load->model('tarif_model');
     }
     //Index Kota
     public function index()
     {
-        
+
 
         $config['base_url']         = base_url('admin/kota/index/');
         $config['total_rows']       = count($this->kota_model->total_row());
@@ -54,5 +57,148 @@ class Kota extends CI_Controller
             'content'                           => 'admin/kota/index_kota'
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
+    }
+    // Destinasi Tujuan
+    public function tujuan($id)
+    {
+        $list_kota = $this->kota_model->get_allkota();
+        $kota = $this->kota_model->detail_kota($id);
+        $config['base_url']         = base_url('admin/kota/tujuan/' . $id . '/index');
+        $config['total_rows']       = count($this->destinasi_model->total_row());
+        $config['per_page']         = 2;
+        $config['uri_segment']      = 6;
+
+        //Membuat Style pagination untuk BootStrap v4
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+        //Limit dan Start
+        $limit                      = $config['per_page'];
+        $start                      = ($this->uri->segment(6)) ? ($this->uri->segment(6)) : 0;
+        //End Limit Start
+        $this->pagination->initialize($config);
+        $destinasi = $this->destinasi_model->get_destinasi($limit, $start);
+
+        //Validasi
+        $this->form_validation->set_rules('kota_asal', 'Kota Tujuan sudah ada', 'callback_check_kota'); // call callback function
+        $this->form_validation->set_message('check_kota', 'Kota Tujuan sudah ada.');
+        $this->form_validation->set_rules('kota_tujuan', 'kota tujuan', 'required');
+
+        if ($this->form_validation->run() === FALSE) {
+            $data = [
+                'title'                 => 'Data Provinsi',
+                'kota'                  => $kota,
+                'list_kota'             => $list_kota,
+                'destinasi'             => $destinasi,
+                'pagination'            => $this->pagination->create_links(),
+                'content'               => 'admin/kota/tujuan'
+            ];
+            $this->load->view('admin/layout/wrapp', $data, FALSE);
+        } else {
+            $data  = [
+                'user_id'                           => $this->session->userdata('id'),
+                'kota_asal'                         => $this->input->post('kota_asal'),
+                'kota_tujuan'                       => $this->input->post('kota_tujuan'),
+                'date_created'                      => date('Y-m-d H:i:s')
+            ];
+            $this->destinasi_model->create($data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success">Data telah ditambahkan</div>');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
+    function check_kota()
+    {
+        $kota_asal = $this->input->post('kota_asal'); // get fiest name
+        $kota_tujuan = $this->input->post('kota_tujuan'); // get last name
+        $this->db->select('id');
+        $this->db->from('destinasi');
+        $this->db->where('kota_asal', $kota_asal);
+        $this->db->where('kota_tujuan', $kota_tujuan);
+        $query = $this->db->get();
+        $num = $query->num_rows();
+        if ($num > 0) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function tarif($id)
+    {
+        $destinasi = $this->destinasi_model->detail_destinasi($id);
+        $destinasi_id = $destinasi->id;
+        // var_dump($destinasi->kota_asal);
+        // die;
+        $product = $this->product_model->get_product();
+        $tarif = $this->tarif_model->detail_tarif_destinasi($destinasi_id);
+        // var_dump($tarif);
+        // die;
+
+        // Get Insert From Field
+        $harga_awal_2 = $this->input->post('harga_awal_2');
+        $harga_2      = $this->input->post('harga_2');
+
+        $this->form_validation->set_rules(
+            'harga',
+            'Harga',
+            'required',
+            array(
+                'required'                        => '%s Harus Diisi'
+            )
+        );
+        if ($this->form_validation->run() === FALSE) {
+            $data = [
+                'title'                             => 'Tarif',
+                'destinasi'                         => $destinasi,
+                'tarif'                             => $tarif,
+                'product'                           => $product,
+                'content'                           => 'admin/kota/tarif'
+            ];
+            $this->load->view('admin/layout/wrapp', $data, FALSE);
+        } else {
+
+
+            $data  =
+                [
+                    'user_id'                           => $this->session->userdata('id'),
+                    'destinasi_id'                      => $id,
+                    'product_id'                        => 1,
+                    'harga_awal'                        => $this->input->post('harga_awal'),
+                    'harga'                             => $this->input->post('harga'),
+                    'date_created'                      => date('Y-m-d H:i:s')
+                ];
+            $this->tarif_model->create($data);
+            $this->tarif_2($harga_awal_2, $harga_2, $id);
+            $this->session->set_flashdata('message', 'Data telah ditambahkan');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
+    public function tarif_2($harga_awal_2, $harga_2, $id)
+    {
+        $data  =
+            [
+                'user_id'                           => $this->session->userdata('id'),
+                'destinasi_id'                      => $id,
+                'product_id'                        => 2,
+                'harga_awal'                        => $harga_awal_2,
+                'harga'                             => $harga_2,
+                'date_created'                      => date('Y-m-d H:i:s')
+            ];
+        $this->tarif_model->create($data);
     }
 }

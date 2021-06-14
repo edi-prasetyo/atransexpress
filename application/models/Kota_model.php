@@ -11,19 +11,25 @@ class Kota_model extends CI_Model
     }
     public function get_allkota()
     {
-        $this->db->select('*');
+        $this->db->select('kota.*, provinsi_name');
         $this->db->from('kota');
-        $this->db->order_by('kota_name', 'ASC');
+        // join
+        $this->db->join('provinsi', 'provinsi.id = kota.provinsi_id', 'LEFT');
+        // End Join
+        $this->db->order_by('provinsi.provinsi_name', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }
 
     public function get_kota($limit, $start)
     {
-        $this->db->select('*');
+        $this->db->select('kota.*, provinsi_name');
         $this->db->from('kota');
+        // join
+        $this->db->join('provinsi', 'provinsi.id = kota.provinsi_id', 'LEFT');
+        // End Join
         $this->db->limit($limit, $start);
-        $this->db->order_by('id', 'DESC');
+        $this->db->order_by('provinsi.provinsi_name', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }

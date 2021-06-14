@@ -1,7 +1,7 @@
 <div class="row">
 
 
-  <!-- <div class="col-lg-6">
+  <div class="col-lg-6">
     <div class="small-box bg-purple">
       <div class="inner">
         <h3>Rp. <?php echo number_format($total_topup, "0", ",", "."); ?></h3>
@@ -26,7 +26,7 @@
         <i class="fa fa-credit-card"></i>
       </div>
     </div>
-  </div> -->
+  </div>
 
 
   <div class="col-lg-3 col-6">

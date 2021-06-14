@@ -1,10 +1,8 @@
 <div class="row">
 
-
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-
                 <h3 class="card-title"><?php echo $title; ?></h3>
             </div>
             <!-- /.card-header -->
@@ -25,6 +23,7 @@
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Nama Kota</th>
+                        <th>Destinasi</th>
 
                     </tr>
                 </thead>
@@ -33,7 +32,8 @@
                     foreach ($kota as $kota) : ?>
                         <tr>
                             <td><?php echo $no; ?></td>
-                            <td><?php echo $kota->kota_name; ?></td>
+                            <td><?php echo $kota->provinsi_name; ?> - <?php echo $kota->kota_name; ?></td>
+                            <td><a class="btn btn-primary btn-sm" href="<?php echo base_url('admin/kota/tujuan/' . $kota->id); ?>">Set Destinasi Tujuan</a></td>
 
                         </tr>
                     <?php $no++;
