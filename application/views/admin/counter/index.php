@@ -83,7 +83,10 @@
                     <td><?php echo $counter->name; ?></td>
                     <td><?php echo $counter->email; ?></td>
                     <td><?php echo $counter->kota_name; ?> - <?php echo $counter->provinsi_name; ?></td>
-                    <td>Rp. <?php echo number_format($counter->deposit_counter, 0, ",", "."); ?></td>
+                    <td>
+                        Rp. <?php echo number_format($counter->deposit_counter, 0, ",", "."); ?><br>
+                        <a class="badge badge-warning badge-pill" href="<?php echo base_url('admin/counter/laporan_saldo/' . $counter->id); ?>"><i class="fa fa-print"></i> Laporan Saldo</a>
+                    </td>
                     <td>
                         <?php if ($counter->is_active == 1) : ?>
                             <span class="badge badge-success">Aktif</span>

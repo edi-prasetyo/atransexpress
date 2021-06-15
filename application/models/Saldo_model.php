@@ -39,6 +39,20 @@ class Saldo_model extends CI_Model
         return $query->result();
     }
 
+    public function get_saldo_counter($user_id, $limit, $start)
+    {
+        $this->db->select('saldo.*, user.name, user_code');
+        $this->db->from('saldo');
+        // join
+        $this->db->join('user', 'user.id = saldo.user_id', 'LEFT');
+        // End Join
+        $this->db->where('user_id', $user_id);
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit($limit, $start);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function get_my_saldo($user_id, $limit, $start)
     {
         $this->db->select('saldo.*, user.name, user_code');

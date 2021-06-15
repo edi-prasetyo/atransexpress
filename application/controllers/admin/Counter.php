@@ -204,7 +204,7 @@ class Counter extends CI_Controller
     // Detail Counter
     public function detail($id)
     {
-        $user_id = $this->session->userdata('id');
+
         $counter = $this->user_model->detail($id);
 
         $data = [
@@ -337,14 +337,20 @@ class Counter extends CI_Controller
     public function laporan_saldo($id)
     {
         $list_kota                  = $this->kota_model->get_allkota();
-        $search                     = $this->input->post('search');
-        $search_email               = $this->input->post('search_email');
-        $search_kota                = $this->input->post('search_kota');
+        // $search                     = $this->input->post('search');
+        // $search_email               = $this->input->post('search_email');
+        // $search_kota                = $this->input->post('search_kota');
 
-        $config['base_url']         = base_url('admin/counter/laporan/' . $id . '/index');
-        $config['total_rows']       = count($this->user_model->total_row_counter($search, $search_email, $search_kota));
+
+        $counter = $this->user_model->detail($id);
+        $user_id = $counter->id;
+        // var_dump($counter->email);
+        // die;
+
+        $config['base_url']         = base_url('admin/counter/laporan_saldo/' . $id . '/index');
+        $config['total_rows']       = count($this->saldo_model->get_row_saldo_counter($user_id));
         $config['per_page']         = 10;
-        $config['uri_segment']      = 4;
+        $config['uri_segment']      = 6;
 
         //Membuat Style pagination untuk BootStrap v4
         $config['first_link']       = 'First';
@@ -367,19 +373,20 @@ class Counter extends CI_Controller
         $config['last_tagl_close']  = '</span></li>';
         //Limit dan Start
         $limit                      = $config['per_page'];
-        $start                      = ($this->uri->segment(4)) ? ($this->uri->segment(4)) : 0;
+        $start                      = ($this->uri->segment(6)) ? ($this->uri->segment(6)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $counter = $this->user_model->get_counter($limit, $start, $search, $search_email, $search_kota);
-        // var_dump($counter);
+        $saldo_counter = $this->saldo_model->get_saldo_counter($user_id, $limit, $start);
+        // var_dump($saldo_counter);
         // die;
 
         $data = [
-            'title'                 => 'Data Counter',
+            'title'                 => 'Laporan Saldo Counter ',
             'counter'               => $counter,
             'list_kota'             => $list_kota,
+            'saldo_counter'         => $saldo_counter,
             'pagination'            => $this->pagination->create_links(),
-            'content'               => 'admin/counter/index'
+            'content'               => 'admin/counter/laporan'
         ];
         $this->load->view('admin/layout/wrapp', $data, FALSE);
     }
