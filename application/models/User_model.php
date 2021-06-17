@@ -351,8 +351,11 @@ class User_model extends CI_Model
 
   public function detail_counter($counter_id)
   {
-    $this->db->select('*');
+    $this->db->select('user.*, kota.kota_name');
     $this->db->from('user');
+    // Join
+    $this->db->join('kota', 'kota.id = user.kota_id', 'LEFT');
+    //End Join
     $this->db->where('user.id', $counter_id);
     $query = $this->db->get();
     return $query->row();

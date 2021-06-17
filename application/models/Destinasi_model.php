@@ -19,20 +19,22 @@ class Destinasi_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-    public function get_destinasi($limit, $start)
+    public function get_destinasi($limit, $start, $kota_name)
     {
         $this->db->select('*');
         $this->db->from('destinasi');
+        $this->db->where('kota_asal', $kota_name);
         $this->db->limit($limit, $start);
         $this->db->order_by('id', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }
 
-    public function total_row()
+    public function total_row($kota_name)
     {
         $this->db->select('*');
         $this->db->from('destinasi');
+        $this->db->where('kota_asal', $kota_name);
         $this->db->order_by('id', 'ASC');
         $query = $this->db->get();
         return $query->result();

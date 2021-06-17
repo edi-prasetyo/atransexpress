@@ -12,6 +12,7 @@ class Counter extends CI_Controller
         $this->load->model('kota_model');
         $this->load->model('main_model');
         $this->load->model('saldo_model');
+        $this->load->model('topup_model');
     }
     public function index()
     {
@@ -258,10 +259,13 @@ class Counter extends CI_Controller
             // $total_saldo = $counter->deposit_counter + $pemasukan;
             $total_saldo = (int)$counter->deposit_counter + (int)$fix_pemasukan;
 
+            $code_topup = date('dmY') . strtoupper(random_string('alnum', 5));
+            $keterangan = $this->input->post('keterangan');
+
             $data  = [
                 'user_id'                   => $id,
                 'pemasukan'                 => $fix_pemasukan,
-                'keterangan'                => $this->input->post('keterangan'),
+                'keterangan'                => $keterangan . ' - ' . $code_topup,
                 'transaksi'                 => 0,
                 'asuransi'                  => 0,
                 'pengeluaran'               => 0,
@@ -272,8 +276,27 @@ class Counter extends CI_Controller
             $this->saldo_model->create($data);
             $this->session->set_flashdata('message', 'Data telah ditambahkan');
             $this->update_saldo_counter($total_saldo, $counter_id);
+            $this->topup_manual($id, $keterangan, $code_topup, $fix_pemasukan);
             redirect(base_url('admin/counter'), 'refresh');
         }
+    }
+    public function topup_manual($id, $keterangan, $code_topup, $fix_pemasukan)
+    {
+        $user_id = $this->session->userdata('id');
+        $user = $this->user_model->user_detail($user_id);
+
+        $data  = [
+            'user_id'                   => $id,
+            'code_topup'                => $code_topup,
+            'nominal'                   => $fix_pemasukan,
+            'keterangan'                => $keterangan,
+            'status_bayar'              => 'Success',
+            'topup_reason'              => 'TopUp Manual by ' . $user->name,
+            'user_proccess'             => $this->session->userdata('id'),
+            'status_read'               => 0,
+            'date_created'              => date('Y-m-d H:i:s')
+        ];
+        $this->topup_model->create($data);
     }
 
     public function potong_saldo($id)

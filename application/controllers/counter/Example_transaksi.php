@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Transaksi extends CI_Controller
+class Example_transaksi extends CI_Controller
 {
     //Load Model
     public function __construct()
@@ -23,26 +23,189 @@ class Transaksi extends CI_Controller
         $this->load->model('tarif_model');
     }
     //Index
-    public function index()
-    {
-        $user_id = $this->session->userdata('id');
-        // var_dump($user_id);
-        // die;
-        $transaksi  = $this->transaksi_model->get_transaksi_counter($user_id);
-        // End Listing Berita dengan paginasi
-        $data = array(
-            'title'         => 'Data Paket',
-            'deskripsi'     => 'Halaman Paket',
-            'keywords'      => '',
-            'transaksi'     => $transaksi,
-            'content'       => 'counter/transaksi/index'
-        );
-        $this->load->view('counter/layout/wrapp', $data, FALSE);
-    }
+    // public function index()
+    // {
+    //     $user_id = $this->session->userdata('id');
+    //     // var_dump($user_id);
+    //     // die;
+    //     $transaksi  = $this->transaksi_model->get_transaksi_counter($user_id);
+    //     // End Listing Berita dengan paginasi
+    //     $data = array(
+    //         'title'         => 'Data Paket',
+    //         'deskripsi'     => 'Halaman Paket',
+    //         'keywords'      => '',
+    //         'transaksi'     => $transaksi,
+    //         'content'       => 'counter/transaksi/index'
+    //     );
+    //     $this->load->view('counter/layout/wrapp', $data, FALSE);
+    // }
+    // public function create()
+    // {
+    //     $user_id = $this->session->userdata('id');
+    //     $counter = $this->user_model->detail_counter($user_id);
+    //     // var_dump($counter->kota_name);
+    //     // die;
+    //     $kota_asal = $counter->kota_name;
+    //     $kota_tujuan = $this->kota_model->get_allkota();
 
-    //Create
+
+    //     $this->form_validation->set_rules(
+    //         'kota_asal',
+    //         'Kota Asal',
+    //         'required',
+    //         [
+    //             'required'      => 'Kode Transaksi',
+    //         ]
+    //     );
+    //     if ($this->form_validation->run() == false) {
+    //         $data = [
+    //             'title'             => 'Cek Resi',
+    //             'deskripsi'         => 'Cek Resi Pengiriman',
+    //             'keywords'          => 'Resi',
+    //             'kota_asal'         => $kota_asal,
+    //             'kota_tujuan'       => $kota_tujuan,
+    //             'content'           => 'counter/example_transaksi/create'
+    //         ];
+    //         $this->load->view('counter/layout/wrapp', $data, FALSE);
+    //     } else {
+    //         //Validasi Berhasil
+    //         $this->detail_harga();
+    //     }
+    // }
+    // public function detail_harga()
+    // {
+    //     $kota_asal                          = $this->input->post('kota_asal');
+    //     $kota_tujuan                        = $this->input->post('kota_tujuan');
+    //     $berat                              = $this->input->post('berat');
+    //     // var_dump($lacak);
+    //     // die;
+    //     // $destinasi = $this->db->get_where('destinasi', ['kota_asal' => $kota_asal, 'kota_tujuan' => $kota_tujuan])->row_array();
+    //     $destinasi = $this->destinasi_model->search_destinasi($kota_asal, $kota_tujuan);
+
+
+    //     $destinasi_id = $destinasi->id;
+    //     $tarif = $this->tarif_model->get_cek_tarif($destinasi_id);
+
+
+    //     if (empty($tarif)) {
+    //         $this->session->set_flashdata('message', '<div class="alert alert-danger">Kode Transaksi Tidak ada</div> ');
+    //         redirect(base_url('counter/example_transaksi/create'));
+    //     } else {
+
+    //         $data = array(
+    //             'title'            => 'Detail Harga',
+    //             'deskripsi'        => 'Lacak Paket',
+    //             'keywords'         => 'Paket Express',
+    //             'tarif'            => $tarif,
+    //             'berat'            => $berat,
+    //             'content'          => 'counter/example_transaksi/detail_harga'
+    //         );
+    //         $this->load->view('counter/layout/wrapp', $data, FALSE);
+    //     }
+    // }
+
+
+    //  Backup
     public function create()
     {
+        $user_id = $this->session->userdata('id');
+        $counter = $this->user_model->detail_counter($user_id);
+        // var_dump($counter->kota_name);
+        // die;
+        $kota_asal = $counter->kota_name;
+        $kota_tujuan = $this->kota_model->get_allkota();
+
+
+
+        $this->form_validation->set_rules(
+            'kota_asal',
+            'Kota Asal',
+            'required',
+            [
+                'required'      => 'Kode Transaksi',
+            ]
+        );
+        if ($this->form_validation->run() == false) {
+            $data = [
+                'title'             => 'Cek Resi',
+                'deskripsi'         => 'Cek Resi Pengiriman',
+                'keywords'          => 'Resi',
+                'kota_asal'         => $kota_asal,
+                'kota_tujuan'       => $kota_tujuan,
+                'content'           => 'counter/example_transaksi/create'
+            ];
+            $this->load->view('counter/layout/wrapp', $data, FALSE);
+        } else {
+            //Validasi Berhasil
+            // $kota_asal                          = $this->input->post('kota_asal');
+            $kota_tujuan                        = $this->input->post('kota_tujuan');
+            $berat                              = $this->input->post('berat');
+            // var_dump($lacak);
+            // die;
+            // $destinasi = $this->db->get_where('destinasi', ['kota_asal' => $kota_asal, 'kota_tujuan' => $kota_tujuan])->row_array();
+            $destinasi = $this->destinasi_model->search_destinasi($kota_asal, $kota_tujuan);
+
+
+            $destinasi_id = $destinasi->id;
+            $tarif = $this->tarif_model->get_cek_tarif($destinasi_id);
+
+
+            if (empty($tarif->id == NULL)) {
+                echo "Tidak Ada";
+            } else {
+
+                $data = array(
+                    'title'            => 'Detail Harga',
+                    'deskripsi'        => 'Lacak Paket',
+                    'keywords'         => 'Paket Express',
+                    'kota_asal'         => $kota_asal,
+                    'kota_tujuan'       => $kota_tujuan,
+                    'tarif'            => $tarif,
+                    'berat'            => $berat,
+                    'content'          => 'counter/example_transaksi/create'
+                );
+                $this->load->view('counter/layout/wrapp', $data, FALSE);
+            }
+        }
+    }
+    // public function detail_harga()
+    // {
+    //     $kota_asal                          = $this->input->post('kota_asal');
+    //     $kota_tujuan                        = $this->input->post('kota_tujuan');
+    //     $berat                              = $this->input->post('berat');
+
+    //     $destinasi = $this->destinasi_model->search_destinasi($kota_asal, $kota_tujuan);
+
+
+    //     $destinasi_id = $destinasi->id;
+    //     $tarif = $this->tarif_model->get_cek_tarif($destinasi_id);
+
+
+    //     if (empty($tarif)) {
+    //         $this->session->set_flashdata('message', '<div class="alert alert-danger">Kode Transaksi Tidak ada</div> ');
+    //         redirect(base_url('counter/example_transaksi/create'));
+    //     } else {
+
+    //         $data = array(
+    //             'title'            => 'Detail Harga',
+    //             'deskripsi'        => 'Lacak Paket',
+    //             'keywords'         => 'Paket Express',
+    //             'tarif'            => $tarif,
+    //             'berat'            => $berat,
+    //             'content'          => 'counter/example_transaksi/detail_harga'
+    //         );
+    //         $this->load->view('counter/layout/wrapp', $data, FALSE);
+    //     }
+    // }
+
+    //Create
+    public function proccess_create($id)
+    {
+
+        $berat                  = $this->input->get('berat');
+        $tarif                  = $this->tarif_model->detail_tarif($id);
+        var_dump($berat);
+        die;
 
 
         $id = $this->session->userdata('id');
@@ -194,12 +357,13 @@ class Transaksi extends CI_Controller
             );
             if ($this->form_validation->run() === FALSE) {
                 $data = [
-                    'title'                           => 'Buat Transaksi',
+                    'title'                           => 'Buat Example_transaksi',
                     'provinsi'                        => $provinsi,
                     'product'                         => $product,
                     'category'                        => $category,
                     'user'                              => $user,
-                    'content'                         => 'counter/transaksi/create'
+                    'destinasi'                       => $destinasi,
+                    'content'                         => 'counter/example_transaksi/proccess_create'
                 ];
                 $this->load->view('counter/layout/wrapp', $data, FALSE);
             } else {
@@ -286,7 +450,7 @@ class Transaksi extends CI_Controller
                 // Update kota_to
                 // $this->kota_tujuan($insert_id);
                 $this->session->set_flashdata('message', 'Data  telah ditambahkan ');
-                redirect(base_url('counter/transaksi'), 'refresh');
+                redirect(base_url('counter/example_transaksi'), 'refresh');
             }
         }
     }
@@ -306,7 +470,7 @@ class Transaksi extends CI_Controller
     //     $this->transaksi_model->update($data);
     // }
 
-    // Update Transaksi
+    // Update Example_transaksi
     public function update($id)
     {
 
@@ -443,13 +607,13 @@ class Transaksi extends CI_Controller
             );
             if ($this->form_validation->run() === FALSE) {
                 $data = [
-                    'title'                           => 'Buat Transaksi',
+                    'title'                           => 'Buat Example_transaksi',
                     'provinsi'                        => $provinsi,
                     'product'                         => $product,
                     'category'                        => $category,
                     'user'                            => $user,
                     'transaksi'                       => $transaksi,
-                    'content'                         => 'counter/transaksi/update'
+                    'content'                         => 'counter/example_transaksi/proccess_update'
                 ];
                 $this->load->view('counter/layout/wrapp', $data, FALSE);
             } else {
@@ -532,7 +696,7 @@ class Transaksi extends CI_Controller
             redirect('counter/404');
         }
     }
-    // Cancel Transaksi
+    // Cancel Example_transaksi
     public function cancel($id)
     {
         $user = $this->session->userdata('id');
@@ -597,7 +761,7 @@ class Transaksi extends CI_Controller
         }
     }
 
-    // Riwayat Transaksi
+    // Riwayat Example_transaksi
     public function riwayat()
     {
         $user_id = $this->session->userdata('id');
@@ -634,7 +798,7 @@ class Transaksi extends CI_Controller
         $this->pagination->initialize($config);
         $transaksi = $this->transaksi_model->get_riwayat_counter($limit, $start, $user_id, $search);
         $data = [
-            'title'                 => 'Riwayat Transaksi',
+            'title'                 => 'Riwayat Example_transaksi',
             'transaksi'             => $transaksi,
             'search'     => '',
             'pagination'            => $this->pagination->create_links(),
@@ -653,7 +817,7 @@ class Transaksi extends CI_Controller
         if ($transaksi->user_id == $user_id) {
 
             $data = [
-                'title'                 => 'Detail Transaksi',
+                'title'                 => 'Detail Example_transaksi',
                 'transaksi'             => $transaksi,
                 'lacak'                 => $lacak,
                 'content'               => 'counter/transaksi/detail'
@@ -674,7 +838,7 @@ class Transaksi extends CI_Controller
         if ($transaksi->user_id == $user_id) {
 
             $data = [
-                'title'                 => 'Detail Transaksi',
+                'title'                 => 'Detail Example_transaksi',
                 'transaksi'             => $transaksi,
                 'lacak'                 => $lacak,
                 'content'               => 'counter/transaksi/print'

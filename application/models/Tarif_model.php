@@ -68,7 +68,10 @@ class Tarif_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tarif');
-        $this->db->where('id', $id);
+        // join
+        $this->db->join('product', 'product.id = tarif.product_id', 'LEFT');
+        // End Join
+        $this->db->where('tarif.id', $id);
         $query = $this->db->get();
         return $query->row();
     }

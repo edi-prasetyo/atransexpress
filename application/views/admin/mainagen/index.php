@@ -70,6 +70,7 @@
                     <th>Nama</th>
                     <th>Kota</th>
                     <th>Email</th>
+                    <th>Saldo</th>
                     <th>Status</th>
                     <th>Locked</th>
                     <th width="30%">Action</th>
@@ -82,7 +83,9 @@
                     <td><?php echo $main_agen->user_code; ?></td>
                     <td><?php echo $main_agen->name; ?></td>
                     <td><?php echo $main_agen->kota_name; ?> - <?php echo $main_agen->provinsi_name; ?></td>
+
                     <td><?php echo $main_agen->email; ?></td>
+                    <td>Rp. <?php echo number_format($main_agen->saldo_mainagen, 0, ",", "."); ?><a href="<?php echo base_url('admin/mainagen/laporan_saldo/' . $main_agen->id); ?>" class="badge badge-warning">Laporan saldo</a> </td>
                     <td>
                         <?php if ($main_agen->is_active == 1) : ?>
                             <span class="badge badge-success">Aktif</span>
@@ -99,13 +102,15 @@
                     </td>
                     <td>
                         <?php if ($main_agen->is_locked == 0) : ?>
-                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/mainagen/activated/' . $main_agen->id); ?>"><i class="fas fa-mainagen-times"></i> Setujui</a>
+                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/mainagen/activated/' . $main_agen->id); ?>"><i class="fas fa-check"></i> Open</a>
+                        <?php else : ?>
+                            <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/mainagen/banned/' . $main_agen->id); ?>"><i class="fas fa-lock"></i> Lock</a>
                         <?php endif; ?>
 
                         <?php if ($main_agen->is_active == 0) : ?>
-                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/mainagen/activated/' . $main_agen->id); ?>"><i class="fas fa-mainagen-times"></i> Activated</a>
+                            <a class="btn btn-success btn-sm" href="<?php echo base_url('admin/mainagen/activated/' . $main_agen->id); ?>"><i class="fas fa-times"></i> Activated</a>
                         <?php else : ?>
-                            <a class="btn btn-danger btn-sm" href="<?php echo base_url('admin/mainagen/banned/' . $main_agen->id); ?>"><i class="fas fa-mainagen-times"></i> Banned</a>
+
 
                         <?php endif; ?>
                         <a href="<?php echo base_url('admin/mainagen/detail/' . $main_agen->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-external-link-alt"></i> Detail</a>

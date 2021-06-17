@@ -63,8 +63,10 @@ class Kota extends CI_Controller
     {
         $list_kota = $this->kota_model->get_allkota();
         $kota = $this->kota_model->detail_kota($id);
+        $kota_name = $kota->kota_name;
+        
         $config['base_url']         = base_url('admin/kota/tujuan/' . $id . '/index');
-        $config['total_rows']       = count($this->destinasi_model->total_row());
+        $config['total_rows']       = count($this->destinasi_model->total_row($kota_name));
         $config['per_page']         = 2;
         $config['uri_segment']      = 6;
 
@@ -92,7 +94,8 @@ class Kota extends CI_Controller
         $start                      = ($this->uri->segment(6)) ? ($this->uri->segment(6)) : 0;
         //End Limit Start
         $this->pagination->initialize($config);
-        $destinasi = $this->destinasi_model->get_destinasi($limit, $start);
+
+        $destinasi = $this->destinasi_model->get_destinasi($limit, $start, $kota_name);
 
         //Validasi
         $this->form_validation->set_rules('kota_asal', 'Kota Tujuan sudah ada', 'callback_check_kota'); // call callback function
