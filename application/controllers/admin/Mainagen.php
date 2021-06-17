@@ -289,7 +289,7 @@ class Mainagen extends CI_Controller
     // var_dump($counter->email);
     // die;
 
-    $config['base_url']         = base_url('admin/counter/laporan_saldo/' . $id . '/index');
+    $config['base_url']         = base_url('admin/mainagen/laporan_saldo/' . $id . '/index');
     $config['total_rows']       = count($this->saldo_model->get_row_mysaldo_mainagen($user_id));
     $config['per_page']         = 10;
     $config['uri_segment']      = 6;
