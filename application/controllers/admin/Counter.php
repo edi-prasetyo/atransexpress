@@ -414,6 +414,67 @@ class Counter extends CI_Controller
         $this->load->view('admin/layout/wrapp', $data, FALSE);
     }
 
+    public function transaksi($id)
+    {
+        $list_kota                  = $this->kota_model->get_allkota();
+        $search_kota                = $this->input->post('kota_tujuan');
+        $resi                = $this->input->post('resi');
+        // $search                     = $this->input->post('search');
+        // $search_email               = $this->input->post('search_email');
+
+
+        $counter = $this->user_model->detail($id);
+        $user_id = $counter->id;
+        // var_dump($counter->email);
+        // die;
+
+        $config['base_url']         = base_url('admin/counter/transaksi/' . $id . '/index');
+        $config['total_rows']       = count($this->transaksi_model->get_row_saldo_counter($user_id, $search_kota, $resi));
+        $config['per_page']         = 10;
+        $config['uri_segment']      = 6;
+
+        //Membuat Style pagination untuk BootStrap v4
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+        //Limit dan Start
+        $limit                      = $config['per_page'];
+        $start                      = ($this->uri->segment(6)) ? ($this->uri->segment(6)) : 0;
+        //End Limit Start
+        $this->pagination->initialize($config);
+        $transaksi_counter  = $this->transaksi_model->get_alltransaksi_counter($user_id, $limit, $start, $search_kota, $resi);
+        $total_omset        = $this->transaksi_model->total_omset_transaksi_counter($user_id);
+        // var_dump($saldo_counter);
+        // die;
+
+        $data = [
+            'title'                 => 'Laporan Transaksi Counter ',
+            'counter'               => $counter,
+            'list_kota'             => $list_kota,
+            'total_rows'            => $config['total_rows'],
+            'total_omset'           => $total_omset,
+            'transaksi_counter'         => $transaksi_counter,
+            'pagination'            => $this->pagination->create_links(),
+            'content'               => 'admin/counter/transaksi'
+        ];
+        $this->load->view('admin/layout/wrapp', $data, FALSE);
+    }
+
     // Activated
     public function activated($id)
     {

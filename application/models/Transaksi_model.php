@@ -58,6 +58,37 @@ class Transaksi_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
+
+  public function get_alltransaksi_counter($user_id, $limit, $start, $search_kota, $resi)
+  {
+    $this->db->select('transaksi.*, user.name');
+    $this->db->from('transaksi');
+    // Join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    //End Join
+    $this->db->like('transaksi.nomor_resi', $resi);
+    $this->db->like('transaksi.kota_to', $search_kota);
+    $this->db->where('transaksi.user_id', $user_id);
+    $this->db->order_by('transaksi.id', 'DESC');
+    $this->db->limit($limit, $start);
+    $query = $this->db->get();
+    return $query->result();
+  }
+  public function get_row_saldo_counter($user_id, $search_kota, $resi)
+  {
+    $this->db->select('transaksi.*, user.name');
+    $this->db->from('transaksi');
+    // Join
+    $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+    //End Join
+    $this->db->like('transaksi.nomor_resi', $resi);
+    $this->db->like('transaksi.kota_to', $search_kota);
+    $this->db->where('transaksi.user_id', $user_id);
+    $this->db->order_by('transaksi.id', 'DESC');
+    $query = $this->db->get();
+    return $query->result();
+  }
+
   // ------------------------------- Transaksi Belum di Ambil-----------------------------------//
   public function get_transaksi($limit, $start, $resi, $kota_asal, $kota_tujuan)
   {
@@ -226,6 +257,7 @@ class Transaksi_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
+
 
   public function detail($id)
   {
@@ -964,11 +996,22 @@ class Transaksi_model extends CI_Model
   }
 
   // PENJUMLAHAN
-  //Total Top Up Masuk
+  //Total Transaksi Masuk
   public function get_total_omset_transaksi()
   {
     $this->db->select_sum('total_harga');
     $this->db->where('status_transaksi', 1);
+    $query = $this->db->get('transaksi');
+    if ($query->num_rows() > 0) {
+      return $query->row()->total_harga;
+    } else {
+      return 0;
+    }
+  }
+  public function total_omset_transaksi_counter($user_id)
+  {
+    $this->db->select_sum('total_harga');
+    $this->db->where(['status_transaksi' => 1, 'user_id' => $user_id]);
     $query = $this->db->get('transaksi');
     if ($query->num_rows() > 0) {
       return $query->row()->total_harga;

@@ -114,6 +114,7 @@
                         <?php endif; ?>
                         <a href="<?php echo base_url('admin/counter/detail/' . $counter->id); ?>" class="btn btn-info btn-sm"> <i class="fas fa-eye"></i></a>
                         <a href="<?php echo base_url('admin/counter/saldo/' . $counter->id); ?>" class="btn btn-success btn-sm"> <i class="fas fa-wallet"></i></a>
+                        <a href="<?php echo base_url('admin/counter/transaksi/' . $counter->id); ?>" class="btn btn-warning btn-sm"> <i class="fas fa-shopping-bag"></i></a>
                     </td>
                 </tr>
 
