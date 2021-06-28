@@ -36,7 +36,9 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><b><?php echo $transaksi->nomor_resi; ?></b><br>
+                                <td>
+                                    <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?> - <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB<br>
+                                    <b><?php echo $transaksi->nomor_resi; ?></b><br>
 
                                 </td>
                                 <td>

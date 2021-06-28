@@ -32,6 +32,8 @@
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
                                 <td>
+                                    <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?> - <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB<br>
+
                                     <b><?php echo $transaksi->nomor_resi; ?></b><br>
                                     Rp. <?php echo number_format($transaksi->total_harga, 0, ",", "."); ?>
                                 </td>

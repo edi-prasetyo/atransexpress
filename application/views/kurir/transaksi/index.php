@@ -30,7 +30,10 @@
                     <tbody>
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
-                                <td><b><?php echo $transaksi->nomor_resi; ?></b></td>
+                                <td>
+                                    <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?> - <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB<br>
+                                    <b><?php echo $transaksi->nomor_resi; ?></b>
+                                </td>
                                 <td><i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?></td>
                                 <td>
                                     <a href="<?php echo base_url('kurir/transaksi/ambil/' . $transaksi->id); ?>" class="btn btn-danger btn-sm btn-block">

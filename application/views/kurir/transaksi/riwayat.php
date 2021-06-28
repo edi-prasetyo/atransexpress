@@ -31,7 +31,10 @@
                         <?php foreach ($transaksi as $transaksi) : ?>
                             <tr>
                                 <td><b><?php echo $transaksi->nomor_resi; ?></b><br>
-                                    <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?>
+                                    <?php echo date('d/m/Y', strtotime($transaksi->date_created)); ?> - <?php echo date('H:i:s', strtotime($transaksi->date_created)); ?> WIB<br>
+
+                                </td>
+                                <td><i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?><br>
                                     <?php if ($transaksi->stage == 9) : ?>
                                         <div class="badge badge-success">Selesai</div>
                                     <?php else : ?>
@@ -39,7 +42,6 @@
 
                                     <?php endif; ?>
                                 </td>
-                                <td><i class="fa fa-map-marker-alt text-success"></i> <?php echo $transaksi->kota_name; ?></td>
                                 <td>
 
                                     <?php include "view.php" ?>
