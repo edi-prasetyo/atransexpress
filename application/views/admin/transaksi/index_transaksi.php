@@ -1,3 +1,11 @@
+<?php
+//Notifikasi
+if ($this->session->flashdata('message')) {
+    echo $this->session->flashdata('message');
+}
+echo validation_errors('<div class="alert alert-warning">', '</div>');
+
+?>
 <div class="card">
     <div class="card-header">
         <ul class="nav nav-pills ml-auto p-2">
@@ -65,7 +73,7 @@
                     <th>Kota Asal</th>
                     <th>Kota Tujuan</th>
                     <th>Harga</th>
-                    <th width="15%">Action</th>
+                    <th width="25%">Action</th>
                 </tr>
             </thead>
             <?php $no = 1;
@@ -100,6 +108,7 @@
                         <a href="<?php echo base_url('admin/transaksi/detail/' . $transaksi->id); ?>" class="btn btn-success btn-sm">
                             <i class="fa fa-eye"></i> Detail
                         </a>
+                        <?php include "cancel.php"; ?>
                     </td>
                 </tr>
             <?php $no++;

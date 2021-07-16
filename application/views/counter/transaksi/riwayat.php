@@ -42,7 +42,7 @@
                                     <?php if ($transaksi->stage == 9) : ?>
                                         <span class="badge badge-success">Selesai</span>
                                     <?php elseif ($transaksi->stage == 10) : ?>
-                                        <span class="badge badge-danger">Dibatalkan Counter</span>
+                                        <span class="badge badge-danger">Cancel</span>
                                     <?php else : ?>
                                         <span class="badge badge-warning">Proses</span>
                                     <?php endif; ?><br>

@@ -84,7 +84,7 @@
                         <?php if ($transaksi->stage == 9) : ?>
                             <span class="badge badge-success badge-pill">Selesai</span>
                         <?php elseif ($transaksi->stage == 10) : ?>
-                            <span class="badge badge-danger badge-pill">Dibatalkan Counter</span>
+                            <span class="badge badge-danger badge-pill">Dibatalkan</span>
                         <?php else : ?>
                             <span class="badge badge-warning badge-pill">Proses</span>
                         <?php endif; ?>
