@@ -47,6 +47,8 @@ class Lacak extends CI_Controller
         // var_dump($lacak);
         // die;
         $transaksi = $this->db->get_where('transaksi', ['nomor_resi' => $nomor_resi])->row_array();
+        // var_dump($transaksi['kota_to']);
+        // die;
 
         if (empty($transaksi)) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger">Nomor Resi yang anda masukan Tidak ada</div> ');
@@ -58,6 +60,7 @@ class Lacak extends CI_Controller
                 'deskripsi'        => 'Lacak Paket',
                 'keywords'         => 'Paket Express',
                 'lacak'            => $lacak,
+                'transaksi'        => $transaksi,
                 'content'          => 'front/lacak/detail'
             );
             $this->load->view('front/layout/wrapp', $data, FALSE);
