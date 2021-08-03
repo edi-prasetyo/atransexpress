@@ -1,3 +1,37 @@
+<!-- <section class="mb-3">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+
+        </ol>
+        <div class="carousel-inner">
+            <?php $i = 1;
+            foreach ($slider as $slider) { ?>
+                <div class="carousel-item <?php if ($i == 1) {
+                                                echo 'active';
+                                            } ?> ">
+                    <a href="<?php echo base_url() . $slider->galery_url; ?>"><img width="100%" src="<?php echo base_url('assets/img/galery/' . $slider->galery_img) ?>" alt="<?php echo $slider->galery_title ?>"></a>
+                    <div class="container">
+                        <div class="carousel-caption text-left">
+                        </div>
+                    </div>
+                </div>
+            <?php $i++;
+            } ?>
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section> -->
+
+
 <section class="boot-elemant-bg py-md-5 py-4 hero" style="background-color:darkblue;height: 500px; background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.9)), url('assets/img/galery/bg.webp');">
     <div class="container position-relative py-md-5 py-0">
         <div class="row">
@@ -23,15 +57,17 @@
     </svg>
 </section>
 
+
 <section class="py-5 bg-white">
     <div class="container cek-resi">
         <div class="card-group">
             <div class="card shadow-sm col-md-5">
                 <div class="card-body">
                     <h5 class="card-title">Cek Resi</h5>
-                    <?php echo form_open('lacak'); ?>
+                    <?php echo form_open('lacak',  array('class' => 'needs-validation', 'novalidate' => 'novalidate')); ?>
                     <label>Nomor Resi</label>
-                    <input type="text" name="nomor_resi" class="form-control" placeholder="Nomor Resi">
+                    <input type="text" name="nomor_resi" class="form-control" placeholder="Nomor Resi" required>
+                    <div class="invalid-feedback">Silahkan Masukan Nomor Resi</div>
                     <button type="submit" class="btn btn-info btn-block mt-3">Lacak Resi</button>
                     <?php echo form_close(); ?>
                 </div>
@@ -40,30 +76,33 @@
             <div class="card shadow-sm col-md-7">
                 <div class="card-body">
                     <h5 class="card-title">Cek Tarif</h5>
-                    <?php echo form_open('tarif'); ?>
+                    <?php echo form_open('tarif',  array('class' => 'needs-validation', 'novalidate' => 'novalidate')); ?>
                     <div class="form-row align-items-center row">
                         <div class="col-md-5">
                             <label>Kota Asal</label>
-                            <select class="custom-select">
-                                <option selected>Choose...</option>
-                                <?php foreach ($kota_asal as $kota) : ?>
-                                    <option value="1"><?php echo $kota->kota_name; ?> </option>
+                            <select class="form-control-chosen" name="kota_asal" required>
+                                <option value="">Choose...</option>
+                                <?php foreach ($kota_asal as $data) : ?>
+                                    <option value="<?php echo $data->kota_name; ?>"><?php echo $data->kota_name; ?> </option>
                                 <?php endforeach; ?>
 
                             </select>
+                            <div class="invalid-feedback">Silahkan Pilih Kota Asal.</div>
                         </div>
                         <div class="col-md-5">
                             <label>Kota Tujuan</label>
-                            <select class="custom-select">
-                                <option selected>Choose...</option>
-                                <?php foreach ($kota_tujuan as $kota) : ?>
-                                    <option value="1"><?php echo $kota->kota_name; ?> </option>
+                            <select class="form-control-chosen" name="kota_tujuan" required>
+                                <option value="">Choose...</option>
+                                <?php foreach ($kota_tujuan as $data) : ?>
+                                    <option value="<?php echo $data->kota_name; ?>"><?php echo $data->kota_name; ?> </option>
                                 <?php endforeach; ?>
                             </select>
+                            <div class="invalid-feedback">Silahkan Pilih Kota Tujuan.</div>
                         </div>
                         <div class="col-md-2">
                             <label>Berat</label>
-                            <input type="text" class="form-control" placeholder="kg">
+                            <input type="text" class="form-control" placeholder="kg" name="berat" required>
+                            <div class="invalid-feedback">Masukian Berat</div>
                         </div>
                         <div class="col-md-6 my-3">
                             <button type="submit" class="btn btn-warning btn-block">Cek Tarif</button>

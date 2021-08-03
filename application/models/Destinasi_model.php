@@ -19,10 +19,23 @@ class Destinasi_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_destinasi_backup($limit, $start, $kota_name)
+    {
+        $this->db->select('*');
+        $this->db->from('destinasi');
+        $this->db->where('kota_asal', $kota_name);
+        $this->db->limit($limit, $start);
+        $this->db->order_by('id', 'ASC');
+        $query = $this->db->get();
+        return $query->result();
+    }
     public function get_destinasi($limit, $start, $kota_name)
     {
         $this->db->select('*');
         $this->db->from('destinasi');
+        // Join
+        // $this->db->join('user', 'user.id = transaksi.user_id', 'LEFT');
+        //End Join
         $this->db->where('kota_asal', $kota_name);
         $this->db->limit($limit, $start);
         $this->db->order_by('id', 'ASC');
@@ -85,11 +98,11 @@ class Destinasi_model extends CI_Model
         $this->db->delete('destinasi', $data);
     }
 
-    public function search_destinasi($kota_asal, $kota_tujuan)
+    public function search_destinasi($post_kota_asal, $post_kota_tujuan)
     {
         $this->db->select('*');
         $this->db->from('destinasi');
-        $this->db->where(['kota_asal' => $kota_asal, 'kota_tujuan' => $kota_tujuan]);
+        $this->db->where(['kota_asal' => $post_kota_asal, 'kota_tujuan' => $post_kota_tujuan]);
         $query = $this->db->get();
         return $query->row();
     }

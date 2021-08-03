@@ -17,7 +17,7 @@
 
             ?>
 
-            <?php echo form_open('tarif'); ?>
+
             <h5 class="card-title">Cek Tarif</h5>
             <?php echo form_open('tarif'); ?>
             <div class="form-row align-items-center row">
@@ -56,7 +56,7 @@
                 <thead>
                     <tr>
 
-                        <th scope="col">Produk</th>
+                        <th scope="col">Layananasasdasd</th>
                         <th scope="col">Berat</th>
                         <th scope="col">Harga</th>
                     </tr>

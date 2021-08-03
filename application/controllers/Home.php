@@ -17,12 +17,14 @@ class Home extends CI_Controller
     $slider                   = $this->galery_model->slider();
     $kota_asal                = $this->kota_model->get_allkota();
     $kota_tujuan              = $this->kota_model->get_allkota();
+    $featured                 = $this->galery_model->featured();
 
     $data = array(
       'title'                 => $meta->title . ' - ' . $meta->tagline,
       'keywords'              => $meta->title . ' - ' . $meta->tagline . ',' . $meta->keywords,
       'deskripsi'             => $meta->description,
       'slider'                => $slider,
+      'featured'              => $featured,
       'kota_asal'             => $kota_asal,
       'kota_tujuan'           => $kota_tujuan,
       'content'               => 'front/home/index_home'

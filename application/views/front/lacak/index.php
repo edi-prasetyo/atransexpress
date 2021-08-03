@@ -4,7 +4,7 @@ $meta = $this->meta_model->get_meta();
 
 <div class="container my-5">
     <div class="card">
-        
+
 
         <!-- Nested Row within Card Body -->
         <div class="row">
@@ -20,26 +20,24 @@ $meta = $this->meta_model->get_meta();
             <div class="col-md-5">
                 <div class="card-body">
 
-                    <?php
-                    // Notifikasi
-                    if ($this->session->flashdata('message')) {
 
-                        echo $this->session->flashdata('message');
-                        unset($_SESSION['message']);
-                    }
-                    //error warning
-                    echo validation_errors('<div class="alert alert-warning">', '</div>');
-                    //form open
-                    ?>
 
-                    <?php echo form_open('lacak'); ?>
+                    <?php echo form_open('lacak',  array('class' => 'needs-validation', 'novalidate' => 'novalidate')); ?>
                     <h4><i class="bi bi-bag"></i> Lacak Paket!</h4>
                     <p></p>
 
                     <div class="form-group">
                         <label> Nomor Resi </label>
-                        <input class="form-control" type="text" name="nomor_resi" placeholder="Masukan Nomor Resi">
-                        <?php echo form_error('nomor_resi', '<span class="text-danger">', '</span>'); ?>
+                        <input class="form-control mb-3" type="text" name="nomor_resi" placeholder="Masukan Nomor Resi" required>
+                        <div class="invalid-feedback">Silahkan Masukan Nomor Resi</div>
+                        <?php
+                        // Notifikasi
+                        if ($this->session->flashdata('message')) {
+
+                            echo $this->session->flashdata('message');
+                            unset($_SESSION['message']);
+                        }
+                        ?>
                     </div>
                     <div class="form-group btn-container">
                         <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-lock text-light"></i>Lacak Paket</button>

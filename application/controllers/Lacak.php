@@ -22,7 +22,7 @@ class Lacak extends CI_Controller
             'Nomor Resi',
             'required',
             [
-                'required'      => 'Kode Transaksi',
+                'required'      => 'Nomor Resi',
             ]
         );
         if ($this->form_validation->run() == false) {
@@ -49,7 +49,7 @@ class Lacak extends CI_Controller
         $transaksi = $this->db->get_where('transaksi', ['nomor_resi' => $nomor_resi])->row_array();
 
         if (empty($transaksi)) {
-            $this->session->set_flashdata('message', '<div class="alert alert-danger">Kode Transaksi Tidak ada</div> ');
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Nomor Resi yang anda masukan Tidak ada</div> ');
             redirect('lacak');
         } else {
 

@@ -4,7 +4,7 @@
             <h5><?php echo $title; ?></h5>
         </div>
         <div class="card-header-right">
-<a class="btn btn-primary" href="<?php echo base_url('admin/galery/create');?>"> Buat Galery</a>
+            <a class="btn btn-primary" href="<?php echo base_url('admin/galery/create'); ?>"> Buat Galery</a>
         </div>
 
     </div>
@@ -36,17 +36,19 @@
                 foreach ($galery as $galery) { ?>
                     <tr>
                         <td><?php echo $no; ?></td>
-                        <td><img class="img-fluid" src="<?php echo base_url('assets/img/galery/' .$galery->galery_img); ?>"></td>
+                        <td><img class="img-fluid" src="<?php echo base_url('assets/img/galery/' . $galery->galery_img); ?>"></td>
                         <td><?php echo $galery->galery_title; ?></td>
                         <td>
-                            <?php if ($galery->galery_type == "Slider") :?>
+                            <?php if ($galery->galery_type == "Slider") : ?>
                                 <div class="badge badge-success">Slider</div>
-                            <?php else:?>
+                            <?php elseif ($galery->galery_type == "Halaman") : ?>
                                 <div class="badge badge-danger">Halaman</div>
-                            <?php endif;?>
-                        
-                        
-                        
+                            <?php else : ?>
+                                <div class="badge badge-info">Featured</div>
+                            <?php endif; ?>
+
+
+
                         </td>
                         <td>
                             <a href="<?php echo base_url('galery/detail/' . $galery->galery_slug); ?>" class="btn btn-primary btn-sm"><i class="fas fa-external-link-alt"></i> Lihat</a>

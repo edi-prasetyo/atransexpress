@@ -8,7 +8,7 @@
         <div class="text-center">
             <?php
             echo $this->session->flashdata('message');
-            if (isset($errors_upload)) {
+            if (isset($error_upload)) {
                 echo '<div class="alert alert-warning">' . $error_upload . '</div>';
             }
             ?>
@@ -41,6 +41,7 @@
                 <select name="galery_type" class="form-control form-control-chosen">
                     <option value="Slider">Slider</option>
                     <option value="Halaman">Halaman</option>
+                    <option value="Featured">featured</option>
                 </select>
             </div>
         </div>

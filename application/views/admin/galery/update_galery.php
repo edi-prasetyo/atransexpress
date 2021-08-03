@@ -41,6 +41,7 @@
                 <select name="galery_type" class="form-control form-control-chosen">
                     <option value="Slider">Slider</option>
                     <option value="Halaman">Halaman</option>
+                    <option value="Featured">Featured</option>
                 </select>
             </div>
         </div>

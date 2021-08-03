@@ -59,6 +59,9 @@
             <tr>
                 <th>Kota Asal</th>
                 <th>Kota Tujuan</th>
+                <th>Cargo</th>
+                <th>Express</th>
+
                 <th>Tarif</th>
             </tr>
         </thead>
@@ -68,6 +71,8 @@
                 <tr>
                     <td><?php echo $data->kota_asal; ?></td>
                     <td><?php echo $data->kota_tujuan; ?></td>
+                    <td></td>
+                    <td></td>
                     <td>
                         <a href="<?php echo base_url('admin/kota/tarif/' . $data->id); ?>" class="btn btn-success btn-sm">Set Harga</a>
                     </td>

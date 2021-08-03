@@ -138,14 +138,14 @@ $meta = $this->meta_model->get_meta();
           </ul>
         </li>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="<?php echo base_url(); ?>admin/laporan" class="nav-link">
             <i class="nav-icon fas fa-vote-yea"></i>
             <p>
               Laporan
             </p>
           </a>
-        </li>
+        </li> -->
 
 
 

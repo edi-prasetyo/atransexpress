@@ -72,6 +72,7 @@ class Galery extends CI_Controller
       $config['max_width']                = 500000000; //Lebar (pixel)
       $config['max_height']               = 500000000; //tinggi (pixel)
       $this->load->library('upload', $config);
+      $this->upload->initialize($config);
       if (!$this->upload->do_upload('galery_img')) {
         //End Validasi
         $data = [
@@ -82,18 +83,16 @@ class Galery extends CI_Controller
         $this->load->view('admin/layout/wrapp', $data, FALSE);
         //Masuk Database
       } else {
-        //Proses Manipulasi Gambar
+
         $upload_data    = array('uploads'  => $this->upload->data());
-        //Gambar Asli disimpan di folder assets/upload/image
-        //lalu gambara Asli di copy untuk versi mini size ke folder assets/upload/image/thumbs
+
         $config['image_library']          = 'gd2';
         $config['source_image']           = './assets/img/galery/' . $upload_data['uploads']['file_name'];
-        //Gambar Versi Kecil dipindahkan
-        // $config['new_image']        = './assets/img/artikel/thumbs/' . $upload_data['uploads']['file_name'];
+
         $config['create_thumb']           = TRUE;
         $config['maintain_ratio']         = TRUE;
-        $config['width']                  = 5000;
-        $config['height']                 = 5000;
+        $config['width']                  = 2000;
+        $config['height']                 = 2000;
         $config['thumb_marker']           = '';
         $this->load->library('image_lib', $config);
         $this->image_lib->resize();
